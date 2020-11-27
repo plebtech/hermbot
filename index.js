@@ -29,14 +29,14 @@ const fix = '\`\`\`fix\n';
 const brainfuck = '\`\`\`brainfuck\n';
 
 const heronRoot = (square, message) => {
-    let guess = parseFloat(Math.random() * square).toFixed(4);
+    let guess = Math.round((Math.random() * square), 4);
     let lastGuess = 0;
     let response = `${css}approximating the square root of ${square} via successive averages:\n`;
     while (guess != lastGuess) {
         response += `${guess}\n`;
         lastGuess = guess;
-        guess = ((+guess + (+square / +guess)) / 2).toFixed(4);
+        guess = Math.round(((+guess + (+square / +guess)) / 2), 4);
     }
-    response += `best guess: ${guess} \n \`\`\``;
+    response += `best guess: ${guess}\`\`\``;
     message.channel.send(response);
 }
