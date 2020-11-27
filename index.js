@@ -30,7 +30,7 @@ const brainfuck = '\`\`\`brainfuck\n';
 const heronRoot = (square, message) => {
     let guess = Math.random() * square;
     let lastGuess = 0;
-    let response = `${css}approximating the square root of ${square} via successive averages:\n`;
+    let response = `${brainfuck}approximating the square root of ${square} via successive averages:\n`;
     while (guess.toFixed(1) != lastGuess.toFixed(1)) {
         response += `${guess}\n`;
         lastGuess = guess;
