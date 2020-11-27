@@ -1,33 +1,41 @@
-// load config json.
-const config = require('./config.json');
-// require discord.js module.
 const Discord = require('discord.js');
-// instantiate client from discord.js.
+const { prefix, token } = require('./config.json');
 const client = new Discord.Client();
 
-
-// when client ready, run once.
 client.once('ready', () => {
-    console.log('ready.');
+	console.log('ready and running with prefix ' + prefix);
 });
 
 client.on('message', message => {
-    if (message.content === 'kek') {
-        message.channel.send('KEK');
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    const args = message.content.slice(prefix.length).trim().split(' ');
+    const command = args.shift().toLowerCase();
+
+    if (command === 'heron') {
+        square = parseInt(args[0]);
+        if (isNaN(square) || (square < 0)) {
+            message.channel.send('please include a positive numeric argument.');
+        } else {
+            heronRoot(square, message);
+        }
     }
 });
 
-// log in to discord with app token.
-client.login(config.token);
+client.login(token);
 
-// approximating square root via Heron of Alexandria's formula.
-function heronRoot(square) {
-    let guess = Math.random() * square; // begin from random point between 0 and the square.
+const css = '\`\`\`css\n';
+const fix = '\`\`\`fix\n';
+const brainfuck = '\`\`\`brainfuck\n';
+
+const heronRoot = (square, message) => {
+    let guess = Math.random() * square;
     let lastGuess = 0;
-    while (guess.toFixed(4) != lastGuess.toFixed(4)) {
-        console.log(guess);
+    let response = `${css}approximating the square root of ${square} via successive averages:\n`;
+    while (guess.toFixed(1) != lastGuess.toFixed(1)) {
+        response += `${guess}\n`;
         lastGuess = guess;
         guess = (guess + (square / guess)) / 2;
     }
-    console.log(guess);
+    response += `best guess: ${guess} \n \`\`\``;
+    message.channel.send(response);
 }
