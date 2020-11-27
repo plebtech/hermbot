@@ -12,7 +12,7 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
 
-    if (command[0] === 'heron') {
+    if (command === 'heron') {
         square = parseInt(args[0]);
         if (isNaN(square) || (square < 0)) {
             message.channel.send('please include a positive numeric argument.');
@@ -30,12 +30,12 @@ const brainfuck = '\`\`\`brainfuck\n';
 
 const heronRoot = (square, message) => {
     let guess = parseFloat(Math.random() * square).toFixed(4);
-    let lastGuess = parseFloat(0).toFixed(4);
-    let response = `${brainfuck}approximating the square root of ${square} via successive averages:\n`;
+    let lastGuess = 0;
+    let response = `${css}approximating the square root of ${square} via successive averages:\n`;
     while (guess != lastGuess) {
         response += `${guess}\n`;
         lastGuess = guess;
-        guess = parseFloat((guess + (square / guess)) / 2).toFixed(4);
+        guess = ((+guess + (+square / +guess)) / 2).toFixed(4);
     }
     response += `best guess: ${guess} \n \`\`\``;
     message.channel.send(response);
