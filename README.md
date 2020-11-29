@@ -3,6 +3,9 @@
 
 ### commands:
 heron {integer} - return the approximate square root of a given positive integer to within four, implementing Heron of Alexandria's formula.
+wallace - posts a link (loaded from wallace key in config.json) to the channel.
 
 ### to do:
-first goal: get the bot to automatically convert between imperial and metric values.
+- delete triggering command.
+- function to automatically convert between imperial and metric values.
+- function to set listening on channels?
