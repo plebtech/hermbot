@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+const { prefix, token, wallaceLink } = require('./config.json');
+const heron = require('./heron.js');
+const wallace = require('./wallace.js');
 const client = new Discord.Client();
 
 client.once('ready', () => {
@@ -17,26 +19,16 @@ client.on('message', message => {
         if (isNaN(square) || (square < 0)) {
             message.channel.send('please include a positive numeric argument.');
         } else {
-            heronRoot(square, message);
+            heron.root(square, message);
         }
+    } else if (command === 'wallace') {
+        wallace.post(wallaceLink, message);
     }
+
 });
 
 client.login(token);
 
-const css = '\`\`\`css\n';
-const fix = '\`\`\`fix\n';
-const brainfuck = '\`\`\`brainfuck\n';
-
-const heronRoot = (square, message) => {
-    let guess = Math.round((Math.random() * square) * 1e4) / 1e4;
-    let lastGuess = 0;
-    let response = `${css}approximating the square root of ${square} via successive averages:\n`;
-    while (guess != lastGuess) {
-        response += `${guess}\n`;
-        lastGuess = guess;
-        guess = Math.round(((+guess + (+square / +guess)) / 2) * 1e4) / 1e4;
-    }
-    response += `best guess: ${guess}\`\`\``;
-    message.channel.send(response);
-}
+// const css = '\`\`\`css\n';
+// const fix = '\`\`\`fix\n';
+// const brainfuck = '\`\`\`brainfuck\n';
