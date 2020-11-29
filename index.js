@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const { prefix, token, wallaceLink } = require('./config.json');
+const { prefix, token, wallaceLink, leakLink } = require('./config.json');
 const heron = require('./heron.js');
-const wallace = require('./wallace.js');
+const memePost = require('./memePost.js');
 const client = new Discord.Client();
 
 client.once('ready', () => {
@@ -22,7 +22,9 @@ client.on('message', message => {
             heron.root(square, message);
         }
     } else if (command === 'wallace') {
-        wallace.post(wallaceLink, message);
+        memePost.link(wallaceLink, message);
+    } else if (command === 'leak') {
+        memePost.link(leakLink, message);
     }
 
 });
