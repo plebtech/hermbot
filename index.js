@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const { prefix, token, wallaceLink, leakLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
+const pennant = require('./pennant.js');
+const cri = require('./cri.js');
 const client = new Discord.Client();
 
 client.once('ready', () => {
@@ -25,12 +27,10 @@ client.on('message', message => {
         memePost.link(wallaceLink, message);
     } else if (command === 'leak') {
         memePost.link(leakLink, message);
+    } else if (command === 'cri') {
+        cri.cri(args[0], message);
     }
 
 });
 
 client.login(token);
-
-// const css = '\`\`\`css\n';
-// const fix = '\`\`\`fix\n';
-// const brainfuck = '\`\`\`brainfuck\n';
