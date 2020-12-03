@@ -8,6 +8,5 @@ heron (integer) - return the approximate square root of a given positive integer
 post (argument) - posts a link (loaded from argument key in config.json) to the channel.
 
 ### to do:
-- delete triggering command.
 - function to automatically convert between imperial and metric values.
 - function to set listening on channels?
