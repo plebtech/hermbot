@@ -4,7 +4,7 @@ const brainfuck = '\`\`\`brainfuck\n';
 
 const post = (args, message) => {
     input = '';
-    output = `${css}`;
+    output = '\`\`\`';
     for (i = 0; i < args.length; i++) {
         input = input + args[i];
     }
