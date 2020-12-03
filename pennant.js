@@ -16,6 +16,7 @@ const post = (args, message) => {
         output += thisWord.split('').join(' ').toUpperCase() + '\n';
     }
     output += '\`\`\`';
+    message.delete({ timeout: 50 });
     message.channel.send(output);
 }
 

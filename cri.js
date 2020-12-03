@@ -5,6 +5,7 @@ const square = (word, message) => {
             output = output + word[i] + word[j];
         }
     }
+    message.delete({ timeout: 50 });
     message.channel.send(output);
 }
 
