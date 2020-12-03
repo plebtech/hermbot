@@ -4,7 +4,8 @@ const brainfuck = '\`\`\`brainfuck\n';
 
 const post = (args, message) => {
     input = '';
-    output = '\`\`\`';
+    // output = '\`\`\`';
+    output = '';
     for (i = 0; i < args.length; i++) {
         input = input + args[i];
     }
@@ -15,7 +16,7 @@ const post = (args, message) => {
         let thisWord = input.slice(i, input.length);
         output += thisWord.split('').join(' ').toUpperCase() + '\n';
     }
-    output += '\`\`\`';
+    // output += '\`\`\`';
     message.delete({ timeout: 50 });
     message.channel.send(output);
 }
