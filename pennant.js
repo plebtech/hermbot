@@ -17,14 +17,7 @@ const post = (args, message) => {
     }
     output += '\`\`\`';
     message.channel.send(output);
+    message.delete(0);
 }
-
-// for (i = 0; i < word.length; i++) {
-//     if (word.charAt(i) === ' ') {
-//       continue;
-//     }
-//     let mutWord = word.slice(i, word.length);
-//     console.log(mutWord.split('').join(' ').toUpperCase());
-//   }
 
 exports.post = post;
