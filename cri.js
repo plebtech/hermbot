@@ -1,4 +1,4 @@
-const cri = (word, message) => {
+const square = (word, message) => {
     let output = '';
     for (i = 0; i < word.length; i++) {
         for (j = 0; j < word.length; j++) {
@@ -8,4 +8,4 @@ const cri = (word, message) => {
     message.channel.send(output);
 }
 
-exports.cri = cri;
+exports.square = square;
