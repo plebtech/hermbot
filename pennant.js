@@ -13,7 +13,7 @@ const post = (args, message) => {
             continue;
         }
         let thisWord = input.slice(i, input.length);
-        output += thisWord.split('').join(' ').toUpperCase();
+        output += thisWord.split('').join(' ').toUpperCase() + '\n';
     }
     output += '\`\`\`';
     message.channel.send(output);
