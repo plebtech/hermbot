@@ -11,6 +11,7 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
+    message.delete({ timeout: 50 });
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     const args = message.content.slice(prefix.length).trim().split(' ');

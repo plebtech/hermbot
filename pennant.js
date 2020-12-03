@@ -17,7 +17,6 @@ const post = (args, message) => {
     }
     output += '\`\`\`';
     message.channel.send(output);
-    message.delete(0);
 }
 
 exports.post = post;
