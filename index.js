@@ -29,6 +29,8 @@ client.on('message', message => {
         memePost.link(leakLink, message);
     } else if (command === 'cri') {
         cri.square(args[0], message);
+    } else if (command === 'pennant') {
+        pennant.post(args, message);
     }
 
 });
