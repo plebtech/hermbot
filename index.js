@@ -4,7 +4,9 @@ const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
 const cri = require('./cri.js');
+const convert = require('./convert.js');
 const client = new Discord.Client();
+
 
 client.once('ready', () => {
 	console.log('ready and running with prefix ' + prefix);
@@ -14,6 +16,7 @@ client.on('message', message => {
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     const args = message.content.slice(prefix.length).trim().split(' ');
+    if (!args.length) return;
     const command = args.shift().toLowerCase();
 
     if (command === 'heron') {
@@ -32,6 +35,8 @@ client.on('message', message => {
     } else if (command === 'pennant') {
         pennant.post(args, message);
     }
+
+    convert.watch(message);
 
 });
 
