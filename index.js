@@ -16,13 +16,13 @@ client.on('message', message => {
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     const args = message.content.slice(prefix.length).trim().split(' ');
-    if (!args.length) return message.channel.send("please provide a command.");
+    if (args[0].length === 0) message.channel.send('\`please input a command.\`');
     const command = args.shift().toLowerCase();
 
     if (command === 'heron') {
         square = parseInt(args[0]);
         if (isNaN(square) || (square < 0)) {
-            message.channel.send('please include a positive numeric argument.');
+            message.channel.send('\`please include a positive numeric argument.\`');
         } else {
             heron.root(square, message);
         }
