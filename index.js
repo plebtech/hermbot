@@ -16,7 +16,7 @@ client.on('message', message => {
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     const args = message.content.slice(prefix.length).trim().split(' ');
-    if (!args.length) return;
+    if (!args.length) message.channel.send("please provide a command.");
     const command = args.shift().toLowerCase();
 
     if (command === 'heron') {
