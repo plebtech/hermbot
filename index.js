@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { prefix, token, wallaceLink, leakLink } = require('./config.json');
+const { prefix, token, wallaceLink, leakLink, nineElevenLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -30,7 +30,10 @@ client.on('message', message => {
         memePost.link(wallaceLink, message);
     } else if (command === 'leak') {
         memePost.link(leakLink, message);
-    } else if (command === 'cri') {
+    } else if (command === '911') {
+        memePost.link(nineElevenLink, message);
+    } 
+    else if (command === 'cri') {
         cri.square(args[0], message);
     } else if (command === 'pennant') {
         pennant.post(args, message);
