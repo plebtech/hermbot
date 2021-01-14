@@ -22,6 +22,8 @@ client.on('message', message => {
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
         message.delete({ timeout: 50 });
+        message.channel.send('detected');
+
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
     }
