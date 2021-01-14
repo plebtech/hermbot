@@ -42,6 +42,10 @@ client.on('message', message => {
 
     convert.watch(message);
 
+    if (message.content.endsWith("FunkyDance.gif")) {
+        message.delete();
+    }
+
 });
 
 client.login(token);
