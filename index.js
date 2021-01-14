@@ -18,7 +18,7 @@ client.on('message', message => {
         message.delete({ timeout: 50 });
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
-    } else if (message.content.includes('sup')) {
+    } else if (message.content === ('sup')) {
         message.channel.send('nm u');
     }
 
