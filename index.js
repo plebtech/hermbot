@@ -42,8 +42,8 @@ client.on('message', message => {
 
     convert.watch(message);
 
-    if (message.content.endsWith("FunkyDance.gif")) {
-        message.delete();
+    if (message.content.includes('FunkyDance')) {
+        message.delete({ timeout: 50 });
     }
 
 });
