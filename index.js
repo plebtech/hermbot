@@ -26,6 +26,8 @@ client.on('message', message => {
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
         message.channel.send('detected');
+    } else if (message.content.includes('sup')) {
+        message.channel.send('nm u');
     }
 
     else if (command === 'heron') {
