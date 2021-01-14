@@ -23,9 +23,9 @@ client.on('message', message => {
     if (message.content.includes('discord.gg/')) {
         message.delete({ timeout: 50 });
         message.channel.send('detected');
-
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
+        message.channel.send('detected');
     }
 
     else if (command === 'heron') {
