@@ -19,7 +19,14 @@ client.on('message', message => {
     if (args[0].length === 0) message.channel.send('\`please input a command.\`');
     const command = args.shift().toLowerCase();
 
-    if (command === 'heron') {
+    // watch for a specific message to delete.
+    if (message.content.includes('discord.gg/')) {
+        message.delete({ timeout: 50 });
+    } else if (message.content.includes('FunkyDance')) {
+        message.delete({ timeout: 50 });
+    }
+
+    else if (command === 'heron') {
         square = parseInt(args[0]);
         if (isNaN(square) || (square < 0)) {
             message.channel.send('\`please include a positive numeric argument.\`');
@@ -40,11 +47,7 @@ client.on('message', message => {
         pennant.post(args, message);
     }
 
-    convert.watch(message);
-
-    if (message.content.includes('FunkyDance')) {
-        message.delete({ timeout: 50 });
-    }
+    // convert.watch(message);
 
 });
 
