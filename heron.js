@@ -2,7 +2,7 @@ const css = '\`\`\`css\n';
 const fix = '\`\`\`fix\n';
 const brainfuck = '\`\`\`brainfuck\n';
 
-var root = (square, message) => {
+const root = (square, message) => {
     let guess = Math.round((Math.random() * square) * 1e4) / 1e4;
     let lastGuess = 0;
     let response = `${css}approximating the square root of ${square} via successive averages:\n`;

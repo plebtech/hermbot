@@ -13,6 +13,9 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
+
+    convert.watch(message);
+    
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
         message.delete({ timeout: 50 });
@@ -48,8 +51,6 @@ client.on('message', message => {
     } else if (command === 'pennant') {
         pennant.post(args, message);
     }
-
-    // convert.watch(message);
 
 });
 
