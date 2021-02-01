@@ -14,7 +14,8 @@ client.once('ready', () => {
 
 client.on('message', message => {
 
-    convert.watch(message);
+    // auto convert values between imperial and metric.
+    //convert.watch(message);
     
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
