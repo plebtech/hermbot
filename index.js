@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink } = require('./config.json');
+const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -9,14 +9,14 @@ const client = new Discord.Client();
 
 
 client.once('ready', () => {
-	console.log('ready and running with prefix ' + prefix);
+    console.log('ready and running with prefix ' + prefix);
 });
 
 client.on('message', message => {
 
     // auto convert values between imperial and metric.
     //convert.watch(message);
-    
+
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
         message.delete({ timeout: 50 });
@@ -47,6 +47,8 @@ client.on('message', message => {
         memePost.link(nineElevenLink, message);
     } else if (command === 'think') {
         memePost.link(thinkLink, message);
+    } else if (command === 'hoes') {
+        memePost.link(hoesLink, message);
     } else if (command === 'cri') {
         cri.square(args[0], message);
     } else if (command === 'pennant') {
