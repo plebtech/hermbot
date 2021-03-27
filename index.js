@@ -54,7 +54,11 @@ client.on('message', message => {
     } else if (command === 'pennant') {
         pennant.post(args, message);
     } else if (command === 'say') {
-        message.channel.send(args[0]);
+        let content;
+        for (i = 0; i < args.length; i++) {
+            content = content + args[0] + ' ';
+        }
+        message.channel.send(content);
     }
 
 });
