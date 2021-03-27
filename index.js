@@ -53,6 +53,8 @@ client.on('message', message => {
         cri.square(args[0], message);
     } else if (command === 'pennant') {
         pennant.post(args, message);
+    } else if (command === 'say') {
+        message.channel.send(args[0]);
     }
 
 });
