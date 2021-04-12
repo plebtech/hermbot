@@ -20,7 +20,6 @@ client.on('message', message => {
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
         if (message.content.includes('discord.gg/pies')) {
-            continue;
         } else {
             message.delete({ timeout: 50 });
         }
