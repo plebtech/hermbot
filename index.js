@@ -19,7 +19,11 @@ client.on('message', message => {
 
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/')) {
-        message.delete({ timeout: 50 });
+        if (message.content.includes('discord.gg/pies')) {
+            continue;
+        } else {
+            message.delete({ timeout: 50 });
+        }
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
     } else if (message.content === ('sup')) {
