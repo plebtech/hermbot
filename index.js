@@ -19,8 +19,8 @@ client.on('message', message => {
 
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/') || (message.content.includes('discord.com/invite/'))) {
-        if (message.content.includes('discord.gg/pies')) {
-            console.log('pies is allowed.');
+        if (message.content.includes('discord.gg/pies') || (message.content.includes('discord.gg/thots'))) {
+            console.log('invite is allowed.');
         } else {
             message.delete({ timeout: 50 });
         }
