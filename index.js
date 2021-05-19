@@ -5,6 +5,7 @@ const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
+const sup = require('./sup.js');
 const client = new Discord.Client();
 
 
@@ -26,9 +27,9 @@ client.on('message', message => {
         }
     } else if (message.content.includes('FunkyDance')) {
         message.delete({ timeout: 50 });
-    } else if (message.content === ('sup')) {
-        message.channel.send('nm u');
     }
+
+    sup(message);    
 
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
