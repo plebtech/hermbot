@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+require('discord-reply');
 const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');

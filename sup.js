@@ -6,7 +6,7 @@ let timeout = false;
 
 const supWatch = async (message) => {
     if (message.content === ('sup') && (timeout === false)) {
-        message.reply('nm u');
+        message.lineReplayNoMention('nm u');
         timeout = true;
         await timer(supDelay);
         timeout = false;
