@@ -7,7 +7,7 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
-const randomNumber = require('./randomNumber.js');
+// const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
 
