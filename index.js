@@ -29,6 +29,7 @@ client.on('message', message => {
         message.delete({ timeout: 50 });
     }
 
+    // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);    
 
     // if message is not prefixed for this bot or is sent by bot, ignore.
