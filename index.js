@@ -12,12 +12,12 @@ const bump = require('./bump.js');
 const client = new Discord.Client();
 
 const general = client.channels.cache.get("general");
-
+console.log(general);
 
 client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
-    general.send('ready!');
-    bump.bump(general).start();
+    // general.send('ready!');
+    // bump.bump(general).start();
 });
 
 client.on('message', message => {
