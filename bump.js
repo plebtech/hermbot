@@ -1,10 +1,11 @@
 const cron = require('node-cron');
 
-const bump = cron.schedule('0 0,*/2 * * *', (message) => {
+
+const bump = cron.schedule('0 */2 * * *', (general) => {
     console.log('bumping');
-    message.channel.send('please type `!d bump`');
+    general.send('please type `!d bump`');
 }, {
-    scheduled: false,
+    scheduled: true,
     timeZone: "America/Chicago"
 });
 

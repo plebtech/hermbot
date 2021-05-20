@@ -11,10 +11,13 @@ const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
+const general = client.channels.cache.get("general");
+
 
 client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
-    bump.bump.start();
+    general.send('ready!');
+    bump.bump(general).start();
 });
 
 client.on('message', message => {
