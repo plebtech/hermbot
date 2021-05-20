@@ -14,9 +14,8 @@ const client = new Discord.Client();
 client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
     const general = client.channels.cache.get("790238886080938034");
-    console.log(general);
-    // general.send('ready!');
-    // bump.bump(general).start();
+    general.send('ready!');
+    bump.bump(general).start();
 });
 
 client.on('message', message => {
