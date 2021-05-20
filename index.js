@@ -14,7 +14,7 @@ const client = new Discord.Client();
 
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    const bump = cron.schedule('0 */2 * * *', (general) => {
+    const bump = cron.schedule('0 */2 * * *', () => {
         console.log('bumping');
         general.send('please type `!d bump`');
     }, {
@@ -24,7 +24,8 @@ client.once('ready', () => {
     bump.start();
 
     console.log('ready and running with prefix ' + prefix);
-    general.send('ready!');
+    // general.send('ready!');
+    general.send('please type `!d bump`');
 });
 
 client.on('message', message => {
