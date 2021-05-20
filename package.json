@@ -18,7 +18,8 @@
   "homepage": "https://github.com/plebtech/hermbot#readme",
   "dependencies": {
     "discord-reply": "^0.1.2",
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "node-cron": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^7.14.0"

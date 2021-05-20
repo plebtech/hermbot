@@ -7,12 +7,14 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
+const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
 
 client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
+    bump.bump.start();
 });
 
 client.on('message', message => {
