@@ -11,11 +11,10 @@ const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
-const general = client.channels.cache.get("general");
-console.log(general);
-
 client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
+    const general = client.channels.cache.get("790238886080938034");
+    console.log(general);
     // general.send('ready!');
     // bump.bump(general).start();
 });
