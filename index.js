@@ -14,7 +14,7 @@ const client = new Discord.Client();
 
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    const bump = cron.schedule('0 */2 * * *', () => {
+    const bump = cron.schedule('1 * * * *', () => {
         console.log('bumping');
         general.send('please type `!d bump`');
     }, {
