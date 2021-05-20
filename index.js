@@ -14,11 +14,10 @@ const client = new Discord.Client();
 
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    const bump = cron.schedule('*/2 * * * *', () => {
+    // cron job to send bump reminder every even hour, on the hour.
+    const bump = cron.schedule('0 */2 * * *', () => {
         console.log('bumping');
-        // const general = client.channels.cache.get("790238886080938034");
-        // general.send('please type `!d bump`');
-        general.send('`ignore me I suck`');
+        general.send('please type `!d bump`');
     }, {
         scheduled: true,
         timeZone: "America/Chicago"
@@ -26,8 +25,7 @@ client.once('ready', () => {
     bump.start();
 
     console.log('ready and running with prefix ' + prefix);
-    // general.send('ready!');
-    // general.send('please type `!d bump`');
+    general.send('ready!');
 });
 
 client.on('message', message => {
