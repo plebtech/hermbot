@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 require('discord-reply');
+const cron = require('node-cron');
 const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
@@ -7,15 +8,23 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
-const bump = require('./bump.js');
+// const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
-client.once('ready', () => {
-    console.log('ready and running with prefix ' + prefix);
+client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
+    const bump = cron.schedule('0 */2 * * *', (general) => {
+        console.log('bumping');
+        general.send('please type `!d bump`');
+    }, {
+        scheduled: true,
+        timeZone: "America/Chicago"
+    });
+    bump.start();
+
+    console.log('ready and running with prefix ' + prefix);
     general.send('ready!');
-    bump.bump(general).start();
 });
 
 client.on('message', message => {
@@ -35,7 +44,7 @@ client.on('message', message => {
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
-    sup.supWatch(message);    
+    sup.supWatch(message);
 
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
