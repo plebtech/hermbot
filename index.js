@@ -14,18 +14,20 @@ const client = new Discord.Client();
 
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    const bump = cron.schedule('1 * * * *', () => {
+    const bump = cron.schedule('* * * * *', () => {
         console.log('bumping');
-        general.send('please type `!d bump`');
+        // const general = client.channels.cache.get("790238886080938034");
+        // general.send('please type `!d bump`');
+        genderal.send('`ignore me I suck`');
     }, {
         scheduled: true,
         timeZone: "America/Chicago"
     });
-    bump.start();
+    // bump.start();
 
     console.log('ready and running with prefix ' + prefix);
     // general.send('ready!');
-    general.send('please type `!d bump`');
+    // general.send('please type `!d bump`');
 });
 
 client.on('message', message => {
