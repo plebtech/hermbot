@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 require('discord-reply');
 const cron = require('node-cron');
-const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
+const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -14,15 +14,27 @@ const client = new Discord.Client();
 
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    // cron job to send bump reminder every even hour, on the hour.
-    const bump = cron.schedule('0 */2 * * *', () => {
-        console.log('bumping');
+    // cron job to send Disboard bump reminder every even hour, on the hour.
+    const bumpD = cron.schedule('0 */2 * * *', () => {
+        console.log('bumping Disboard.');
         general.send('please type `!d bump`');
     }, {
         scheduled: true,
         timeZone: "America/Chicago"
     });
-    bump.start();
+    bumpD.start();
+
+    // cron job to send 4chan bump reminder every odd hour, on the hour.
+    const bumpF = cron.schedule('0 (*/2)+1 * * *', () => {
+        console.log('bumping 4chan.');
+        general.send('please bump the 4chan thread at:\n' + chanLink);
+    }, {
+        scheduled: true,
+        timeZone: "America/Chicago"
+    });
+
+    bumpD.start();
+    bumpF.start();
 
     console.log('ready and running with prefix ' + prefix);
     general.send('ready!');
