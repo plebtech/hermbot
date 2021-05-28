@@ -25,7 +25,7 @@ client.once('ready', () => {
     bumpD.start();
 
     // cron job to send 4chan bump reminder every odd hour, on the hour.
-    const bumpF = cron.schedule('0 (*/2)+1 * * *', () => {
+    const bumpF = cron.schedule('0 1-23/2 * * *', () => {
         console.log('bumping 4chan.');
         general.send('please bump the 4chan thread at:\n' + chanLink);
     }, {
