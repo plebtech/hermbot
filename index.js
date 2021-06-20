@@ -8,7 +8,7 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
-// const bump = require('./bump.js');
+const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
@@ -75,7 +75,8 @@ client.on('message', message => {
         case dId:
             message.react("💩");
             if (message.content.includes("👍")) {
-                general.send("disboard bumped successfully!");
+                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
+                bump.bumpAlert();
             }
             break;
         default:
@@ -96,9 +97,9 @@ client.on('message', message => {
     // match only admin sender.
     if (message.author.id === hId) {
 
-        if (message.content.includes("👍")) {
-            general.send("thumbs up!");
-        }
+        // if (message.content.includes("👍")) {
+        //     general.send("thumbs up!");
+        // }
 
         // if message is not prefixed for this bot or is sent by bot, ignore.
         if (!message.content.startsWith(prefix) || message.author.bot) return;

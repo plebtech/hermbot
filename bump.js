@@ -1,9 +1,13 @@
-const cron = require('node-cron');
+const { gId } = require('./config.json');
+const randomNumber = require('./randomNumber.js');
 
-const bump = cron.schedule('0 */2 * * *', (general) => {
-    console.log('bumping');
+// basic timer w/ promise using setTimeout function.
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
+const bumpAlert = async () => {
+    const general = client.channels.cache.get(gId);
+    await timer(randomNumber.generate(7140000, 7260000));
     general.send('please type `!d bump`');
-}, {
-    scheduled: true,
-    timeZone: "America/Chicago"
-});
+}
+
+exports.bumpAlert = bumpAlert;
