@@ -12,6 +12,8 @@ const sup = require('./sup.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
+let general;
+
 // cron job declarations on global scope.
 // cron job to send Disboard bump reminder every even hour, on the hour.
 const bumpD = cron.schedule('0 */2 * * *', () => {
@@ -33,7 +35,7 @@ const bumpF = cron.schedule('59 */2 * * *', () => {
 
 
 client.once('ready', () => {
-    const general = client.channels.cache.get(gId);
+    general = client.channels.cache.get(gId);
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
@@ -59,20 +61,36 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-    // test for reacting with emoji.
-    // if ((message.author.id === "497153038381744148")) {
-    //     message.react("💩");
-    // }
-    if ((message.author.id === "814470461962059777")) {
-        message.react("😋");
+    // author triggers.
+    switch (message.author.id) {
+        // buggy.
+        case '814470461962059777':
+            message.react("😋");
+            break;
+        // bluedog.
+        case '82812612505357516':
+            message.react("770012090584268820");
+            break;
+        // xtal.
+        case dId:
+            message.react("💩");
+            if (message.content.includes("👍")) {
+                general.send("disboard bumped successfully!");
+            }
+            break;
+        default:
+        // do nothing.
     }
-    if ((message.author.id === "828126125053575168")) {
-        message.react("770012090584268820");
-    }
-    if (message.content.toLowerCase().includes("the industrial revolution")) {
-        message.react("🇹");
-        message.react("🇪");
-        message.react("🇩");
+
+    // emoji reactions based on content.
+    switch (message.content.toLowerCase().includes) {
+        case 'the industrial revolution':
+            message.react("🇹");
+            message.react("🇪");
+            message.react("🇩");
+            break;
+        default:
+        // do nothing.
     }
 
     // match only admin sender.
@@ -135,11 +153,6 @@ client.on('message', message => {
             message.delete({ timeout: 100 });
             message.channel.send(content);
         }
-    }
-
-    // match only Disboard bot sender.
-    if ((message.author.id === dId) && (message.content.includes(`:thumbsup:`))) {
-        general.send('disboard bumped successfully!');
     }
 
 });
