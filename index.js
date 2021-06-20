@@ -66,9 +66,9 @@ client.on('message', message => {
             message.react("😋");
             break;
         // bluedog.
-        case '828126125053575168':
-            message.react("770012090584268820");
-            break;
+        // case '828126125053575168':
+        //     message.react("770012090584268820");
+        //     break;
         // kvatch.
         // case '112272892561035264':
         //     message.react("💩");
