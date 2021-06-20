@@ -66,10 +66,10 @@ client.on('message', message => {
             message.react("😋");
             break;
         // bluedog.
-        case '82812612505357516':
+        case '828126125053575168':
             message.react("770012090584268820");
             break;
-        // xtal.
+        // disboard.
         case dId:
             message.react("💩");
             if (message.content.includes("👍")) {
