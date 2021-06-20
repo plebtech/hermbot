@@ -62,6 +62,10 @@ client.on('message', message => {
     // match only admin sender.
     if (message.author.id === hId) {
 
+        if (message.content.includes(":thumbsup:")) {
+            general.send("thumbs up!");
+        }
+
         // if message is not prefixed for this bot or is sent by bot, ignore.
         if (!message.content.startsWith(prefix) || message.author.bot) return;
         const args = message.content.slice(prefix.length).trim().split(' ');
