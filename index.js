@@ -77,7 +77,6 @@ client.on('message', message => {
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert();
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
-                message.channel.send(dEmbed.description);
                 message.react("👎");
             };
             message.react("💩");
