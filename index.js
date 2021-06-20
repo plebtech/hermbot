@@ -60,10 +60,10 @@ client.on('message', message => {
     sup.supWatch(message);
 
     // test for reacting with emoji.
-    if ((message.author.id === "497153038381744148")) {
-        message.react("💩");
-    }
-    if (message.content.includes("the industrial revolution")) {
+    // if ((message.author.id === "497153038381744148")) {
+    //     message.react("💩");
+    // }
+    if (message.content.toLowerCase().includes("the industrial revolution")) {
         message.react("🇹");
         message.react("🇪");
         message.react("🇩");
