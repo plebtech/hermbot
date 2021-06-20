@@ -20,7 +20,6 @@ const bumpD = cron.schedule('0 */2 * * *', () => {
     console.log('bumping Disboard.');
     general.send('please type `!d bump`');
 }, {
-    scheduled: true,
     timeZone: "America/Chicago"
 });
 
@@ -29,7 +28,6 @@ const bumpF = cron.schedule('59 */2 * * *', () => {
     console.log('bumping 4chan.');
     general.send('please bump the 4chan thread at:\n' + chanLink);
 }, {
-    scheduled: true,
     timeZone: "America/Chicago"
 });
 
@@ -109,17 +107,17 @@ client.on('message', message => {
 
         // bump reminder start/stop.
         if (command === 'bumpdstop') {
-            bumpD.stop();
-            message.channel.send('disboard bumping reminders off.');
+            bumpD.destroy();
+            message.channel.send('disboard bumping reminder off.');
         } else if (command === 'bumpdstart') {
             bumpD.start();
-            message.channel.send('disboard bumping reminders on.');
+            message.channel.send('disboard bumping reminder on.');
         } else if (command === 'bump4stop') {
-            bumpF.stop();
-            message.channel.send('4chan bumping reminders off.');
+            bumpF.destroy();
+            message.channel.send('4chan bumping reminder off.');
         } else if (command === 'bump4start') {
             bumpF.start();
-            message.channel.send('4chan bumping reminders on.');
+            message.channel.send('4chan bumping reminder on.');
         }
 
         // message/link send commands.
