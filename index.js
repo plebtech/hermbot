@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 require('discord-reply');
-const cron = require('node-cron');
+// const cron = require('node-cron');
 const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
@@ -16,20 +16,20 @@ let general;
 
 // cron job declarations on global scope.
 // cron job to send Disboard bump reminder every even hour, on the hour.
-const bumpD = cron.schedule('0 */2 * * *', () => {
-    console.log('bumping Disboard.');
-    general.send('please type `!d bump`');
-}, {
-    timeZone: "America/Chicago"
-});
+// const bumpD = cron.schedule('0 */2 * * *', () => {
+//     console.log('bumping Disboard.');
+//     general.send('please type `!d bump`');
+// }, {
+//     timeZone: "America/Chicago"
+// });
 
 // cron job to send 4chan bump reminder one minute before every odd hour.
-const bumpF = cron.schedule('59 */2 * * *', () => {
-    console.log('bumping 4chan.');
-    general.send('please bump the 4chan thread at:\n' + chanLink);
-}, {
-    timeZone: "America/Chicago"
-});
+// const bumpF = cron.schedule('59 */2 * * *', () => {
+//     console.log('bumping 4chan.');
+//     general.send('please bump the 4chan thread at:\n' + chanLink);
+// }, {
+//     timeZone: "America/Chicago"
+// });
 
 
 client.once('ready', () => {
@@ -70,7 +70,8 @@ client.on('message', message => {
             message.react("770012090584268820");
             break;
         // disboard.
-        case dId || '112272892561035264':
+        case dId:
+        case '112272892561035264':
             const dEmbed = message.embeds[0];
             if (dEmbed.description.includes("👍")) {
                 message.react("👍");
@@ -107,23 +108,19 @@ client.on('message', message => {
         const command = args.shift().toLowerCase();
 
         // bump reminder start/stop.
-        if (command === 'bumpdstop') {
-            bumpD.stop();
-            message.channel.send(bumpD());
-            message.channel.send('disboard bumping reminder off.');
-        } else if (command === 'bumpdstart') {
-            bumpD.start();
-            message.channel.send(bumpD());
-            message.channel.send('disboard bumping reminder on.');
-        } else if (command === 'bump4stop') {
-            bumpF.stop();
-            message.channel.send(bumpF());
-            message.channel.send('4chan bumping reminder off.');
-        } else if (command === 'bump4start') {
-            bumpF.start();
-            message.channel.send(bumpF());
-            message.channel.send('4chan bumping reminder on.');
-        }
+        // if (command === 'bumpdstop') {
+        //     bumpD.stop();
+        //     message.channel.send('disboard bumping reminder off.');
+        // } else if (command === 'bumpdstart') {
+        //     bumpD.start();
+        //     message.channel.send('disboard bumping reminder on.');
+        // } else if (command === 'bump4stop') {
+        //     bumpF.stop();
+        //     message.channel.send('4chan bumping reminder off.');
+        // } else if (command === 'bump4start') {
+        //     bumpF.start();
+        //     message.channel.send('4chan bumping reminder on.');
+        // }
 
         // message/link send commands.
         if (command === 'heron') {
