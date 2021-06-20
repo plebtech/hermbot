@@ -122,7 +122,7 @@ client.on('message', message => {
     }
 
     // match only Disboard bot sender.
-    if ((message.author.id === dId) && (message.content.includes(":thumbsup:"))) {
+    if ((message.author.id === dId) && (message.content.includes(`:thumbsup:`))) {
         general.send('disboard bumped successfully!');
     }
 
