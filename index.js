@@ -87,7 +87,7 @@ client.on('message', message => {
 
     // content triggers.
     const messageLower = message.content.toLowerCase();
-    if (messageLower.includes("the industrial revolution") {
+    if (messageLower.includes("the industrial revolution")) {
         message.react("🇹");
         message.react("🇪");
         message.react("🇩");
