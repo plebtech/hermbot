@@ -62,7 +62,7 @@ client.on('message', message => {
     // match only admin sender.
     if (message.author.id === hId) {
 
-        if (message.content.includes(":thumbsup:")) {
+        if (message.content.includes(`:thumbsup:`)) {
             general.send("thumbs up!");
         }
 
