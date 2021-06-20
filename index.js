@@ -66,6 +66,9 @@ client.on('message', message => {
     if ((message.author.id === "814470461962059777")) {
         message.react("😋");
     }
+    if ((message.author.id === "828126125053575168")) {
+        message.react("770012090584268820");
+    }
     if (message.content.toLowerCase().includes("the industrial revolution")) {
         message.react("🇹");
         message.react("🇪");
