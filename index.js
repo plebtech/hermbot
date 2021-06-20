@@ -32,7 +32,7 @@ const bumpF = cron.schedule('59 */2 * * *', () => {
 });
 
 
-client.once('ready', () => {    
+client.once('ready', () => {
     const general = client.channels.cache.get("790238886080938034");
     bumpD.start();
     bumpF.start();
@@ -59,47 +59,63 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-    if ((message.content.includes('ping.')) && (message.author.id === '238433169156603904')) {
-        message.channel.send('pong!');
-        bumpF.stop();
-    }
 
-    // if message is not prefixed for this bot or is sent by bot, ignore.
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
-    const args = message.content.slice(prefix.length).trim().split(' ');
-    if (args[0].length === 0) message.channel.send('\`please input a command.\`');
-    const command = args.shift().toLowerCase();
+    // testing to match a single account for commands.
+    if (message.author.id === '238433169156603904') {
 
-    if (command === 'heron') {
-        square = parseInt(args[0]);
-        if (isNaN(square) || (square < 0)) {
-            message.channel.send('\`please include a positive numeric argument.\`');
-        } else {
-            heron.root(square, message);
+        // if message is not prefixed for this bot or is sent by bot, ignore.
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        const args = message.content.slice(prefix.length).trim().split(' ');
+        if (args[0].length === 0) message.channel.send('\`please input a command.\`');
+        const command = args.shift().toLowerCase();
+
+        // bump reminder start/stop.
+        if (command === 'bumpDstop') {
+            bumpD.stop();
+            message.channel.send('disboard bumping reminders off.');
+        } else if (command === 'bumpDstart') {
+            bumpD.start();
+            message.channel.send('disboard bumping reminders on.');
+        } else if (command === 'bump4stop') {
+            bumpF.stop();
+            message.channel.send('4chan bumping reminders off.');
+        } else if (command === 'bump4start') {
+            bumpF.start();
+            message.channel.send('4chan bumping reminders on.');
         }
-    } else if (command === 'wallace') {
-        memePost.link(wallaceLink, message);
-    } else if (command === 'leak') {
-        memePost.link(leakLink, message);
-    } else if (command === '911') {
-        memePost.link(nineElevenLink, message);
-    } else if (command === 'think') {
-        memePost.link(thinkLink, message);
-    } else if (command === 'hoes') {
-        memePost.link(hoesLink, message);
-    } else if (command === 'flirt') {
-        memePost.link(flirtLink, message);
-    } else if (command === 'cri') {
-        cri.square(args[0], message);
-    } else if (command === 'pennant') {
-        pennant.post(args, message);
-    } else if (command === 'say') {
-        let content = '';
-        for (i = 0; i < args.length; i++) {
-            content = content + args[i] + ' ';
+
+        // message/link send commands.
+        if (command === 'heron') {
+            square = parseInt(args[0]);
+            if (isNaN(square) || (square < 0)) {
+                message.channel.send('\`please include a positive numeric argument.\`');
+            } else {
+                heron.root(square, message);
+            }
+        } else if (command === 'wallace') {
+            memePost.link(wallaceLink, message);
+        } else if (command === 'leak') {
+            memePost.link(leakLink, message);
+        } else if (command === '911') {
+            memePost.link(nineElevenLink, message);
+        } else if (command === 'think') {
+            memePost.link(thinkLink, message);
+        } else if (command === 'hoes') {
+            memePost.link(hoesLink, message);
+        } else if (command === 'flirt') {
+            memePost.link(flirtLink, message);
+        } else if (command === 'cri') {
+            cri.square(args[0], message);
+        } else if (command === 'pennant') {
+            pennant.post(args, message);
+        } else if (command === 'say') {
+            let content = '';
+            for (i = 0; i < args.length; i++) {
+                content = content + args[i] + ' ';
+            }
+            message.delete({ timeout: 100 });
+            message.channel.send(content);
         }
-        message.delete({ timeout: 100 });
-        message.channel.send(content);
     }
 
 });
