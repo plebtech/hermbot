@@ -75,7 +75,7 @@ client.on('message', message => {
             if (message.embeds[0].description.includes("👍") || (message.embeds[0].description.includes("bump.png"))) {
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert();
-            } else if (message.embeds[0].image.url.includes("error.png")) {
+            } else if (message.embeds[0].content.includes("error.png")) {
                 message.react("😓");
             }
             break;
