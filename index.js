@@ -60,7 +60,7 @@ client.on('message', message => {
     sup.supWatch(message);
 
     // test for reacting with emoji.
-    if ((message.author.id === "497153038381744148") || (message.author.id === "100740460871438336")) {
+    if ((message.author.id === "497153038381744148")) {
         message.react("💩");
     }
 
