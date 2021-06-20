@@ -59,7 +59,7 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-    if (message.content.includes('ping.') && (message.author.id === '238433169156603904') {
+    if ((message.content.includes('ping.')) && (message.author.id === '238433169156603904')) {
         message.channel.send('pong!');
         bumpF.stop();
     }
