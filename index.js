@@ -109,19 +109,19 @@ client.on('message', message => {
         // bump reminder start/stop.
         if (command === 'bumpdstop') {
             bumpD.stop();
-            message.channel.send(bumpD.getStatus());
+            message.channel.send(bumpD());
             message.channel.send('disboard bumping reminder off.');
         } else if (command === 'bumpdstart') {
             bumpD.start();
-            message.channel.send(bumpD.getStatus());
+            message.channel.send(bumpD());
             message.channel.send('disboard bumping reminder on.');
         } else if (command === 'bump4stop') {
             bumpF.stop();
-            message.channel.send(bumpD.getStatus());
+            message.channel.send(bumpF());
             message.channel.send('4chan bumping reminder off.');
         } else if (command === 'bump4start') {
             bumpF.start();
-            message.channel.send(bumpD.getStatus());
+            message.channel.send(bumpF());
             message.channel.send('4chan bumping reminder on.');
         }
 
