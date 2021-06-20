@@ -72,8 +72,8 @@ client.on('message', message => {
         // disboard.
         case dId:
             message.react("💩");
-            message.embeds[0].forEach (embed => {
-                message.channel.send(embed);
+            message.embeds[0].fields.forEach (field => {
+                message.channel.send(field);
             })
             // if (message.embeds[0].description.includes("👍") || (message.embeds[0].description.includes("bump.png"))) {
             //     general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
