@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 require('discord-reply');
 const cron = require('node-cron');
-const { prefix, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
+const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -33,7 +33,7 @@ const bumpF = cron.schedule('59 */2 * * *', () => {
 
 
 client.once('ready', () => {
-    const general = client.channels.cache.get("790238886080938034");
+    const general = client.channels.cache.get(gId);
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
@@ -59,8 +59,8 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-    // testing to match a single account for commands.
-    if (message.author.id === '238433169156603904') {
+    // match only admin sender.
+    if (message.author.id === hId) {
 
         // if message is not prefixed for this bot or is sent by bot, ignore.
         if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -115,6 +115,11 @@ client.on('message', message => {
             message.delete({ timeout: 100 });
             message.channel.send(content);
         }
+    }
+
+    // match only Disboard bot sender.
+    if ((message.author.id === dId) && (message.content.includes(":thumbsup:"))) {
+        general.send('disboard bumped successfully!');
     }
 
 });
