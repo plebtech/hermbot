@@ -70,9 +70,9 @@ client.on('message', message => {
             message.react("770012090584268820");
             break;
         // kvatch.
-        case '112272892561035264':
-            message.react("💩");
-            break;
+        // case '112272892561035264':
+        //     message.react("💩");
+        //     break;
         // disboard.
         case dId:
             const dEmbed = message.embeds[0];
