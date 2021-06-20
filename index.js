@@ -69,16 +69,20 @@ client.on('message', message => {
         case '828126125053575168':
             message.react("770012090584268820");
             break;
+        // kvatch.
+        case '112272892561035264':
+            message.react("💩");
+            break;
         // disboard.
         case dId:
-        case '112272892561035264':
             const dEmbed = message.embeds[0];
-            if (dEmbed.description.includes("👍")) {
+            if (dEmbed.thumbnail.url.includes("error.png")) {
+                message.react("👎");
+            } else {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert();
-            } else if (dEmbed.thumbnail.url.includes("error.png")) {
-                message.react("👎");
+                message.channel.send(dEmbed.description);
             };
             message.react("💩");
             break;
