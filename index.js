@@ -64,9 +64,9 @@ client.on('message', message => {
         message.react("💩");
     }
     if (message.content.includes("the industrial revolution")) {
-        message.react(🇹);
-        message.react(🇪);
-        message.react(🇩);
+        message.react("🇹");
+        message.react("🇪");
+        message.react("🇩");
     }
 
     // match only admin sender.
