@@ -85,15 +85,12 @@ client.on('message', message => {
         // do nothing.
     }
 
-    // emoji reactions based on content.
-    switch (message.content.toLowerCase().includes) {
-        case 'the industrial revolution':
-            message.react("🇹");
-            message.react("🇪");
-            message.react("🇩");
-            break;
-        default:
-        // do nothing.
+    // content triggers.
+    const messageLower = message.content.toLowerCase();
+    if (messageLower.includes("the industrial revolution") {
+        message.react("🇹");
+        message.react("🇪");
+        message.react("🇩");
     }
 
     // match only admin sender.
