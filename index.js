@@ -60,14 +60,14 @@ client.on('message', message => {
     sup.supWatch(message);
 
     // test for reacting with emoji.
-    if (message.author.id === "497153038381744148") {
-        message.react("\:poop:");
+    if ((message.author.id === "497153038381744148") || (message.author.id === "100740460871438336")) {
+        message.react("💩");
     }
 
     // match only admin sender.
     if (message.author.id === hId) {
 
-        if (message.content.includes(`:thumbsup:`)) {
+        if (message.content.includes("👍")) {
             general.send("thumbs up!");
         }
 
