@@ -37,7 +37,7 @@ client.once('ready', () => {
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
-    general.send('ready!');
+    // general.send('ready!');
 });
 
 client.on('message', message => {
@@ -58,6 +58,11 @@ client.on('message', message => {
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
+
+    // test for reacting with emoji.
+    if (message.author.id === "497153038381744148") {
+        message.react("\:poop:");
+    }
 
     // match only admin sender.
     if (message.author.id === hId) {
