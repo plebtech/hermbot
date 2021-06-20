@@ -70,7 +70,7 @@ client.on('message', message => {
             message.react("770012090584268820");
             break;
         // disboard.
-        case dId:
+        case dId || '112272892561035264':
             const dEmbed = message.embeds[0];
             if (dEmbed.description.includes("👍")) {
                 message.react("👍");
