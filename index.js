@@ -72,9 +72,11 @@ client.on('message', message => {
         // disboard.
         case dId:
             message.react("💩");
-            if (message.content.includes("👍")) {
+            if (message.embeds[0].description.includes("👍")) {
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert();
+            } else if (message.embeds[0].description.includes("😓")) {
+                message.react("😓");
             }
             break;
         default:
