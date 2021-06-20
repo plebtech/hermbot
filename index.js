@@ -12,29 +12,30 @@ const sup = require('./sup.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
+// cron job declarations on global scope.
+// cron job to send Disboard bump reminder every even hour, on the hour.
+const bumpD = cron.schedule('0 */2 * * *', () => {
+    console.log('bumping Disboard.');
+    general.send('please type `!d bump`');
+}, {
+    scheduled: true,
+    timeZone: "America/Chicago"
+});
+
+// cron job to send 4chan bump reminder one minute before every odd hour.
+const bumpF = cron.schedule('59 */2 * * *', () => {
+    console.log('bumping 4chan.');
+    general.send('please bump the 4chan thread at:\n' + chanLink);
+}, {
+    scheduled: true,
+    timeZone: "America/Chicago"
+});
+
+
 client.once('ready', () => {    
     const general = client.channels.cache.get("790238886080938034");
-    // cron job to send Disboard bump reminder every even hour, on the hour.
-    const bumpD = cron.schedule('0 */2 * * *', () => {
-        console.log('bumping Disboard.');
-        general.send('please type `!d bump`');
-    }, {
-        scheduled: true,
-        timeZone: "America/Chicago"
-    });
-
-    // cron job to send 4chan bump reminder every odd hour, on the hour.
-    const bumpF = cron.schedule('59 */2 * * *', () => {
-        console.log('bumping 4chan.');
-        general.send('please bump the 4chan thread at:\n' + chanLink);
-    }, {
-        scheduled: true,
-        timeZone: "America/Chicago"
-    });
-
     bumpD.start();
     bumpF.start();
-
     console.log('ready and running with prefix ' + prefix);
     general.send('ready!');
 });
@@ -57,6 +58,11 @@ client.on('message', message => {
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
+
+    if (message.content.includes('ping.') && (message.author.id === '238433169156603904') {
+        message.channel.send('pong!');
+        bumpF.stop();
+    }
 
     // if message is not prefixed for this bot or is sent by bot, ignore.
     if (!message.content.startsWith(prefix) || message.author.bot) return;
