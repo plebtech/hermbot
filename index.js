@@ -63,6 +63,11 @@ client.on('message', message => {
     if ((message.author.id === "497153038381744148")) {
         message.react("💩");
     }
+    if (message.content.includes("the industrial revolution")) {
+        message.react(🇹);
+        message.react(🇪);
+        message.react(🇩);
+    }
 
     // match only admin sender.
     if (message.author.id === hId) {
