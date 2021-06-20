@@ -34,8 +34,8 @@ const bumpF = cron.schedule('59 */2 * * *', () => {
 
 client.once('ready', () => {
     const general = client.channels.cache.get("790238886080938034");
-    bumpD.start();
-    bumpF.start();
+    // bumpD.start();
+    // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
     general.send('ready!');
 });
@@ -59,7 +59,6 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-
     // testing to match a single account for commands.
     if (message.author.id === '238433169156603904') {
 
@@ -70,10 +69,10 @@ client.on('message', message => {
         const command = args.shift().toLowerCase();
 
         // bump reminder start/stop.
-        if (command === 'bumpDstop') {
+        if (command === 'bumpdstop') {
             bumpD.stop();
             message.channel.send('disboard bumping reminders off.');
-        } else if (command === 'bumpDstart') {
+        } else if (command === 'bumpdstart') {
             bumpD.start();
             message.channel.send('disboard bumping reminders on.');
         } else if (command === 'bump4stop') {
