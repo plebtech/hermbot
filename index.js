@@ -12,6 +12,7 @@ const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
 const client = new Discord.Client();
 
+// variable to hold the channel id for #general.
 let general;
 
 // cron job declarations on global scope.
@@ -47,13 +48,13 @@ client.on('message', message => {
 
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/') || (message.content.includes('discord.com/invite/'))) {
-        if (message.content.includes('discord.gg/pies') || (message.content.includes('discord.gg/4chan')) || (message.content.includes('discord.gg/thots'))) {
+        if (message.content.includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
             message.delete({ timeout: 50 });
         }
-    } else if (message.content.includes('FunkyDance')) {
-        message.delete({ timeout: 50 });
+    // } else if (message.content.includes('FunkyDance')) {
+    //     message.delete({ timeout: 50 });
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -85,7 +86,7 @@ client.on('message', message => {
             if (dEmbed.thumbnail == null) {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
-                bump.bumpAlert();
+                bump.bumpAlert(general);
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
             } else {
