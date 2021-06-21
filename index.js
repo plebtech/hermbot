@@ -73,16 +73,24 @@ client.on('message', message => {
         // case '112272892561035264':
         //     message.react("💩");
         //     break;
+        // shortqueen.
+        case '771506580109131817':
+            message.react("🇩");
+            message.react("🇺");
+            message.react("🇲");
+            message.react("🇧");
         // disboard.
         case dId:
             const dEmbed = message.embeds[0];
-            if (dEmbed.thumbnail.url.includes("error.png")) {
-                message.react("👎");
-            } else {
+            if (dEmbed.thumbnail == null) {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert();
                 message.channel.send(dEmbed.description);
+            } else if (dEmbed.thumbnail.url.includes("error.png")) {
+                message.react("👎");
+            } else {
+                message.channel.send("something went wrong.");
             };
             message.react("💩");
             break;
