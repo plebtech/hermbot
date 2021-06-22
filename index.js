@@ -64,10 +64,12 @@ client.on('message', message => {
         // shortqueen.
         case '827779401831284748':
         case '540620638310891520':
-            message.react("🇩").then(() =>
-                message.react("🇺").then(() =>
-                    message.react("🇲").then(() =>
-                        message.react("🇧"))));
+            try {
+                message.react("🇩").then(() =>
+                    message.react("🇺").then(() =>
+                        message.react("🇲").then(() =>
+                            message.react("🇧"))));
+            } catch { };
             break;
         // disboard.
         case dId:
@@ -90,9 +92,11 @@ client.on('message', message => {
     // content triggers.
     const messageLower = message.content.toLowerCase();
     if (messageLower.includes("the industrial revolution")) {
-        message.react("🇹").then(() =>
-            message.react("🇪").then(() =>
-                message.react("🇩")));
+        try {
+            message.react("🇹").then(() =>
+                message.react("🇪").then(() =>
+                    message.react("🇩")));
+        } catch { };
     }
 
     // variable to hold 4chan thread url.
