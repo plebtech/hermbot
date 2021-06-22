@@ -33,30 +33,22 @@ client.once('ready', () => {
     secret.send('ready!');
 });
 
+// async function to time secondary catch for bump.
 const disboardCountDown = async () => {
-    // if (disboardSecondaryCatch === false) {
-    //     return;
-    // } else if (disboardTimeToWait === 0) {
-    //     secret.send('please type `!d bump`');
-    //     disboardSecondaryCatch = true;
-    // } else {
-    //     await timer(60000);
-    //     disboardTimeToWait = disboardTimeToWait - 1;
-    //     disboardSecondaryCatch = false;
-    // }
-    secret.send(disboardTimeToWait);
+    // if timer has reached zero, alert to bump.
     if (disboardTimeToWait === 0) {
-        secret.send('please type `!d bump`');
         disboardSecondaryCatch = true;
+        secret.send('please type `!d bump`');
         return;
+    // count down the time to wait every minute.
     } else {
-        secret.send('time to next bump alert: ' + disboardTimeToWait);
-        await timer(60000);
-        disboardTimeToWait--;
+        while (disboardTimeToWait > 0) {
+            secret.send('time to next bump alert: ' + disboardTimeToWait);
+            await timer(60000);
+            disboardTimeToWait--;
+        }
         disboardSecondaryCatch = false;
-        return;
     }
-
 }
 
 client.on('message', message => {
@@ -75,8 +67,8 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
+    // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
-        secret.send("ok so this part works");
         disboardSecondaryCatch = true;
         disboardCountDown();
     }
@@ -85,20 +77,28 @@ client.on('message', message => {
     switch (message.author.id) {
         // disboard.
         case dId:
+            // shortcut for disboard embed.
             const dEmbed = message.embeds[0];
+            // checks case for successful bump (won't have a thumbnail).
             if (dEmbed.thumbnail == null) {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
+                // start bumpAlert function which alerts every 120 minutes.
                 bump.bumpAlert(general);
                 disboardBumpRunning = true;
                 disboardSecondaryCatch = false;
+                // delete message after five minutes.
                 message.delete({ timeout: 360000 });
                 disboardTimeToWait = 120;
+            // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
+                // delete message after five seconds.
                 message.delete({ timeout: 5000 });
+                // parse time til bump from embed description.
                 const numbers = dEmbed.description.match(/\d+/g).map(Number);
                 disboardTimeToWait = numbers[1];
+                disboardSecondaryCatch = false;
             } else {
                 // message.channel.send("something went wrong.");
                 message.delete({ timeout: 5000 });
