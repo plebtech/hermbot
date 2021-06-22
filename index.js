@@ -20,7 +20,7 @@ let general;
 // variable to track whether disboard bump timer running.
 let disboardBumpRunning = false;
 let disboardSecondaryCatch = false;
-let disboardTimeToWait = 1;
+let disboardTimeToWait = 2;
 
 // on ready.
 client.once('ready', () => {
@@ -45,9 +45,18 @@ const disboardCountDown = async () => {
     //     disboardSecondaryCatch = false;
     // }
     secret.send(disboardTimeToWait);
-    await timer(60000);
-    disboardSecondaryCatch = false;
-    return;
+    if (disboardTimeToWait === 0) {
+        secret.send('please type `!d bump`');
+        disboardSecondaryCatch = true;
+        return;
+    } else {
+        secret.send('time to next bump alert: ' + disboardTimeToWait);
+        await timer(60000);
+        disboardTimeToWait--;
+        disboardSecondaryCatch = false;
+        return;
+    }
+
 }
 
 client.on('message', message => {
