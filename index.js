@@ -42,6 +42,8 @@ client.on('message', message => {
         } else {
             message.delete({ timeout: 50 });
         }
+    } else if (message.content.includes('!d ')) {
+        message.delete({ timeout: 5000 });
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
