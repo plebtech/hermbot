@@ -4,7 +4,7 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 // const cron = require('node-cron');
 // const fs = require('fs');
 // read values / urls from config file.
-const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
+const { prefix, hId, gId, secretId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
 // import modules.
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
@@ -24,17 +24,19 @@ let disboardTimeToWait = 1;
 // on ready.
 client.once('ready', () => {
     general = client.channels.cache.get(gId);
+    secret = client.channels.cache.get(secretId);
+
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
-    // general.send('ready!');
+    secret.send('ready!');
 });
 
 const disboardCountDown = async () => {
     if (disboardSecondaryCatch === false) {
         return;
     } else if (disboardTimeToWait === 0) {
-        general.send('please type `!d bump`');
+        secret.send('please type `!d bump`');
         disboardSecondaryCatch = true;
     } else {
         await timer(60000);
@@ -61,7 +63,7 @@ client.on('message', message => {
 
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        await disboardCountDown();
+        disboardCountDown();
     }
 
     // author triggers.
@@ -128,7 +130,7 @@ client.on('message', message => {
     const startBump4 = async () => {
         bump4 = true;
         while (bump4 === true) {
-            general.send("please bump the 4chan thread at + \`" + url4 + "\`.");
+            secret.send("please bump the 4chan thread at + \`" + url4 + "\`.");
             await timer(7200000);
         }
     }
