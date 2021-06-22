@@ -1,8 +1,15 @@
 const Discord = require('discord.js');
 require('discord-reply');
+
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
 // const cron = require('node-cron');
-const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
-const config = 'config.json';
+// const fs = require('fs');
+
+// read values / urls from config file.
+const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
+
+// import modules.
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -11,41 +18,22 @@ const convert = require('./convert.js');
 const sup = require('./sup.js');
 const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
+
 const client = new Discord.Client();
 
 // variable to hold the channel id for #general.
 let general;
 
-// cron job declarations on global scope.
-// cron job to send Disboard bump reminder every even hour, on the hour.
-// const bumpD = cron.schedule('0 */2 * * *', () => {
-//     console.log('bumping Disboard.');
-//     general.send('please type `!d bump`');
-// }, {
-//     timeZone: "America/Chicago"
-// });
-
-// cron job to send 4chan bump reminder one minute before every odd hour.
-// const bumpF = cron.schedule('59 */2 * * *', () => {
-//     console.log('bumping 4chan.');
-//     general.send('please bump the 4chan thread at:\n' + chanLink);
-// }, {
-//     timeZone: "America/Chicago"
-// });
-
-
+// on ready.
 client.once('ready', () => {
     general = client.channels.cache.get(gId);
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
-    // general.send('ready!');
+    general.send('ready!');
 });
 
 client.on('message', message => {
-
-    // auto convert values between imperial and metric.
-    //convert.watch(message);
 
     // watch for a specific message to delete.
     if (message.content.includes('discord.gg/') || (message.content.includes('discord.com/invite/'))) {
@@ -54,8 +42,6 @@ client.on('message', message => {
         } else {
             message.delete({ timeout: 50 });
         }
-    // } else if (message.content.includes('FunkyDance')) {
-    //     message.delete({ timeout: 50 });
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -76,11 +62,13 @@ client.on('message', message => {
         //     message.react("💩");
         //     break;
         // shortqueen.
-        case '771506580109131817':
+        case '827779401831284748':
+        case '540620638310891520':
             message.react("🇩").then(() =>
-            message.react("🇺").then(() =>
-            message.react("🇲").then(() =>
-            message.react("🇧"))));
+                message.react("🇺").then(() =>
+                    message.react("🇲").then(() =>
+                        message.react("🇧"))));
+            break;
         // disboard.
         case dId:
             const dEmbed = message.embeds[0];
@@ -91,7 +79,7 @@ client.on('message', message => {
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
             } else {
-                message.channel.send("something went wrong.");
+                // message.channel.send("something went wrong.");
             };
             message.react("💩");
             break;
@@ -103,8 +91,20 @@ client.on('message', message => {
     const messageLower = message.content.toLowerCase();
     if (messageLower.includes("the industrial revolution")) {
         message.react("🇹").then(() =>
-        message.react("🇪").then(() =>
-        message.react("🇩")));
+            message.react("🇪").then(() =>
+                message.react("🇩")));
+    }
+
+    // variable to hold 4chan thread url.
+    let url4;
+    let bump4 = false;
+    // bump reminder every two hours.
+    const startBump4 = () => {
+        bump4 = true;
+        while (bump4 === true) {
+            general.send("please bump the 4chan thread at + \`" + url4 + "\`.");
+            await timer(7200000);
+        }
     }
 
     // match only admin sender.
@@ -134,6 +134,24 @@ client.on('message', message => {
         //     bumpF.start();
         //     message.channel.send('4chan bumping reminder on.');
         // }
+
+        switch (command) {
+            case '4store':
+                url4 = args[0];
+                if (bump4 === true) {
+                    startBump4();
+                }
+                break;
+            case '4start':
+                bump4 = true;
+                startBump4();
+                break;
+            case '4stop':
+                bump4 = false;
+                break;
+            default:
+            // do nothing.
+        }
 
         // message/link send commands.
         if (command === 'heron') {
@@ -172,3 +190,20 @@ client.on('message', message => {
 });
 
 client.login(token);
+
+// cron job declarations on global scope.
+// cron job to send Disboard bump reminder every even hour, on the hour.
+// const bumpD = cron.schedule('0 */2 * * *', () => {
+//     console.log('bumping Disboard.');
+//     general.send('please type `!d bump`');
+// }, {
+//     timeZone: "America/Chicago"
+// });
+
+// cron job to send 4chan bump reminder one minute before every odd hour.
+// const bumpF = cron.schedule('59 */2 * * *', () => {
+//     console.log('bumping 4chan.');
+//     general.send('please bump the 4chan thread at:\n' + chanLink);
+// }, {
+//     timeZone: "America/Chicago"
+// });
