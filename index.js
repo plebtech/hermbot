@@ -64,7 +64,7 @@ client.on('message', message => {
 
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         secret.send("ok so this part works");
-        // disboardSecondaryCatch = true;
+        disboardSecondaryCatch = true;
         // disboardCountDown();
     }
 
