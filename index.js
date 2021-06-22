@@ -34,16 +34,19 @@ client.once('ready', () => {
 });
 
 const disboardCountDown = async () => {
-    if (disboardSecondaryCatch === false) {
-        return;
-    } else if (disboardTimeToWait === 0) {
-        secret.send('please type `!d bump`');
-        disboardSecondaryCatch = true;
-    } else {
-        await timer(60000);
-        disboardTimeToWait = disboardTimeToWait - 1;
-        disboardSecondaryCatch = false;
-    }
+    // if (disboardSecondaryCatch === false) {
+    //     return;
+    // } else if (disboardTimeToWait === 0) {
+    //     secret.send('please type `!d bump`');
+    //     disboardSecondaryCatch = true;
+    // } else {
+    //     await timer(60000);
+    //     disboardTimeToWait = disboardTimeToWait - 1;
+    //     disboardSecondaryCatch = false;
+    // }
+    await timer(60000);
+    disboardSecondaryCatch = false;
+    return;
 }
 
 client.on('message', message => {
