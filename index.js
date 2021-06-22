@@ -57,8 +57,6 @@ const bumpAlertCountdown = async () => {
     disboardCountingDown = false;
 }
 
-let triggered = 0;
-
 client.on('message', message => {
 
     // watch for a specific message to delete.
@@ -87,8 +85,6 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false) && (disboardCountingDown === false)) {
         disboardSecondaryCatch = true;
-        triggered++;
-        secret.send("shit triggered yo "  + triggered);
         disboardCountDown();
     }
 
@@ -119,7 +115,6 @@ client.on('message', message => {
                 // parse time til bump from embed description.
                 const numbers = dEmbed.description.match(/\d+/g).map(Number);
                 disboardTimeToWait = numbers[1];
-                disboardSecondaryCatch = false;
             } else {
                 // message.channel.send("something went wrong.");
                 message.delete({ timeout: 5000 });
