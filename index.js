@@ -34,12 +34,12 @@ const disboardCountDown = async () => {
     if (disboardSecondaryCatch === false) {
         return;
     } else if (disboardTimeToWait === 0) {
-        disboardSecondaryCatch = false;
         general.send('please type `!d bump`');
+        disboardSecondaryCatch = true;
     } else {
-        disboardSecondaryCatch = false;
-        disboardTimeToWait--;
         await timer(60000);
+        disboardTimeToWait = disboardTimeToWait - 1;
+        disboardSecondaryCatch = false;
     }
 }
 
@@ -61,7 +61,7 @@ client.on('message', message => {
 
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        disboardCountDown();
+        await disboardCountDown();
     }
 
     // author triggers.
