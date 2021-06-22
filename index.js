@@ -38,7 +38,7 @@ const disboardCountDown = async () => {
     // if timer has reached zero, alert to bump.
     if (disboardTimeToWait === 0) {
         disboardSecondaryCatch = true;
-        secret.send('please type `!d bump`');
+        general.send('please type `!d bump`');
         return;
     // count down the time to wait every minute.
     } else {
