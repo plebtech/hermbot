@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 require('discord-reply');
 // const cron = require('node-cron');
 const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink, chanLink } = require('./config.json');
+const config = 'config.json';
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
 const pennant = require('./pennant.js');
@@ -76,10 +77,10 @@ client.on('message', message => {
         //     break;
         // shortqueen.
         case '771506580109131817':
-            message.react("🇩");
-            message.react("🇺");
-            message.react("🇲");
-            message.react("🇧");
+            message.react("🇩").then(() =>
+            message.react("🇺").then(() =>
+            message.react("🇲").then(() =>
+            message.react("🇧"))));
         // disboard.
         case dId:
             const dEmbed = message.embeds[0];
@@ -101,9 +102,9 @@ client.on('message', message => {
     // content triggers.
     const messageLower = message.content.toLowerCase();
     if (messageLower.includes("the industrial revolution")) {
-        message.react("🇹");
-        message.react("🇪");
-        message.react("🇩");
+        message.react("🇹").then(() =>
+        message.react("🇪").then(() =>
+        message.react("🇩")));
     }
 
     // match only admin sender.
