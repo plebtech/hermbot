@@ -39,7 +39,7 @@ const disboardCountDown = async () => {
         general.send('please type `!d bump`');
         return;
     } else { // count down the time to wait every minute.
-        while ((disboardCountingDown === false) && (disboardTimeToWait > 0)) {
+        while (disboardTimeToWait > 0) {
             secret.send('time to next bump alert: ' + disboardTimeToWait);
             await timer(60000);
             disboardTimeToWait--;
