@@ -82,6 +82,7 @@ client.on('message', message => {
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
                 message.delete({ timeout: 5000 });
+                secret.send(dEmbed.description);
                 let numbers = dEmbed.description.match(/\d+/g).map(Number);
                 for (number in numbers) {
                     secret.send(number[0]);
