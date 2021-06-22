@@ -62,7 +62,6 @@ client.on('message', message => {
         //     message.react("💩");
         //     break;
         // shortqueen.
-        case '827779401831284748':
         case '540620638310891520':
             try {
                 message.react("🇩").then(() =>
