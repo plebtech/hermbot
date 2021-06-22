@@ -83,7 +83,7 @@ client.on('message', message => {
     sup.supWatch(message);
 
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
-    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false) && (disboardCountingDown === false)) {
+    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
         disboardCountDown();
     }
