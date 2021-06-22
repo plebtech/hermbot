@@ -1,14 +1,10 @@
 const Discord = require('discord.js');
 require('discord-reply');
-
 const timer = ms => new Promise(res => setTimeout(res, ms));
-
 // const cron = require('node-cron');
 // const fs = require('fs');
-
 // read values / urls from config file.
 const { prefix, hId, gId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
-
 // import modules.
 const heron = require('./heron.js');
 const memePost = require('./memePost.js');
@@ -18,11 +14,13 @@ const convert = require('./convert.js');
 const sup = require('./sup.js');
 const bump = require('./bump.js');
 // const randomNumber = require('./randomNumber.js');
-
 const client = new Discord.Client();
-
 // variable to hold the channel id for #general.
 let general;
+// variable to track whether disboard bump timer running.
+let disboardBumpRunning = false;
+let disboardSecondaryCatch = false;
+let disboardTimeToWait = 1;
 
 // on ready.
 client.once('ready', () => {
@@ -32,6 +30,12 @@ client.once('ready', () => {
     console.log('ready and running with prefix ' + prefix);
     // general.send('ready!');
 });
+
+const disboardCountDown = async () => {
+    disboardTimeToWait--;
+    await timer(60000);
+    disboardSecondaryCatch = false;
+}
 
 client.on('message', message => {
 
@@ -49,8 +53,40 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
+    if (!disboardBumpRunning && !disboardSecondaryCatch) {
+        disboardSecondaryCatch = true;
+        if (disboardTimeToWait === 0) {
+            general.send('please type `!d bump`');
+            disboardSecondaryCatch = false;
+        } else {
+            disboardCountDown();
+        }
+    }
+
+
+
     // author triggers.
     switch (message.author.id) {
+        // disboard.
+        case dId:
+            const dEmbed = message.embeds[0];
+            if (dEmbed.thumbnail == null) {
+                message.react("👍");
+                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
+                bump.bumpAlert(general);
+                disboardBumpRunning = true;
+                disboardSecondaryCatch = false;
+                message.delete({ timeout: 360000 });
+            } else if (dEmbed.thumbnail.url.includes("error.png")) {
+                message.react("👎");
+                message.delete({ timeout: 5000 });
+                disboardTimeToWait = dEmbed.description.replace( /^\D+/g, '');
+            } else {
+                // message.channel.send("something went wrong.");
+                message.delete({ timeout: 5000 });
+            };
+            message.react("💩");
+            break;
         // buggy.
         case '814470461962059777':
             message.react("😋");
@@ -71,23 +107,6 @@ client.on('message', message => {
                         message.react("🇲").then(() =>
                             message.react("🇧"))));
             } catch { };
-            break;
-        // disboard.
-        case dId:
-            const dEmbed = message.embeds[0];
-            if (dEmbed.thumbnail == null) {
-                message.react("👍");
-                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
-                bump.bumpAlert(general);
-                message.delete({ timeout: 360000 });
-            } else if (dEmbed.thumbnail.url.includes("error.png")) {
-                message.react("👎");
-                message.delete({ timeout: 5000 });
-            } else {
-                // message.channel.send("something went wrong.");
-                message.delete({ timeout: 5000 });
-            };
-            message.react("💩");
             break;
         default:
         // do nothing.
