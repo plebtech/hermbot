@@ -99,7 +99,7 @@ client.on('message', message => {
     let url4;
     let bump4 = false;
     // bump reminder every two hours.
-    const startBump4 = () => {
+    const startBump4 = async () => {
         bump4 = true;
         while (bump4 === true) {
             general.send("please bump the 4chan thread at + \`" + url4 + "\`.");
