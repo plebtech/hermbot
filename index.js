@@ -84,7 +84,7 @@ client.on('message', message => {
                 message.delete({ timeout: 5000 });
                 let numbers = dEmbed.description.match(/\d+/g).map(Number);
                 for (number in numbers) {
-                    secret.send(number);
+                    secret.send(number[0]);
                 }
             } else {
                 // message.channel.send("something went wrong.");
