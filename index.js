@@ -62,6 +62,7 @@ client.on('message', message => {
     sup.supWatch(message);
 
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
+        secret.send("ok so this part works");
         disboardSecondaryCatch = true;
         disboardCountDown();
     }
@@ -82,6 +83,7 @@ client.on('message', message => {
                 message.react("👎");
                 message.delete({ timeout: 5000 });
                 disboardTimeToWait = dEmbed.description.replace(/^\D+/g, '');
+                secret.send(disboardTimeToWait);
             } else {
                 // message.channel.send("something went wrong.");
                 message.delete({ timeout: 5000 });
