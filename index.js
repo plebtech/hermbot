@@ -30,7 +30,7 @@ client.once('ready', () => {
     // bumpD.start();
     // bumpF.start();
     console.log('ready and running with prefix ' + prefix);
-    general.send('ready!');
+    // general.send('ready!');
 });
 
 client.on('message', message => {
@@ -62,7 +62,7 @@ client.on('message', message => {
         //     message.react("💩");
         //     break;
         // shortqueen.
-        case '540620638310891520':
+        case '771506580109131817':
             try {
                 message.react("🇩").then(() =>
                     message.react("🇺").then(() =>
@@ -77,10 +77,13 @@ client.on('message', message => {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert(general);
+                message.delete({ timeout: 360000 });
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
+                message.delete({ timeout: 5000 });
             } else {
                 // message.channel.send("something went wrong.");
+                message.delete({ timeout: 5000 });
             };
             message.react("💩");
             break;
