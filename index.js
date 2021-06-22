@@ -18,8 +18,7 @@ const client = new Discord.Client();
 // variable to hold the channel id for #general.
 let general;
 // variable to track whether disboard bump timer running.
-let disboardBumpRunning = false;
-let disboardSecondaryCatch = false;
+let disboardBumpRunning, disboardSecondaryCatch = false;
 let disboardTimeToWait = 1;
 
 // on ready.
@@ -32,9 +31,16 @@ client.once('ready', () => {
 });
 
 const disboardCountDown = async () => {
-    disboardTimeToWait--;
-    await timer(60000);
-    disboardSecondaryCatch = false;
+    if (disboardSecondaryCatch === false) {
+        return;
+    } else if (disboardTimeToWait === 0) {
+        disboardSecondaryCatch = false;
+        general.send('please type `!d bump`');
+    } else {
+        disboardSecondaryCatch = false;
+        disboardTimeToWait--;
+        await timer(60000);
+    }
 }
 
 client.on('message', message => {
@@ -53,17 +59,10 @@ client.on('message', message => {
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
 
-    if (!disboardBumpRunning && !disboardSecondaryCatch) {
+    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        if (disboardTimeToWait === 0) {
-            general.send('please type `!d bump`');
-            disboardSecondaryCatch = false;
-        } else {
-            disboardCountDown();
-        }
+        disboardCountDown();
     }
-
-
 
     // author triggers.
     switch (message.author.id) {
@@ -80,7 +79,7 @@ client.on('message', message => {
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
                 message.delete({ timeout: 5000 });
-                disboardTimeToWait = dEmbed.description.replace( /^\D+/g, '');
+                disboardTimeToWait = dEmbed.description.replace(/^\D+/g, '');
             } else {
                 // message.channel.send("something went wrong.");
                 message.delete({ timeout: 5000 });
