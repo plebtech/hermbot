@@ -82,12 +82,6 @@ client.on('message', message => {
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
                 message.delete({ timeout: 5000 });
-                const r = /\d+/;
-                let s = dEmbed.description;
-                let m;
-                while ((m = r.exec(s)) != null) {
-                    secret.send(m[0]);
-                }
                 // disboardTimeToWait = dEmbed.description.replace(/^\D+/g, '');
                 secret.send(disboardTimeToWait);
             } else {
