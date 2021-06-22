@@ -42,7 +42,7 @@ client.on('message', message => {
         } else {
             message.delete({ timeout: 50 });
         }
-    } else if (message.content.includes('!d ')) {
+    } else if (message.content.startsWith('!d ')) {
         message.delete({ timeout: 5000 });
     }
 
