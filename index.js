@@ -44,6 +44,7 @@ const disboardCountDown = async () => {
     //     disboardTimeToWait = disboardTimeToWait - 1;
     //     disboardSecondaryCatch = false;
     // }
+    secret.send(disboardTimeToWait);
     await timer(60000);
     disboardSecondaryCatch = false;
     return;
@@ -68,7 +69,7 @@ client.on('message', message => {
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         secret.send("ok so this part works");
         disboardSecondaryCatch = true;
-        // disboardCountDown();
+        disboardCountDown();
     }
 
     // author triggers.
