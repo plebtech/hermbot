@@ -18,7 +18,8 @@ const client = new Discord.Client();
 // variable to hold the channel id for #general.
 let general;
 // variable to track whether disboard bump timer running.
-let disboardBumpRunning, disboardSecondaryCatch = false;
+let disboardBumpRunning = false;
+let disboardSecondaryCatch = false;
 let disboardTimeToWait = 1;
 
 // on ready.
@@ -63,8 +64,8 @@ client.on('message', message => {
 
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         secret.send("ok so this part works");
-        disboardSecondaryCatch = true;
-        disboardCountDown();
+        // disboardSecondaryCatch = true;
+        // disboardCountDown();
     }
 
     // author triggers.
@@ -79,10 +80,10 @@ client.on('message', message => {
                 disboardBumpRunning = true;
                 disboardSecondaryCatch = false;
                 message.delete({ timeout: 360000 });
+                disboardTimeToWait = 120;
             } else if (dEmbed.thumbnail.url.includes("error.png")) {
                 message.react("👎");
                 message.delete({ timeout: 5000 });
-                secret.send(dEmbed.description);
                 const numbers = dEmbed.description.match(/\d+/g).map(Number);
                 disboardTimeToWait = numbers[1];
             } else {
