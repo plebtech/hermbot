@@ -83,7 +83,7 @@ client.on('message', message => {
     sup.supWatch(message);
 
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
-    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
+    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false) && (disboardCountingDown === false)) {
         disboardSecondaryCatch = true;
         disboardCountDown();
     }
@@ -103,7 +103,7 @@ client.on('message', message => {
                 disboardBumpRunning = true;
                 disboardSecondaryCatch = false;
                 disboardTimeToWait = 120;
-                disboardCountDown = true;
+                disboardCountingDown = true;
                 // delete message after five minutes.
                 message.delete({ timeout: 360000 });
                 bumpAlertCountdown();
