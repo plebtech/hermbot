@@ -75,8 +75,12 @@ client.on('message', message => {
         if (disboardTimeToWait <= 0) {
             message.channel.send("we can bump again now! please type `!d bump`");
         } else {
-            message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.");
-        }
+            message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
+                .then(msg => {
+                    msg.delete({ timeout: 10000 })
+                })
+                .catch(console.log("unable to delete bump time info message."));
+        };
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
