@@ -60,8 +60,8 @@ const bumpAlertCountdown = async () => {
 client.on('message', message => {
 
     // watch for a specific message to delete.
-    if (message.content.includes('discord.gg/') || (message.content.includes('discord.com/invite/'))) {
-        if (message.content.includes('discord.gg/pies')) {
+    if (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/'))) {
+        if (message.content.toLowerCase().includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
             message.delete({ timeout: 50 });
@@ -71,7 +71,7 @@ client.on('message', message => {
     }
 
     // watch for query on bumping.
-    if ((message.content.includes('when')) && (message.content.includes('bump'))) {
+    if ((message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
         if (disboardTimeToWait <= 0) {
             message.channel.send("we can bump again now! please type `!d bump`");
         } else {
