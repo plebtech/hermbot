@@ -57,6 +57,8 @@ const bumpAlertCountdown = async () => {
     disboardCountingDown = false;
 }
 
+let triggered = 0;
+
 client.on('message', message => {
 
     // watch for a specific message to delete.
@@ -85,6 +87,8 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false) && (disboardCountingDown === false)) {
         disboardSecondaryCatch = true;
+        triggered++;
+        secret.send("shit triggered yo "  + triggered);
         disboardCountDown();
     }
 
