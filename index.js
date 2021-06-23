@@ -101,33 +101,24 @@ client.on('message', message => {
 
     // author triggers.
     switch (message.author.id) {
-        // disboard.
-        case dId:
-            // shortcut for disboard embed.
-            const dEmbed = message.embeds[0];
-            // checks case for successful bump (won't have a thumbnail).
-            if (dEmbed.thumbnail == null) {
+
+        case dId: // disboard.
+            const dEmbed = message.embeds[0]; // shortcut for disboard embed.
+            if (dEmbed.thumbnail == null) { // checks case for successful bump (won't have a thumbnail).
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
-                // start bumpAlert function which alerts every 120 minutes.
-                bump.bumpAlert(general);
-                disboardBumpRunning = true;
+                bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
+                disboardBumpRunning, disboardCountingDown = true;
                 disboardSecondaryCatch = false;
                 disboardTimeToWait = 120;
-                disboardCountingDown = true;
-                // delete message after five minutes.
-                message.delete({ timeout: 360000 });
+                message.delete({ timeout: 360000 }); // delete message after five minutes.
                 bumpAlertCountdown();
-                // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
-            } else if (dEmbed.thumbnail.url.includes("error.png")) {
+            } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                 message.react("👎");
-                // delete message after five seconds.
-                message.delete({ timeout: 5000 });
-                // parse time til bump from embed description.
-                const numbers = dEmbed.description.match(/\d+/g).map(Number);
+                message.delete({ timeout: 5000 }); // delete message after five seconds.
+                const numbers = dEmbed.description.match(/\d+/g).map(Number); // parse time til bump from embed description.
                 disboardTimeToWait = numbers[1];
             } else {
-                // message.channel.send("something went wrong.");
                 message.delete({ timeout: 5000 });
             };
             message.react("💩");
