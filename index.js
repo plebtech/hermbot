@@ -66,8 +66,7 @@ const bumpQuery = async (message) => {
         message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
             .then(msg => {
                 msg.delete({ timeout: 10000 })
-            })
-            .catch(console.log("unable to delete bump time info message."));
+            });
     };
     await timer(60000);
     bumpQueryTimeout = false;
