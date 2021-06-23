@@ -58,7 +58,7 @@ const bumpAlertCountdown = async () => {
     disboardCountingDown = false;
 }
 
-const bumpQuery = async () => {
+const bumpQuery = async (message) => {
     bumpQueryTimeout = true;
     if (disboardTimeToWait <= 0) {
         message.channel.send("we can bump again now! please type `!d bump`");
@@ -88,7 +88,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery();
+        bumpQuery(message);
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
