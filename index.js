@@ -108,7 +108,8 @@ client.on('message', message => {
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                disboardBumpRunning, disboardCountingDown = true;
+                disboardBumpRunning = true;
+                disboardCountingDown = true;
                 disboardSecondaryCatch = false;
                 disboardTimeToWait = 120;
                 message.delete({ timeout: 360000 }); // delete message after five minutes.
