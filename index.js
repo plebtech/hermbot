@@ -22,6 +22,7 @@ let disboardBumpRunning = false;
 let disboardSecondaryCatch = false;
 let disboardCountingDown = false;
 let disboardTimeToWait = 2;
+let bumpQueryTimeout = false;
 
 // on ready.
 client.once('ready', () => {
@@ -71,7 +72,8 @@ client.on('message', message => {
     }
 
     // watch for query on bumping.
-    if ((message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
+    if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
+        bumpQueryTimeout = true;
         if (disboardTimeToWait <= 0) {
             message.channel.send("we can bump again now! please type `!d bump`");
         } else {
@@ -81,6 +83,8 @@ client.on('message', message => {
                 })
                 .catch(console.log("unable to delete bump time info message."));
         };
+        await timer(60000);
+        bumpQueryTimeout = false;
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
