@@ -58,6 +58,21 @@ const bumpAlertCountdown = async () => {
     disboardCountingDown = false;
 }
 
+const bumpQuery = async () => {
+    bumpQueryTimeout = true;
+    if (disboardTimeToWait <= 0) {
+        message.channel.send("we can bump again now! please type `!d bump`");
+    } else {
+        message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
+            .then(msg => {
+                msg.delete({ timeout: 10000 })
+            })
+            .catch(console.log("unable to delete bump time info message."));
+    };
+    await timer(60000);
+    bumpQueryTimeout = false;
+}
+
 client.on('message', message => {
 
     // watch for a specific message to delete.
@@ -73,18 +88,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQueryTimeout = true;
-        if (disboardTimeToWait <= 0) {
-            message.channel.send("we can bump again now! please type `!d bump`");
-        } else {
-            message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
-                .then(msg => {
-                    msg.delete({ timeout: 10000 })
-                })
-                .catch(console.log("unable to delete bump time info message."));
-        };
-        await timer(60000);
-        bumpQueryTimeout = false;
+        bumpQuery();
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
