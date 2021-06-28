@@ -201,6 +201,17 @@ client.on('message', message => {
             case '4stop':
                 bump4 = false;
                 break;
+            case 'status':
+                let info = "\`\`\`";
+                info = info + "\nbumpAlert running: " + disboardBumpRunning;
+                info = info + "\nsecondary catch running: " + disboardSecondaryCatch;
+                info = info + "\ndisboard counting down: " + disboardCountingDown;
+                info = info + "\ndisboard time to wait: " + disboardTimeToWait;
+                info = info + "\nbumpNag running: " + unbumpedNag;
+                info = info + "\nquery in timeout: " + bumpQueryTimeout;
+                info = info + "\n\`\`\`";
+                secret.send(info);
+                break;
             default:
             // do nothing.
         }
