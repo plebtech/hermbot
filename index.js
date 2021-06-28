@@ -23,6 +23,7 @@ let disboardSecondaryCatch = false;
 let disboardCountingDown = false;
 let disboardTimeToWait = 2;
 let bumpQueryTimeout = false;
+let unbumpedNag = false;
 
 // on ready.
 client.once('ready', () => {
@@ -49,6 +50,7 @@ const disboardCountDown = async () => {
     }
 }
 
+// method to decrement the bump timer every minute.
 const bumpAlertCountdown = async () => {
     while (disboardTimeToWait > 0) {
         disboardCountingDown = true;
@@ -58,6 +60,7 @@ const bumpAlertCountdown = async () => {
     disboardCountingDown = false;
 }
 
+// method to query current wait on bump timer.
 const bumpQuery = async (message) => {
     bumpQueryTimeout = true;
     if (disboardTimeToWait <= 0) {
@@ -97,6 +100,14 @@ client.on('message', message => {
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
         disboardCountDown();
+    } else if ((disboardTimeToWait === 0) && (unbumpedNag === false)) {
+        unbumpedNag = true;
+        general.send('please type `!d bump`')
+        .then(msg => {
+            msg.delete({ timeout: 60000 })
+        });
+        await timer(60000);
+        unbumpedNag = false;
     }
 
     // author triggers.
