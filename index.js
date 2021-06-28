@@ -75,6 +75,16 @@ const bumpQuery = async (message) => {
     bumpQueryTimeout = false;
 }
 
+const bumpNag = async (message) => {
+    unbumpedNag = true;
+    general.send('please type `!d bump`')
+    .then(msg => {
+        msg.delete({ timeout: 60000 })
+    });
+    await timer(60000);
+    unbumpedNag = false;
+}
+
 client.on('message', message => {
 
     // watch for a specific message to delete.
@@ -101,13 +111,7 @@ client.on('message', message => {
         disboardSecondaryCatch = true;
         disboardCountDown();
     } else if ((disboardTimeToWait === 0) && (unbumpedNag === false)) {
-        unbumpedNag = true;
-        general.send('please type `!d bump`')
-        .then(msg => {
-            msg.delete({ timeout: 60000 })
-        });
-        await timer(60000);
-        unbumpedNag = false;
+        bumpNag(message);
     }
 
     // author triggers.
