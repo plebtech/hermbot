@@ -211,7 +211,7 @@ client.on('message', message => {
                 info = info + "\nbumpNag running: " + unbumpedNag;
                 info = info + "\nquery in timeout: " + bumpQueryTimeout;
                 info = info + "\n\`\`\`";
-                message.send(info)
+                message.channel.send(info)
                 .then(msg => {
                     msg.delete({ timeout: 30000 })
                 });
