@@ -17,7 +17,7 @@ const bump = require('./bump.js');
 
 // variable to hold the channel id for #general.
 let general;
-// variable to track whether disboard bump timer running.
+// variables to track disboard bump status.
 let disboardBumpRunning = false;
 let disboardSecondaryCatch = false;
 let disboardCountingDown = false;
@@ -202,6 +202,7 @@ client.on('message', message => {
                 bump4 = false;
                 break;
             case 'status':
+                message.delete({ timeout: 50 });
                 let info = "\`\`\`";
                 info = info + "\nbumpAlert running: " + disboardBumpRunning;
                 info = info + "\nsecondary catch running: " + disboardSecondaryCatch;
@@ -210,7 +211,10 @@ client.on('message', message => {
                 info = info + "\nbumpNag running: " + unbumpedNag;
                 info = info + "\nquery in timeout: " + bumpQueryTimeout;
                 info = info + "\n\`\`\`";
-                secret.send(info);
+                message.send(info)
+                .then(msg => {
+                    msg.delete({ timeout: 30000 })
+                });
                 break;
             default:
             // do nothing.
