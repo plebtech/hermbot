@@ -15,8 +15,7 @@ const convert = require('./convert.js');
 const sup = require('./sup.js');
 const bump = require('./bump.js');
 
-// variable to hold the channel id for #general.
-let general;
+let general; // variable to hold the channel id for #general.
 // variables to track disboard bump status.
 let disboardBumpRunning = false;
 let disboardSecondaryCatch = false;
@@ -25,18 +24,15 @@ let disboardTimeToWait = 2;
 let bumpQueryTimeout = false;
 let unbumpedNag = false;
 
-// on ready.
-client.once('ready', () => {
+client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
     console.log('ready and running with prefix ' + prefix);
     secret.send('ready!');
 });
 
-// async function to time secondary catch for bump.
-const disboardCountDown = async () => {
-    // if timer has reached zero, alert to bump.
-    if (disboardTimeToWait === 0) {
+const disboardCountDown = async () => { // async function to time secondary catch for bump.
+    if (disboardTimeToWait === 0) { // if timer has reached zero, alert to bump.
         disboardSecondaryCatch = true;
         general.send('please type `!d bump`');
         return;
@@ -119,7 +115,7 @@ client.on('message', message => {
 
         case dId: // disboard.
             const dEmbed = message.embeds[0]; // shortcut for disboard embed.
-            if (dEmbed.thumbnail == null) { // checks case for successful bump (won't have a thumbnail).
+            if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
                 message.react("👍");
                 general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
                 bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
@@ -178,8 +174,7 @@ client.on('message', message => {
         }
     }
 
-    // match only admin sender.
-    if (message.author.id === hId) {
+    if (message.author.id === hId) { // match only admin sender.
 
         // if message is not prefixed for this bot or is sent by bot, ignore.
         if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -188,8 +183,9 @@ client.on('message', message => {
         const command = args.shift().toLowerCase();
 
         switch (command) {
+            // commands for controlling 4chan thread bump reminders.
             case '4store':
-                url4 = args[0];
+                url4 = args[0]; // stores a new url.
                 if (bump4 === true) {
                     startBump4();
                 }
