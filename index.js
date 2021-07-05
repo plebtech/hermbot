@@ -170,7 +170,7 @@ client.on('message', message => {
     const startBump4 = async () => {
         bump4 = true;
         while (bump4 === true) {
-            general.send("please bump the 4chan thread at + \`" + url4 + "\`.");
+            general.send("please bump the 4chan thread at:\n" + url4);
             await timer(7200000);
         }
     }
