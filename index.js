@@ -206,6 +206,7 @@ client.on('message', message => {
                 info = info + "\ndisboard time to wait: " + disboardTimeToWait;
                 info = info + "\nbumpNag running: " + unbumpedNag;
                 info = info + "\nquery in timeout: " + bumpQueryTimeout;
+                info = info + "\ncurrent 4chan thread: " + url4;
                 info = info + "\n\`\`\`";
                 message.channel.send(info)
                 .then(msg => {
