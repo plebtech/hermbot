@@ -24,6 +24,10 @@ let disboardTimeToWait = 2;
 let bumpQueryTimeout = false;
 let unbumpedNag = false;
 
+// variable to hold 4chan thread url.
+let url4;
+let bump4 = false;
+
 client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
@@ -162,9 +166,6 @@ client.on('message', message => {
         } catch { };
     }
 
-    // variable to hold 4chan thread url.
-    let url4;
-    let bump4 = false;
     // bump reminder every two hours.
     const startBump4 = async () => {
         bump4 = true;
