@@ -155,6 +155,14 @@ client.on('message', message => {
                             message.react("🇧"))));
             } catch { };
             break;
+        // nadeko.
+        case '116275390695079945':
+            try {
+                if (message.content.includes("preventing this action.")) {
+                    message.delete({ timeout: 5000 });
+                }
+            } catch { };
+            break;
         default:
         // do nothing.
     }
