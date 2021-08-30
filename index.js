@@ -67,7 +67,10 @@ const bumpAlertCountdown = async () => {
 const bumpQuery = async (message) => {
     bumpQueryTimeout = true;
     if (disboardTimeToWait <= 0) {
-        message.channel.send("we can bump again now! please type `!d bump`");
+        message.channel.send("we can bump again now! please type `!d bump`")
+            .then(msg => {
+                msg.delete({ timeout: 60000 })
+            });
     } else {
         message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
             .then(msg => {
@@ -124,7 +127,10 @@ client.on('message', message => {
             const dEmbed = message.embeds[0]; // shortcut for disboard embed.
             if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
                 message.react("👍");
-                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.");
+                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.")
+                    .then(msg => {
+                        msg.delete({ timeout: 10000 })
+                    });
                 bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
                 disboardBumpRunning = true;
                 disboardCountingDown = true;
