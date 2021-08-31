@@ -11,7 +11,7 @@ const hotlineWatch = async (message) => {
         (message.author.id === '261942742525935628')))) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReply('the national suicide prevention lifeline is: \`1-900-273-8255\`');
+        message.lineReply('the national suicide prevention lifeline is: \`1-800-273-8255\`');
         await timer(300000);
         timeout = false;
     }
