@@ -14,6 +14,7 @@ const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
 const bump = require('./bump.js');
+const hotline = require('./hotline.js');
 
 let general; // variable to hold the channel id for #general.
 // variables to track disboard bump status.
@@ -111,6 +112,8 @@ client.on('message', message => {
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
+    // watch for a differnt message.
+    hotline.hotlineWatch(message);
 
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
