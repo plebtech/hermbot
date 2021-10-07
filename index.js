@@ -152,9 +152,9 @@ client.on('message', message => {
             message.react("💩");
             break;
         // buggy.
-        case '814470461962059777':
-            message.react("😋");
-            break;
+        // case '814470461962059777':
+        //     message.react("😋");
+        //     break;
         // shortqueen.
         case '771506580109131817':
             try {
