@@ -14,6 +14,7 @@ const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
 const bump = require('./bump.js');
+const chan = require('./chan.js');
 const hotline = require('./hotline.js');
 
 let general; // variable to hold the channel id for #general.
@@ -187,13 +188,10 @@ client.on('message', message => {
     }
 
     // bump reminder every two hours.
-    const startBump4 = async () => {
+    const startBump4 = async (message) => {
         bump4 = true;
         while (bump4 === true) {
-            general.send("please bump the 4chan thread at:\n" + url4)
-            .then(msg => {
-                msg.delete({ timeout: 300000 })
-            });
+            chan.chanAlert(general, url4);
             await timer(7200000);
         }
     }
