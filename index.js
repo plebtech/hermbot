@@ -104,6 +104,8 @@ client.on('message', message => {
         }
     } else if (message.content.startsWith('!d ')) {
         message.delete({ timeout: 5000 });
+    } else if (message.content.toLowerCase().includes('wiki/nae_nae')) {
+        message.delete({ timeout: 250 });
     }
 
     // watch for query on bumping.
