@@ -288,8 +288,8 @@ client.on('message', message => {
             message.delete({ timeout: 50 });
             message.channel.send(content);
 
+        }
     }
-
 });
 
 client.login(token);
