@@ -196,7 +196,8 @@ client.on('message', message => {
         }
     }
 
-    if (message.author.id === hId) { // match only admin sender.
+
+    if ((message.author.id === hId) || (message.author.id === '815058660438179862')) { // match only admin sender.
 
         // if message is not prefixed for this bot or is sent by bot, ignore.
         if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -268,9 +269,25 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete({ timeout: 100 });
+            message.delete({ timeout: 50 });
             message.channel.send(content);
         }
+    } else if (message.author.id === '855452323555311626') { // match floor.
+
+        // if message is not prefixed for this bot or is sent by bot, ignore.
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        const args = message.content.slice(prefix.length).trim().split(' ');
+        if (args[0].length === 0) message.channel.send('\`please input a command.\`');
+        const command = args.shift().toLowerCase();
+
+        if (command === 'say') {
+            let content = '';
+            for (i = 0; i < args.length; i++) {
+                content = content + args[i] + ' ';
+            }
+            message.delete({ timeout: 50 });
+            message.channel.send(content);
+
     }
 
 });
