@@ -14,7 +14,7 @@ const eightyFourWatch = async (message) => {
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
-        await timer(eightyFourDelay);
+        await timer(300000);
         timeout = false;
     }
     if (message.content.toLowerCase().includes('1984') ||
