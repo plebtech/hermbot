@@ -13,6 +13,7 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
+const eightyFour = require('./eightyFour.js');
 const bump = require('./bump.js');
 const chan = require('./chan.js');
 const hotline = require('./hotline.js');
@@ -115,8 +116,10 @@ client.on('message', message => {
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
-    // watch for a differnt message.
+    // watch for a different message.
     hotline.hotlineWatch(message);
+    // watch for a different message.
+    eightyFour.eightyFourWatch(message);
 
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
@@ -131,27 +134,29 @@ client.on('message', message => {
 
         case dId: // disboard.
             const dEmbed = message.embeds[0]; // shortcut for disboard embed.
-            if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
-                message.react("👍");
-                general.send("disboard bumped successfully! I'll remind you to bump again in two hours.")
-                    .then(msg => {
-                        msg.delete({ timeout: 10000 })
-                    });
-                bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                disboardBumpRunning = true;
-                disboardCountingDown = true;
-                disboardSecondaryCatch = false;
-                disboardTimeToWait = 120;
-                message.delete({ timeout: 360000 }); // delete message after five minutes.
-                bumpAlertCountdown();
-            } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
-                message.react("👎");
-                message.delete({ timeout: 5000 }); // delete message after five seconds.
-                const numbers = dEmbed.description.match(/\d+/g).map(Number); // parse time til bump from embed description.
-                disboardTimeToWait = numbers[1];
-            } else {
-                message.delete({ timeout: 5000 });
-            };
+            try {
+                if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
+                    message.react("👍");
+                    general.send("disboard bumped successfully! I'll remind you to bump again in two hours.")
+                        .then(msg => {
+                            msg.delete({ timeout: 10000 })
+                        });
+                    bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
+                    disboardBumpRunning = true;
+                    disboardCountingDown = true;
+                    disboardSecondaryCatch = false;
+                    disboardTimeToWait = 120;
+                    message.delete({ timeout: 360000 }); // delete message after five minutes.
+                    bumpAlertCountdown();
+                } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
+                    message.react("👎");
+                    message.delete({ timeout: 5000 }); // delete message after five seconds.
+                    const numbers = dEmbed.description.match(/\d+/g).map(Number); // parse time til bump from embed description.
+                    disboardTimeToWait = numbers[1];
+                } else {
+                    message.delete({ timeout: 5000 });
+                };
+            } catch { };
             message.react("💩");
             break;
         // buggy.
