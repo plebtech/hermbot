@@ -8,7 +8,7 @@ let timeout = false;
 const eightyFourWatch = async (message) => {
     if (
         (timeout === false) &&
-        !(message.author.id === '781617008311664651') &&
+        (message.author.id !== '781617008311664651') &&
         (
             message.content.toLowerCase().includes('1984') ||
             message.content.toLowerCase().includes('orwell')
@@ -30,7 +30,7 @@ const eightyFourWatch = async (message) => {
         timeout = false;
     }
     if (
-        !(message.author.id === '781617008311664651') &&
+        (message.author.id !== '781617008311664651') &&
         (
             message.content.toLowerCase().includes('1984') ||
             message.content.toLowerCase().includes('nineteen eighty four') ||
