@@ -8,7 +8,10 @@ let timeout = false;
 const eightyFourWatch = async (message) => {
     if (
         (timeout === false) &&
-        message.content.toLowerCase().includes('1984')
+        (
+            message.content.toLowerCase().includes('1984') ||
+            message.content.toLowerCase().includes('orwell')
+        )
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
