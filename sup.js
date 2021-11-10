@@ -6,7 +6,10 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 let timeout = false;
 
 const supWatch = async (message) => {
-    if (message.content === ('sup') && (timeout === false)) {
+    if (
+        message.content === ('sup') &&
+        (timeout === false)
+    ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
         message.lineReplyNoMention('nm u')
