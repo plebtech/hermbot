@@ -12,9 +12,8 @@ const hotlineWatch = async (message) => {
             (message.author.id === '261942742525935628') ||
             message.content.toLowerCase().includes('kys') ||
             message.content.toLowerCase().includes('kms') ||
-            message.content.toLowerCase().includes('kill myself') ||
-            message.content.toLowerCase().includes('kill yourself') ||
-            message.content.toLowerCase().includes('kill urself')
+            (message.content.toLowerCase().includes('kill') &&
+            message.content.toLowerCase().includes('self'))
         )
     ) {
         timeout = true;
