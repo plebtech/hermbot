@@ -39,7 +39,7 @@ client.once('ready', () => { // on ready.
 });
 
 const disboardCountDown = async () => { // async function to time secondary catch for bump.
-    if (disboardTimeToWait === 0) { // if timer has reached zero, alert to bump.
+    if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
         disboardSecondaryCatch = true;
         general.send('please type `!d bump`')
             .then(msg => {
@@ -125,7 +125,7 @@ client.on('message', message => {
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
         disboardCountDown();
-    } else if ((disboardTimeToWait === 0) && (unbumpedNag === false) && !(message.author.bot)) {
+    } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
         bumpNag(message);
     }
 
@@ -237,6 +237,7 @@ client.on('message', message => {
                 info = info + "\nbumpNag running: " + unbumpedNag;
                 info = info + "\nquery in timeout: " + bumpQueryTimeout;
                 info = info + "\ncurrent 4chan thread: " + url4;
+                info = info + "\n4chan bump timeout: " + bump4;
                 info = info + "\n\`\`\`";
                 message.channel.send(info)
                     .then(msg => {
