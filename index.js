@@ -41,10 +41,11 @@ client.once('ready', () => { // on ready.
 const disboardCountDown = async () => { // async function to time secondary catch for bump.
     if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
         disboardSecondaryCatch = true;
-        general.send('please type `!d bump`')
+        general.send('please type `/bump`')
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
+        disboardTimeToWait = 120;
         return;
     } else { // count down the time to wait every minute.
         while (disboardTimeToWait > 0) {
@@ -88,7 +89,7 @@ const bumpNag = async (message) => {
     unbumpedNag = true;
     general.send('please type `!d bump`')
         .then(msg => {
-            msg.delete({ timeout: 60000 })
+            msg.delete({ timeout: 300000 })
         });
     await timer(60000);
     unbumpedNag = false;
