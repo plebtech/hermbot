@@ -45,7 +45,6 @@ const disboardCountDown = async () => { // async function to time secondary catc
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
-        disboardTimeToWait = 120;
         return;
     } else { // count down the time to wait every minute.
         while (disboardTimeToWait > 0) {
@@ -71,7 +70,7 @@ const bumpAlertCountdown = async () => {
 const bumpQuery = async (message) => {
     bumpQueryTimeout = true;
     if (disboardTimeToWait <= 0) {
-        message.channel.send("we can bump again now! please type `!d bump`")
+        message.channel.send("we can bump again now! please type `/ump`")
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
@@ -87,9 +86,9 @@ const bumpQuery = async (message) => {
 
 const bumpNag = async (message) => {
     unbumpedNag = true;
-    general.send('please type `!d bump`')
+    general.send('please type `/bump`')
         .then(msg => {
-            msg.delete({ timeout: 300000 })
+            msg.delete({ timeout: 60000 })
         });
     await timer(60000);
     unbumpedNag = false;
