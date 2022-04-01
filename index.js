@@ -70,7 +70,7 @@ const bumpAlertCountdown = async () => {
 const bumpQuery = async (message) => {
     bumpQueryTimeout = true;
     if (disboardTimeToWait <= 0) {
-        message.channel.send("we can bump again now! please type `/ump`")
+        message.channel.send("we can bump again now! please type `/bump`")
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
