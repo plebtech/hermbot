@@ -225,6 +225,9 @@ client.on('message', message => {
         const command = args.shift().toLowerCase();
 
         switch (command) {
+
+            case 'dwait':
+                disboardTimeToWait = parseInt(args[0]);
             // commands for controlling 4chan thread bump reminders.
             case '4store':
                 url4 = args[0]; // stores a new url.
