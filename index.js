@@ -230,7 +230,9 @@ client.on('message', message => {
         switch (command) {
 
             case 'dwait':
+                message.delete({ timeout: 50 });
                 disboardTimeToWait = parseInt(args[0]);
+                
             // commands for controlling 4chan thread bump reminders.
             case '4store':
                 url4 = args[0]; // stores a new url.
