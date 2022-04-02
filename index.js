@@ -14,9 +14,9 @@ const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
 const eightyFour = require('./eightyFour.js');
-const bump = require('./bump.js');
 const chan = require('./chan.js');
 const hotline = require('./hotline.js');
+const bump = require('./bump.js');
 
 let general; // variable to hold the channel id for #general.
 // variables to track disboard bump status.
@@ -86,10 +86,10 @@ const bumpQuery = async (message) => {
 
 const bumpNag = async (message) => {
     unbumpedNag = true;
-    // general.send('please type `/bump`')
-    //     .then(msg => {
-    //         msg.delete({ timeout: 60000 })
-    //     });
+    secret.send('please type `/bump`')
+        .then(msg => {
+            msg.delete({ timeout: 60000 })
+        });
     await timer(60000);
     unbumpedNag = false;
 }
@@ -132,6 +132,17 @@ client.on('message', message => {
     // author triggers.
     switch (message.author.id) {
 
+        // bump reminder bot.
+        case '735147814878969968':
+            try {
+                if (message.content.includes("hey let's bump!")) {
+                    bumpNag(message);
+                }
+            } catch { };
+            message.delete({ timeout: 3000 });
+            message.react("💩");
+            break;
+
         case dId: // disboard.
             const dEmbed = message.embeds[0]; // shortcut for disboard embed.
             try {
@@ -159,6 +170,7 @@ client.on('message', message => {
             } catch { };
             message.react("💩");
             break;
+
         // buggy.
         // case '814470461962059777':
         //     message.react("😋");
