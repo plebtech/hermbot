@@ -232,6 +232,7 @@ client.on('message', message => {
             case 'dwait':
                 message.delete({ timeout: 50 });
                 disboardTimeToWait = parseInt(args[0]);
+                break;
                 
             // commands for controlling 4chan thread bump reminders.
             case '4store':
