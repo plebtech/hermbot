@@ -86,7 +86,7 @@ const bumpQuery = async (message) => {
 
 const bumpNag = async (message) => {
     unbumpedNag = true;
-    secret.send('please type `/bump`')
+    general.send('please type `/bump`')
         .then(msg => {
             msg.delete({ timeout: 60000 })
         });
