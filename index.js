@@ -39,7 +39,11 @@ client.once('ready', () => { // on ready.
 });
 
 const disboardCountDown = async () => { // async function to time secondary catch for bump.
-    if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
+    if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
+        disboardSecondaryCatch = false;
+        return;
+    }
+    else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
         disboardSecondaryCatch = true;
         general.send('please type `/bump`')
             .then(msg => {
@@ -56,6 +60,7 @@ const disboardCountDown = async () => { // async function to time secondary catc
                 .then(disboardTimeToWait--);
         }
         disboardSecondaryCatch = false;
+        return;
     }
 }
 
@@ -63,10 +68,11 @@ const disboardCountDown = async () => { // async function to time secondary catc
 const bumpAlertCountdown = async () => {
     while (disboardTimeToWait > 0) {
         disboardCountingDown = true;
-        await timer(60000);
-        disboardTimeToWait--;
+        await timer(60000)
+            .then(disboardTimeToWait--);
     }
     disboardCountingDown = false;
+    return;
 }
 
 // method to query current wait on bump timer.
@@ -233,7 +239,7 @@ client.on('message', message => {
                 message.delete({ timeout: 50 });
                 disboardTimeToWait = parseInt(args[0]);
                 break;
-                
+
             // commands for controlling 4chan thread bump reminders.
             case '4store':
                 url4 = args[0]; // stores a new url.
