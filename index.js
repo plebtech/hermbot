@@ -165,7 +165,7 @@ client.on('message', message => {
                     disboardBumpRunning = true;
                     disboardCountingDown = true;
                     disboardSecondaryCatch = false;
-                    disboardTimeToWait = 120;
+                    disboardTimeToWait = 121;
                     message.delete({ timeout: 360000 }); // delete message after five minutes.
                     bumpAlertCountdown();
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
