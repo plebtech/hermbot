@@ -60,7 +60,8 @@ const disboardCountDown = async () => { // async function to time secondary catc
                 .then(() => {
                     disboardTimeToWait--;
                     secret.send('decrementing, time left: ' + disboardTimeToWait);
-                });
+                })
+                .catch();
         }
         disboardSecondaryCatch = false;
         return;
@@ -75,7 +76,8 @@ const bumpAlertCountdown = async () => {
             .then(() => {
                 disboardTimeToWait--;
                 secret.send('decrementing, time left: ' + disboardTimeToWait);
-            });
+            })
+            .catch();
         disboardCountingDown = false;
         return;
     }
