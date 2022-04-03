@@ -244,6 +244,7 @@ client.on('message', message => {
             case 'dwait':
                 message.delete({ timeout: 50 });
                 disboardTimeToWait = parseInt(args[0]);
+                secret.send("new disboard bump time: " + disboardTimeToWait);
                 break;
 
             // commands for controlling 4chan thread bump reminders.
