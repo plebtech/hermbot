@@ -76,9 +76,9 @@ const bumpAlertCountdown = async () => {
                 disboardTimeToWait--;
                 secret.send('decrementing, time left: ' + disboardTimeToWait);
             });
-        disboardCountingDown = false;
-        return;
     }
+    disboardCountingDown = false;
+    return;
 }
 
 // method to query current wait on bump timer.
