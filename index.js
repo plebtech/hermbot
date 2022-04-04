@@ -120,8 +120,8 @@ const bumpNag = async (message) => {
     unbumpedNag = false;
 }
 
-const errCatch = () => {
-    secret.send("something bad happened.");
+const errCatch = (error) => {
+    secret.send("```" + error + "```");
 }
 
 client.on('message', message => {
@@ -141,7 +141,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery(message).catch(errCatch());
+        bumpQuery(message).catch(errCatch(error));
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -154,9 +154,9 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        disboardCountDown().catch(errCatch());
+        disboardCountDown().catch(errCatch(error));
     } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
-        bumpNag(message).catch(errCatch());
+        bumpNag(message).catch(errCatch(error));
     }
 
     // author triggers.
@@ -166,7 +166,7 @@ client.on('message', message => {
         case '735147814878969968':
             try {
                 if (message.content.includes("hey let's bump!")) {
-                    bumpNag(message).catch(errCatch());
+                    bumpNag(message).catch(errCatch(error));
                 }
             } catch { };
             message.delete({ timeout: 3000 });
@@ -184,7 +184,7 @@ client.on('message', message => {
                             msg.delete({ timeout: 10000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    bumpAlertCountdown().catch(errCatch());
+                    bumpAlertCountdown().catch(errCatch(error));
                     message.delete({ timeout: 360000 }); // delete message after five minutes.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
@@ -262,12 +262,12 @@ client.on('message', message => {
             case '4store':
                 url4 = args[0]; // stores a new url.
                 if (bump4 === true) {
-                    startBump4().catch(errCatch());
+                    startBump4().catch(errCatch(error));
                 }
                 break;
             case '4start':
                 bump4 = true;
-                startBump4().catch(errCatch());
+                startBump4().catch(errCatch(error));
                 break;
             case '4stop':
                 bump4 = false;
