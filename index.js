@@ -42,8 +42,7 @@ const disboardCountDown = async () => { // async function to time secondary catc
     if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
         disboardSecondaryCatch = false;
         return;
-    }
-    else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
+    } else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
         disboardSecondaryCatch = true;
         general.send('please type `/bump`')
             .then(msg => {
@@ -52,6 +51,10 @@ const disboardCountDown = async () => { // async function to time secondary catc
         return;
     } else { // count down the time to wait every minute.
         while (disboardTimeToWait > 0) {
+            if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
+                disboardSecondaryCatch = false;
+                return;
+            }
             secret.send('time to next bump alert: ' + disboardTimeToWait)
                 .then(msg => {
                     msg.delete({ timeout: 60000 })
@@ -59,7 +62,7 @@ const disboardCountDown = async () => { // async function to time secondary catc
             await timer(60000)
                 .then(() => {
                     disboardTimeToWait--;
-                    secret.send('decrementing, time left: ' + disboardTimeToWait);
+                    secret.send('`secondary` decrementing, time left: ' + disboardTimeToWait);
                 });
         }
         disboardSecondaryCatch = false;
@@ -74,7 +77,7 @@ const bumpAlertCountdown = async () => {
         await timer(60000)
             .then(() => {
                 disboardTimeToWait--;
-                secret.send('decrementing, time left: ' + disboardTimeToWait);
+                secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
             });
     }
     disboardCountingDown = false;
