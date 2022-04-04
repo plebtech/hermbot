@@ -39,85 +39,93 @@ client.once('ready', () => { // on ready.
 });
 
 const disboardCountDown = async () => { // async function to time secondary catch for bump.
-    if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
-        disboardSecondaryCatch = false;
-        return;
-    } else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
-        disboardSecondaryCatch = true;
-        general.send('please type `/bump`')
-            .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
-        return;
-    } else { // count down the time to wait every minute.
-        while (disboardTimeToWait > 0) {
-            if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
-                disboardSecondaryCatch = false;
-                return;
-            }
-            secret.send('time to next bump alert: ' + disboardTimeToWait)
+    try {
+        if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
+            disboardSecondaryCatch = false;
+            return;
+        } else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
+            disboardSecondaryCatch = true;
+            general.send('please type `/bump`')
                 .then(msg => {
                     msg.delete({ timeout: 60000 })
                 });
-            await timer(60000)
-                .then(() => {
-                    disboardTimeToWait--;
-                    secret.send('`secondary` decrementing, time left: ' + disboardTimeToWait);
-                });
+            return;
+        } else { // count down the time to wait every minute.
+            while (disboardTimeToWait > 0) {
+                if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
+                    disboardSecondaryCatch = false;
+                    return;
+                }
+                secret.send('time to next bump alert: ' + disboardTimeToWait)
+                    .then(msg => {
+                        msg.delete({ timeout: 60000 })
+                    });
+                await timer(60000)
+                    .then(() => {
+                        disboardTimeToWait--;
+                        secret.send('`secondary` decrementing, time left: ' + disboardTimeToWait);
+                    });
+            }
+            disboardSecondaryCatch = false;
+            return;
         }
-        disboardSecondaryCatch = false;
-        return;
-    }
+    } catch { errCatch(err) }
 }
 
 // method to decrement the bump timer every minute.
 const bumpAlertCountdown = async () => {
-    if ((disboardBumpRunning === true) || (disboardCountingDown === true)) { // check if already running.
-        disboardSecondaryCatch = false;
-        return;
-    } else {
-        disboardTimeToWait = 120;
-        disboardBumpRunning = true;
-        disboardSecondaryCatch = false;
-        while (disboardTimeToWait > 0) { // if not running, run.
-            disboardCountingDown = true;
-            await timer(60000)
-                .then(() => {
-                    disboardTimeToWait--;
-                    secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
-                });
+    try {
+        if ((disboardBumpRunning === true) || (disboardCountingDown === true)) { // check if already running.
+            disboardSecondaryCatch = false;
+            return;
+        } else {
+            disboardTimeToWait = 120;
+            disboardBumpRunning = true;
+            disboardSecondaryCatch = false;
+            while (disboardTimeToWait > 0) { // if not running, run.
+                disboardCountingDown = true;
+                await timer(60000)
+                    .then(() => {
+                        disboardTimeToWait--;
+                        secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
+                    });
+            }
+            disboardCountingDown = false;
+            return;
         }
-        disboardCountingDown = false;
-        return;
-    }
+    } catch { errCatch(err) }
 }
 
 // method to query current wait on bump timer.
 const bumpQuery = async (message) => {
-    bumpQueryTimeout = true;
-    if (disboardTimeToWait <= 0) {
-        message.channel.send("we can bump again now! please type `/bump`")
-            .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
-    } else {
-        message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
-            .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
-    };
-    await timer(60000);
-    bumpQueryTimeout = false;
+    try {
+        bumpQueryTimeout = true;
+        if (disboardTimeToWait <= 0) {
+            message.channel.send("we can bump again now! please type `/bump`")
+                .then(msg => {
+                    msg.delete({ timeout: 60000 })
+                });
+        } else {
+            message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
+                .then(msg => {
+                    msg.delete({ timeout: 60000 })
+                });
+        };
+        await timer(60000);
+        bumpQueryTimeout = false;
+    } catch { errCatch(err) }
 }
 
 const bumpNag = async (message) => {
-    unbumpedNag = true;
-    general.send('please type `/bump`')
-        .then(msg => {
-            msg.delete({ timeout: 60000 })
-        });
-    await timer(60000);
-    unbumpedNag = false;
+    try {
+        unbumpedNag = true;
+        general.send('please type `/bump`')
+            .then(msg => {
+                msg.delete({ timeout: 60000 })
+            });
+        await timer(60000);
+        unbumpedNag = false;
+    } catch { errCatch(err) }
 }
 
 const errCatch = (error) => {
@@ -141,7 +149,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery(message).catch(errCatch(err));
+        bumpQuery(message);
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -154,9 +162,9 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        disboardCountDown().catch(errCatch(err));
+        disboardCountDown();
     } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
-        bumpNag(message).catch(errCatch(err));
+        bumpNag(message);
     }
 
     // author triggers.
@@ -166,7 +174,7 @@ client.on('message', message => {
         case '735147814878969968':
             try {
                 if (message.content.includes("hey let's bump!")) {
-                    bumpNag(message).catch(errCatch(err));
+                    bumpNag(message);
                 }
             } catch { };
             message.delete({ timeout: 3000 });
@@ -184,7 +192,7 @@ client.on('message', message => {
                             msg.delete({ timeout: 10000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    bumpAlertCountdown().catch(errCatch(err));
+                    bumpAlertCountdown();
                     message.delete({ timeout: 360000 }); // delete message after five minutes.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
@@ -235,11 +243,13 @@ client.on('message', message => {
 
     // bump reminder every two hours.
     const startBump4 = async (message) => {
-        bump4 = true;
-        while (bump4 === true) {
-            chan.chanAlert(general, url4);
-            await timer(7200000);
-        }
+        try {
+            bump4 = true;
+            while (bump4 === true) {
+                chan.chanAlert(general, url4);
+                await timer(7200000);
+            }
+        } catch { errCatch(err) }
     }
 
     if ((message.author.id === hId) || (message.author.id === '815058660438179862')) { // match only admin sender.
@@ -262,12 +272,12 @@ client.on('message', message => {
             case '4store':
                 url4 = args[0]; // stores a new url.
                 if (bump4 === true) {
-                    startBump4().catch(errCatch(err));
+                    startBump4();
                 }
                 break;
             case '4start':
                 bump4 = true;
-                startBump4().catch(errCatch(err));
+                startBump4();
                 break;
             case '4stop':
                 bump4 = false;
