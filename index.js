@@ -72,22 +72,24 @@ const disboardCountDown = async () => { // async function to time secondary catc
 
 // method to decrement the bump timer every minute.
 const bumpAlertCountdown = async () => {
-    if (disboardBumpRunning === true) { // check if already running.
+    if ((disboardBumpRunning === true) || (disboardCountingDown === true)) { // check if already running.
+        disboardSecondaryCatch = false;
+        return;
+    } else {
+        disboardTimeToWait = 120;
+        disboardBumpRunning = true;
+        disboardSecondaryCatch = false;
+        while (disboardTimeToWait > 0) { // if not running, run.
+            disboardCountingDown = true;
+            await timer(60000)
+                .then(() => {
+                    disboardTimeToWait--;
+                    secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
+                });
+        }
+        disboardCountingDown = false;
         return;
     }
-    disboardTimeToWait = 120;
-    disboardBumpRunning = true;
-    disboardSecondaryCatch = false;
-    while (disboardTimeToWait > 0) { // if not running, run.
-        disboardCountingDown = true;
-        await timer(60000)
-            .then(() => {
-                disboardTimeToWait--;
-                secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
-            });
-    }
-    disboardCountingDown = false;
-    return;
 }
 
 // method to query current wait on bump timer.
@@ -135,7 +137,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery(message);
+        bumpQuery(message).catch(errCatch());
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -148,9 +150,9 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        disboardCountDown();
+        disboardCountDown().catch(errCatch());
     } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
-        bumpNag(message);
+        bumpNag(message).catch(errCatch());
     }
 
     // author triggers.
@@ -160,7 +162,7 @@ client.on('message', message => {
         case '735147814878969968':
             try {
                 if (message.content.includes("hey let's bump!")) {
-                    bumpNag(message);
+                    bumpNag(message).catch(errCatch());
                 }
             } catch { };
             message.delete({ timeout: 3000 });
@@ -172,15 +174,14 @@ client.on('message', message => {
             try {
                 if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
                     message.react("👍");
+                    secret.send("disboard bumped.");
                     general.send("disboard bumped successfully! I'll remind you to bump again in two hours.")
                         .then(msg => {
                             msg.delete({ timeout: 10000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    bumpAlertCountdown();
-                    
+                    bumpAlertCountdown().catch(errCatch());
                     message.delete({ timeout: 360000 }); // delete message after five minutes.
-                    
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
                     message.delete({ timeout: 5000 }); // delete message after five seconds.
@@ -237,6 +238,10 @@ client.on('message', message => {
         }
     }
 
+    const errCatch = () => {
+        secret.send("something bad happened.");
+    }
+
 
     if ((message.author.id === hId) || (message.author.id === '815058660438179862')) { // match only admin sender.
 
@@ -258,12 +263,12 @@ client.on('message', message => {
             case '4store':
                 url4 = args[0]; // stores a new url.
                 if (bump4 === true) {
-                    startBump4();
+                    startBump4().catch(errCatch());
                 }
                 break;
             case '4start':
                 bump4 = true;
-                startBump4();
+                startBump4().catch(errCatch());
                 break;
             case '4stop':
                 bump4 = false;
