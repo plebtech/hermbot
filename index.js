@@ -141,7 +141,7 @@ client.on('message', message => {
 
     // watch for query on bumping.
     if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery(message).catch(errCatch(error));
+        bumpQuery(message).catch(errCatch(err));
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -154,9 +154,9 @@ client.on('message', message => {
     // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
     if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
         disboardSecondaryCatch = true;
-        disboardCountDown().catch(errCatch(error));
+        disboardCountDown().catch(errCatch(err));
     } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
-        bumpNag(message).catch(errCatch(error));
+        bumpNag(message).catch(errCatch(err));
     }
 
     // author triggers.
@@ -166,7 +166,7 @@ client.on('message', message => {
         case '735147814878969968':
             try {
                 if (message.content.includes("hey let's bump!")) {
-                    bumpNag(message).catch(errCatch(error));
+                    bumpNag(message).catch(errCatch(err));
                 }
             } catch { };
             message.delete({ timeout: 3000 });
@@ -184,7 +184,7 @@ client.on('message', message => {
                             msg.delete({ timeout: 10000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    bumpAlertCountdown().catch(errCatch(error));
+                    bumpAlertCountdown().catch(errCatch(err));
                     message.delete({ timeout: 360000 }); // delete message after five minutes.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
@@ -262,12 +262,12 @@ client.on('message', message => {
             case '4store':
                 url4 = args[0]; // stores a new url.
                 if (bump4 === true) {
-                    startBump4().catch(errCatch(error));
+                    startBump4().catch(errCatch(err));
                 }
                 break;
             case '4start':
                 bump4 = true;
-                startBump4().catch(errCatch(error));
+                startBump4().catch(errCatch(err));
                 break;
             case '4stop':
                 bump4 = false;
