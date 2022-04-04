@@ -120,6 +120,10 @@ const bumpNag = async (message) => {
     unbumpedNag = false;
 }
 
+const errCatch = () => {
+    secret.send("something bad happened.");
+}
+
 client.on('message', message => {
 
     // watch for a specific message to delete.
@@ -237,11 +241,6 @@ client.on('message', message => {
             await timer(7200000);
         }
     }
-
-    const errCatch = () => {
-        secret.send("something bad happened.");
-    }
-
 
     if ((message.author.id === hId) || (message.author.id === '815058660438179862')) { // match only admin sender.
 
