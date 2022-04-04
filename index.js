@@ -72,7 +72,13 @@ const disboardCountDown = async () => { // async function to time secondary catc
 
 // method to decrement the bump timer every minute.
 const bumpAlertCountdown = async () => {
-    while (disboardTimeToWait > 0) {
+    if (disboardBumpRunning === true) { // check if already running.
+        return;
+    }
+    disboardTimeToWait = 120;
+    disboardBumpRunning = true;
+    disboardSecondaryCatch = false;
+    while (disboardTimeToWait > 0) { // if not running, run.
         disboardCountingDown = true;
         await timer(60000)
             .then(() => {
@@ -171,12 +177,10 @@ client.on('message', message => {
                             msg.delete({ timeout: 10000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    disboardBumpRunning = true;
-                    disboardCountingDown = true;
-                    disboardSecondaryCatch = false;
-                    disboardTimeToWait = 121;
-                    message.delete({ timeout: 360000 }); // delete message after five minutes.
                     bumpAlertCountdown();
+                    
+                    message.delete({ timeout: 360000 }); // delete message after five minutes.
+                    
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
                     message.delete({ timeout: 5000 }); // delete message after five seconds.
