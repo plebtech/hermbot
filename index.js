@@ -63,17 +63,24 @@ const dCountdown = async (timer) => {
     } catch (err) { errCatch(err) };
 }
 
+const bumpCheck = async () => {
+    try {
+        if (nagged || (bumpWait > 0)) {
+            return;
+        } else {
+            nagged = true;
+            // general.send('please type `/bump`').then(msg => { msg.delete({ timeout: 60000 }) });
+            secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => { msg.delete({ timeout: 7200000 }) });
+            await timer(60000);
+            nagged = false;
+        }
+        return;
+    } catch (err) { errCatch(err) };
+}
+
 client.on('message', message => {
 
-    if (nagged || (bumpWait > 0)) {
-        return;
-    } else {
-        nagged = true;
-        // general.send('please type `/bump`').then(msg => { msg.delete({ timeout: 60000 }) });
-        secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => { msg.delete({ timeout: 7200000 }) });
-        await timer(60000);
-        nagged = false;
-    }
+    bumpCheck();
 
     // delete server advertisements.
     if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
