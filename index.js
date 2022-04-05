@@ -19,13 +19,9 @@ const hotline = require('./hotline.js');
 const bump = require('./bump.js');
 
 let general; // variable to hold the channel id for #general.
-// variables to track disboard bump status.
-let disboardBumpRunning = false;
-let disboardSecondaryCatch = false;
-let disboardCountingDown = false;
-let disboardTimeToWait = 2;
-let bumpQueryTimeout = false;
-let unbumpedNag = false;
+
+// variables for tracking/controlling disboard bump.
+let unbumped = false;
 
 // variable to hold 4chan thread url.
 let url4;
@@ -35,121 +31,31 @@ client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
     console.log('ready and running with prefix ' + prefix);
-    secret.send('ready!');
+    secret.send('ready!').then(msg => { msg.delete({ timeout: 7200000 }) });;
 });
 
-const disboardCountDown = async () => { // async function to time secondary catch for bump.
-    try {
-        if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
-            disboardSecondaryCatch = false;
-            return;
-        } else if (disboardTimeToWait <= 0) { // if timer has reached zero, alert to bump.
-            disboardSecondaryCatch = true;
-            general.send('please type `/bump`')
-                .then(msg => {
-                    msg.delete({ timeout: 60000 })
-                });
-            return;
-        } else { // count down the time to wait every minute.
-            while (disboardTimeToWait > 0) {
-                if (disboardBumpRunning === true) { // check if main bump running; if so return/exit to prevent double counting.
-                    disboardSecondaryCatch = false;
-                    return;
-                }
-                secret.send('time to next bump alert: ' + disboardTimeToWait)
-                    .then(msg => {
-                        msg.delete({ timeout: 60000 })
-                    });
-                await timer(60000)
-                    .then(() => {
-                        disboardTimeToWait--;
-                        secret.send('`secondary` decrementing, time left: ' + disboardTimeToWait);
-                    });
-            }
-            disboardSecondaryCatch = false;
-            return;
-        }
-    } catch { errCatch(err) }
-}
-
-// method to decrement the bump timer every minute.
-const bumpAlertCountdown = async () => {
-    try {
-        if ((disboardBumpRunning === true) || (disboardCountingDown === true)) { // check if already running.
-            disboardSecondaryCatch = false;
-            return;
-        } else {
-            disboardTimeToWait = 120;
-            disboardBumpRunning = true;
-            disboardSecondaryCatch = false;
-            while (disboardTimeToWait > 0) { // if not running, run.
-                disboardCountingDown = true;
-                await timer(60000)
-                    .then(() => {
-                        disboardTimeToWait--;
-                        secret.send('`primary` decrementing, time left: ' + disboardTimeToWait);
-                    });
-            }
-            disboardCountingDown = false;
-            return;
-        }
-    } catch { errCatch(err) }
-}
-
-// method to query current wait on bump timer.
-const bumpQuery = async (message) => {
-    try {
-        bumpQueryTimeout = true;
-        if (disboardTimeToWait <= 0) {
-            message.channel.send("we can bump again now! please type `/bump`")
-                .then(msg => {
-                    msg.delete({ timeout: 60000 })
-                });
-        } else {
-            message.channel.send("we can bump again in `" + disboardTimeToWait + " minutes`.")
-                .then(msg => {
-                    msg.delete({ timeout: 60000 })
-                });
-        };
-        await timer(60000);
-        bumpQueryTimeout = false;
-    } catch { errCatch(err) }
-}
-
-const bumpNag = async (message) => {
-    try {
-        unbumpedNag = true;
-        general.send('please type `/bump`')
-            .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
-        await timer(60000);
-        unbumpedNag = false;
-    } catch { errCatch(err) }
-}
-
-const errCatch = (error) => {
-    secret.send("```" + error + "```");
+// error logging.
+const errCatch = (err) => {
+    secret.send("```" + err + "```");
 }
 
 client.on('message', message => {
 
-    // watch for a specific message to delete.
+    // delete server advertisements.
     if (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/'))) {
         if (message.content.toLowerCase().includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
+            secret.send("deleted:");
+            secret.send("```");
+            secret.send(message);
+            secret.send("```");
             message.delete({ timeout: 50 });
         }
-    } else if (message.content.startsWith('!d ')) {
+    } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
         message.delete({ timeout: 5000 });
-    } else if (message.content.toLowerCase().includes('wiki/nae_nae')) {
+    } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
         message.delete({ timeout: 1500 });
-    }
-
-    // watch for query on bumping.
-    if ((!bumpQueryTimeout) && (message.content.toLowerCase().includes('when')) && (message.content.toLowerCase().includes('bump'))) {
-        bumpQuery(message);
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -159,25 +65,19 @@ client.on('message', message => {
     // watch for a different message.
     eightyFour.eightyFourWatch(message);
 
-    // if bumpAlert isn't running and this secondary catch hasn't engaged, engage it.
-    if ((disboardBumpRunning === false) && (disboardSecondaryCatch === false)) {
-        disboardSecondaryCatch = true;
-        disboardCountDown();
-    } else if ((disboardTimeToWait <= 0) && (unbumpedNag === false) && !(message.author.bot)) {
-        bumpNag(message);
-    }
-
     // author triggers.
     switch (message.author.id) {
 
-        // bump reminder bot.
-        case '735147814878969968':
+        case '735147814878969968': // bump reminder bot.
             try {
-                if (message.content.includes("hey let's bump!")) {
-                    bumpNag(message);
+                if (message.content.includes("hey let's bump!")) { // if bot is telling to bump.
+                    // bumpNag(message);
+                    secret.send("bump reminder reminded.").then(msg => { msg.delete({ timeout: 7200000 }) });
+                    unbumped = true;
+                    secret.send("unbumped variable status: `" + unbumped + "`").then(msg => { msg.delete({ timeout: 7200000 }) });
                 }
-            } catch { };
-            message.delete({ timeout: 3000 });
+            } catch (err) { errCatch(err) };
+            message.delete({ timeout: 7200000 });
             message.react("💩");
             break;
 
@@ -189,46 +89,39 @@ client.on('message', message => {
                     secret.send("disboard bumped.");
                     general.send("disboard bumped successfully! I'll remind you to bump again in two hours.")
                         .then(msg => {
-                            msg.delete({ timeout: 10000 })
+                            msg.delete({ timeout: 7200000 })
                         });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    bumpAlertCountdown();
-                    message.delete({ timeout: 360000 }); // delete message after five minutes.
+                    message.delete({ timeout: 7200000 }); // delete message after five minutes.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
-                    message.delete({ timeout: 5000 }); // delete message after five seconds.
+                    message.delete({ timeout: 5000 });
                     const numbers = dEmbed.description.match(/\d+/g).map(Number); // parse time til bump from embed description.
                     disboardTimeToWait = numbers[1];
                 } else {
                     message.delete({ timeout: 5000 });
                 };
-            } catch { };
+            } catch (err) { errCatch(err) };
             message.react("💩");
             break;
 
-        // buggy.
-        // case '814470461962059777':
-        //     message.react("😋");
-        //     break;
-        // shortqueen.
-        case '771506580109131817':
+        case '771506580109131817': // shortqueen.
             try {
                 message.react("🇩").then(() =>
                     message.react("🇺").then(() =>
                         message.react("🇲").then(() =>
                             message.react("🇧"))));
-            } catch { };
+            } catch (err) { errCatch(err) };
             break;
-        // nadeko.
-        case '116275390695079945':
+
+        case '116275390695079945': // nadeko.
             try {
                 if (message.embeds[0].description.includes("preventing this action.")) {
                     message.delete({ timeout: 5000 });
                 }
-            } catch { };
+            } catch (err) { errCatch(err) };
             break;
-        default:
-        // do nothing.
+        default: // do nothing.
     }
 
     // content triggers.
@@ -238,10 +131,10 @@ client.on('message', message => {
             message.react("🇹").then(() =>
                 message.react("🇪").then(() =>
                     message.react("🇩")));
-        } catch { };
+        } catch (err) { errCatch(err) };
     }
 
-    // bump reminder every two hours.
+    // 4chan bump reminder every two hours.
     const startBump4 = async (message) => {
         try {
             bump4 = true;
@@ -262,7 +155,7 @@ client.on('message', message => {
 
         switch (command) {
 
-            case 'dwait':
+            case 'dwait': // manually set disboard wait time.
                 message.delete({ timeout: 50 });
                 disboardTimeToWait = parseInt(args[0]);
                 secret.send("new disboard bump time: " + disboardTimeToWait);
@@ -282,25 +175,25 @@ client.on('message', message => {
             case '4stop':
                 bump4 = false;
                 break;
-            case 'status':
+
+            case 'status': // general bot status / variable values.
                 message.delete({ timeout: 50 });
                 let info = "\`\`\`";
-                info = info + "\nbumpAlert running: " + disboardBumpRunning;
-                info = info + "\nsecondary catch running: " + disboardSecondaryCatch;
-                info = info + "\ndisboard counting down: " + disboardCountingDown;
-                info = info + "\ndisboard time to wait: " + disboardTimeToWait;
-                info = info + "\nbumpNag running: " + unbumpedNag;
-                info = info + "\nquery in timeout: " + bumpQueryTimeout;
+                // info = info + "\nbumpAlert running: " + disboardBumpRunning;
+                // info = info + "\nsecondary catch running: " + disboardSecondaryCatch;
+                // info = info + "\ndisboard counting down: " + disboardCountingDown;
+                // info = info + "\ndisboard time to wait: " + disboardTimeToWait;
+                // info = info + "\nbumpNag running: " + unbumpedNag;
+                // info = info + "\nquery in timeout: " + bumpQueryTimeout;
                 info = info + "\ncurrent 4chan thread: " + url4;
                 info = info + "\n4chan bump timeout: " + bump4;
                 info = info + "\n\`\`\`";
                 message.channel.send(info)
                     .then(msg => {
-                        msg.delete({ timeout: 30000 })
+                        msg.delete({ timeout: 7200000 })
                     });
                 break;
-            default:
-            // do nothing.
+            default: // do nothing.
         }
 
         // message/link send commands.
@@ -335,10 +228,8 @@ client.on('message', message => {
             message.delete({ timeout: 50 });
             message.channel.send(content);
         }
-    } else if (message.author.id === '855452323555311626') { // match floor.
-
-        // if message is not prefixed for this bot or is sent by bot, ignore.
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
+    } else if (message.author.id === '855452323555311626') { // match coke.
+        if (!message.content.startsWith(prefix) || message.author.bot) return; // if message is not prefixed for this bot or is sent by bot, ignore.
         const args = message.content.slice(prefix.length).trim().split(' ');
         if (args[0].length === 0) message.channel.send('\`please input a command.\`');
         const command = args.shift().toLowerCase();
@@ -350,7 +241,6 @@ client.on('message', message => {
             }
             message.delete({ timeout: 50 });
             message.channel.send(content);
-
         }
     }
 });
