@@ -54,6 +54,7 @@ const dCountdown = async () => {
             dCounting = true;
             secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => { msg.delete({ timeout: 7200000 }) });
             while (bumpWait > 0) {
+                nagged = false;
                 secret.send(`bumpWait time: ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
                 await timer(60000);
                 bumpWait--;
@@ -137,6 +138,7 @@ client.on('message', message => {
                     dCounting = true;
                     secret.send("dCounting variable status: `" + dCounting + "`").then(msg => { msg.delete({ timeout: 7200000 }) });
                     dCountdown();
+                    nagged = false;
                     message.delete({ timeout: 7200000 }); // delete message after two hours.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
