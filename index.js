@@ -48,7 +48,6 @@ const dCountdown = async () => {
     try {
         if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
             secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
-            dCounting = false;
             return;
         } else {
             dCountdownEngaged = true;
