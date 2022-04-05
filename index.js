@@ -228,12 +228,10 @@ client.on('message', message => {
             case 'status': // general bot status / variable values.
                 message.delete({ timeout: 50 });
                 let info = "\`\`\`";
-                // info = info + "\nbumpAlert running: " + disboardBumpRunning;
-                // info = info + "\nsecondary catch running: " + disboardSecondaryCatch;
-                // info = info + "\ndisboard counting down: " + disboardCountingDown;
-                // info = info + "\ndisboard time to wait: " + disboardTimeToWait;
-                // info = info + "\nbumpNag running: " + unbumpedNag;
-                // info = info + "\nquery in timeout: " + bumpQueryTimeout;
+                info = info + "\nunbumped: " + unbumped;
+                info = info + "\nbumpWait: " + bumpWait;
+                info = info + "\ndCounting: " + dCounting;
+                info = info + "\ndCountdownengaged: " + dCountdownEngaged;
                 info = info + "\ncurrent 4chan thread: " + url4;
                 info = info + "\n4chan bump timeout: " + bump4;
                 info = info + "\n\`\`\`";
