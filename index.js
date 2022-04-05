@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 require('discord-reply');
-const timer = ms => new Promise(res => setTimeout(res, ms));
+const timer = (ms) => new Promise(res => setTimeout(res, ms));
 
 // read values / urls from config file.
 const { prefix, hId, gId, secretId, dId, token, wallaceLink, leakLink, nineElevenLink, thinkLink, hoesLink, flirtLink } = require('./config.json');
@@ -44,7 +44,7 @@ const errCatch = (err) => {
 }
 
 // function to decrement bumpWait variable every minute.
-const dCountdown = async (timer) => {
+const dCountdown = async () => {
     try {
         if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
             secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
@@ -137,7 +137,7 @@ client.on('message', message => {
                     secret.send("bumpAlert running, will remind in two hours.").then(msg => { msg.delete({ timeout: 7200000 }) });
                     dCounting = true;
                     secret.send("dCounting variable status: `" + dCounting + "`").then(msg => { msg.delete({ timeout: 7200000 }) });
-                    dCountdown(bumpWait);
+                    dCountdown();
                     message.delete({ timeout: 7200000 }); // delete message after two hours.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
@@ -214,7 +214,7 @@ client.on('message', message => {
             case 'dstart': // manually set nagged.
                 message.delete({ timeout: 50 });
                 bumpWait = parseInt(args[0]);
-                dCountdown(bumpWait);
+                dCountdown();
                 secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => { msg.delete({ timeout: 7200000 }) });
                 break;
 
@@ -239,7 +239,7 @@ client.on('message', message => {
                 info = info + "\nunbumped: " + unbumped;
                 info = info + "\nbumpWait: " + bumpWait;
                 info = info + "\ndCounting: " + dCounting;
-                info = info + "\ndCountdownengaged: " + dCountdownEngaged;
+                info = info + "\ndCountdownEngaged: " + dCountdownEngaged;
                 info = info + "\nnagging: " + nagged;
                 info = info + "\ncurrent 4chan thread: " + url4;
                 info = info + "\n4chan bump timeout: " + bump4;
