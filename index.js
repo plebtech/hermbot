@@ -70,7 +70,7 @@ const bumpCheck = async () => {
             return;
         } else {
             nagged = true;
-            // general.send('please type `/bump`').then(msg => { msg.delete({ timeout: 60000 }) });
+            general.send('please type `/bump`').then(msg => { msg.delete({ timeout: 60000 }) });
             secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => { msg.delete({ timeout: 7200000 }) });
             await timer(60000);
             nagged = false;
