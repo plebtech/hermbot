@@ -42,7 +42,7 @@ const errCatch = (err) => {
 client.on('message', message => {
 
     // delete server advertisements.
-    if (!(message.author.bot) && ((message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
+    if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
         if (message.content.toLowerCase().includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
