@@ -46,8 +46,8 @@ client.on('message', message => {
         if (message.content.toLowerCase().includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
-            secret.send("deleted:");
-            secret.send("```" + message.content + "```");
+            secret.send("deleted author " + message.author + " :");
+            secret.send(message.content);
             message.delete({ timeout: 50 });
         }
     } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
