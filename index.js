@@ -47,7 +47,7 @@ client.on('message', message => {
             console.log('invite is allowed.');
         } else {
             secret.send("deleted:");
-            secret.send("```" + message + "```");
+            secret.send("```" + message.content + "```");
             message.delete({ timeout: 50 });
         }
     } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
