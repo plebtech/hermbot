@@ -232,6 +232,7 @@ client.on('message', message => {
                 info = info + "\nbumpWait: " + bumpWait;
                 info = info + "\ndCounting: " + dCounting;
                 info = info + "\ndCountdownengaged: " + dCountdownEngaged;
+                info = info + "\nnagging: " + nagged;
                 info = info + "\ncurrent 4chan thread: " + url4;
                 info = info + "\n4chan bump timeout: " + bump4;
                 info = info + "\n\`\`\`";
