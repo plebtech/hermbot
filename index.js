@@ -43,14 +43,16 @@ const errCatch = (err) => {
     secret.send("```" + err + "```");
 }
 
-// function to decrement dCounting variable every minute.
+// function to decrement bumpWait variable every minute.
 const dCountdown = async (timer) => {
     try {
         if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
-            secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });;
+            secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
+            dCounting = false;
             return;
         } else {
             dCountdownEngaged = true;
+            dCounting = true;
             secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => { msg.delete({ timeout: 7200000 }) });
             while (bumpWait > 0) {
                 secret.send(`bumpWait time: ${bumpWait}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
@@ -201,13 +203,19 @@ client.on('message', message => {
 
             case 'dwait': // manually set disboard wait time.
                 message.delete({ timeout: 50 });
-                disboardTimeToWait = parseInt(args[0]);
-                secret.send("new disboard bump time: " + disboardTimeToWait).then(msg => { msg.delete({ timeout: 7200000 }) });
+                bumpWait = parseInt(args[0]);
+                secret.send("new disboard bump time: " + bumpWait).then(msg => { msg.delete({ timeout: 7200000 }) });
                 break;
             case 'dnag': // manually set nagged.
                 message.delete({ timeout: 50 });
                 nagged = args[0];
                 secret.send(`nagged variable is now ${nagged}.`).then(msg => { msg.delete({ timeout: 7200000 }) });
+                break;
+            case 'dstart': // manually set nagged.
+                message.delete({ timeout: 50 });
+                bumpWait = parseInt(args[0]);
+                dCountdown(bumpWait);
+                secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => { msg.delete({ timeout: 7200000 }) });
                 break;
 
             // commands for controlling 4chan thread bump reminders.
