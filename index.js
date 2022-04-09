@@ -122,7 +122,7 @@ client.on('message', message => {
                     secret.send("unbumped variable status: `" + unbumped + "`").then(msg => { msg.delete({ timeout: 7200000 }) });
                 }
             } catch (err) { errCatch(err) };
-            message.delete({ timeout: 7200000 }).catch();
+            message.delete({ timeout: 5000 }).catch();
             message.react("💩");
             break;
 
