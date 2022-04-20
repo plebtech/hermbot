@@ -5,7 +5,7 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 
 const bumpAlert = async (general) => {
     await timer(7200000);
-    general.send('please type `/bump`')
+    general.send('please use `/bump`')
         .then(msg => {
             msg.delete({ timeout: 60000 })
         });
