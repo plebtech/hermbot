@@ -49,6 +49,11 @@ const eightyFourWatch = async (message) => {
     ) {
         message.react("☕");
     }
+    if (
+        message.content.toLowerCase().includes('reddit') 
+    ) {
+        message.react("⬇️");
+    }
 }
 
 exports.eightyFourWatch = eightyFourWatch;
