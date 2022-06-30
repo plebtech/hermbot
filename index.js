@@ -126,6 +126,13 @@ client.on('message', message => {
             message.react("💩");
             break;
 
+        case '11627539069507994': // fmbot.
+        case '537353774205894676': // chuu.
+            try {
+                messagee.delete({ timeout: 30000 });
+            } catch (err) { errCatch(err) };
+            break;
+
         case dId: // disboard.
             const dEmbed = message.embeds[0]; // shortcut for disboard embed.
             try {
@@ -169,6 +176,8 @@ client.on('message', message => {
             try {
                 if (message.embeds[0].description.includes("preventing this action.")) {
                     message.delete({ timeout: 5000 });
+                } else {
+                    message.delete({ timeout: 30000 });
                 }
             } catch (err) { errCatch(err) };
             break;
