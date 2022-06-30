@@ -129,7 +129,7 @@ client.on('message', message => {
         case '11627539069507994': // fmbot.
         case '537353774205894676': // chuu.
             try {
-                message.delete({ timeout: 30000 });
+                message.delete({ timeout: 300000 });
             } catch (err) { errCatch(err) };
             break;
 
