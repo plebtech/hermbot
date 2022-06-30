@@ -298,7 +298,7 @@ client.on('message', message => {
             message.delete({ timeout: 50 }).catch();
             message.channel.send(content);
         }
-    } else if (message.author.id === '855452323555311626') { // match coke.
+    } else if (message.author.id === '857557163828445184') { // match coke.
         if (!message.content.startsWith(prefix) || message.author.bot) return; // if message is not prefixed for this bot or is sent by bot, ignore.
         const args = message.content.slice(prefix.length).trim().split(' ');
         if (args[0].length === 0) message.channel.send('\`please input a command.\`');
