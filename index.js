@@ -13,6 +13,7 @@ const pennant = require('./pennant.js');
 const cri = require('./cri.js');
 const convert = require('./convert.js');
 const sup = require('./sup.js');
+const princess = require('./princess.js');
 const eightyFour = require('./eightyFour.js');
 const chan = require('./chan.js');
 const hotline = require('./hotline.js');
@@ -106,6 +107,7 @@ client.on('message', message => {
     sup.supWatch(message);
     // watch for a different message.
     hotline.hotlineWatch(message);
+    princess.princessWatch(message);
     // watch for a different message.
     eightyFour.eightyFourWatch(message);
 
@@ -126,8 +128,8 @@ client.on('message', message => {
             message.react("💩");
             break;
 
-        case '11627539069507994': // fmbot.
         case '537353774205894676': // chuu.
+        case '356268235697553409': // fmbot.
             try {
                 message.delete({ timeout: 300000 });
             } catch (err) { errCatch(err) };
