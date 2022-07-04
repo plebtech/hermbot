@@ -14,7 +14,7 @@ const princessWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReply('princess')
+        message.lineReplyNoMention('princess')
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
@@ -26,7 +26,7 @@ const princessWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReply('Good night')
+        message.lineReplyNoMention('Good night')
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });
