@@ -231,8 +231,7 @@ client.on('message', message => {
                 }
             } catch (err) {
                 errCatch(err);
-                setTimeout(() => message.delete(), (1000 * 3))
-                    .catch();
+                setTimeout(() => message.delete(), (1000 * 3));
             };
             break;
         default: // do nothing.
