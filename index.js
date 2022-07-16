@@ -39,7 +39,7 @@ client.once('ready', () => { // on ready.
     secret = client.channels.cache.get(secretId);
     console.log('ready and running with prefix ' + prefix);
     secret.send('ready!').then(msg => {
-        setTimeout(() => msg.delete(), (1000 * 10))
+        setTimeout(() => msg.delete(), (1000 * 120))
     })
         .catch()
     // secret.send('ready!').then(msg => { msg.delete({ timeout: 120000 }).catch() });
@@ -54,18 +54,31 @@ const errCatch = (err) => {
 const dCountdown = async () => {
     try {
         if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
-            secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => { msg.delete({ timeout: 120000 }) });
+            secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 120))
+            })
+                .catch();
             return;
         } else {
             dCountdownEngaged = true;
             dCounting = true;
-            secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => { msg.delete({ timeout: 120000 }) });
+            secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 120))
+            })
+                .catch();
+            // secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => { msg.delete({ timeout: 120000 }) });
             while (bumpWait > 0) {
                 nagged = false;
-                secret.send(`bumpWait time: ${bumpWait}.`).then(msg => { msg.delete({ timeout: 120000 }) });
+                secret.send(`bumpWait time: ${bumpWait}.`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                })
+                    .catch();
                 await timer(60000);
                 bumpWait--;
-                secret.send(`bumpWait decremented.`).then(msg => { msg.delete({ timeout: 120000 }) });
+                secret.send(`bumpWait decremented.`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                })
+                    .catch();
             }
             dCountdownEngaged = false;
             dCounting = false;
@@ -81,8 +94,14 @@ const bumpCheck = async () => {
             return;
         } else {
             nagged = true;
-            general.send('please use `/bump`').then(msg => { msg.delete({ timeout: 60000 }) });
-            secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => { msg.delete({ timeout: 120000 }) });
+            general.send('please use `/bump`').then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 15))
+            })
+                .catch();
+            secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 120))
+            })
+                .catch();
             await timer(60000);
             nagged = false;
         }
@@ -99,14 +118,16 @@ client.on('message', message => {
         if (message.content.toLowerCase().includes('discord.gg/pies')) {
             console.log('invite is allowed.');
         } else {
-            secret.send("deleted author @" + message.author + " :");
-            secret.send(message.content);
-            message.delete({ timeout: 50 }).catch();
+            message.delete().then(message => {
+                secret.send("deleted author @" + message.author + " :");
+                secret.send(message.content);
+            })
+                .catch()
         }
     } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
-        message.delete({ timeout: 5000 }).catch();
+        message.delete().catch();
     } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
-        message.delete({ timeout: 1500 }).catch();
+        message.delete().catch();
     }
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
@@ -124,10 +145,16 @@ client.on('message', message => {
             try {
                 if (message.content.includes("hey let's bump!")) { // if bot is telling to bump.
                     // bumpNag(message);
-                    secret.send("bump reminder reminded.").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("bump reminder reminded.").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                     unbumped = true;
                     bumpWait = 0;
-                    secret.send("unbumped variable status: `" + unbumped + "`").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("unbumped variable status: `" + unbumped + "`")..then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                 }
             } catch (err) { errCatch(err) };
             message.delete({ timeout: 5000 }).catch();
@@ -317,7 +344,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete({ timeout: 50 }).catch();
+            message.delete().catch();
             message.channel.send(content);
         }
     }
