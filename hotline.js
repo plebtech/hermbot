@@ -12,15 +12,16 @@ const hotlineWatch = async (message) => {
             message.content.toLowerCase().includes('kys') ||
             message.content.toLowerCase().includes('kms') ||
             (message.content.toLowerCase().includes('kill') &&
-            message.content.toLowerCase().includes('self'))
+                message.content.toLowerCase().includes('self'))
         )
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReplyNoMention('the national suicide prevention lifeline is: \`1-800-273-8255\`')
+        message.channel.send('the national suicide prevention lifeline is: \`1-800-273-8255\`')
             .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
+                setTimeout(() => msg.delete(), (1000 * 30))
+            })
+            .catch();
         await timer(300000);
         timeout = false;
     }

@@ -16,7 +16,7 @@ const eightyFourWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReplyNoMention('1984 is a great fiction novel to read but it seems like it is becoming the reality we are currently living under more and more each day.')
+        message.reply('1984 is a great fiction novel to read but it seems like it is becoming the reality we are currently living under more and more each day.')
             .then(msg => {
                 try {
                     message.react("1️⃣").then(() =>
@@ -24,7 +24,7 @@ const eightyFourWatch = async (message) => {
                             message.react("8️⃣").then(() =>
                                 message.react("4️⃣"))));
                 } catch { };
-                msg.delete({ timeout: eightyFourDelay })
+                setTimeout(() => msg.delete(), (eightyFourDelay)).catch();
             });
         await timer(eightyFourDelay);
         timeout = false;
