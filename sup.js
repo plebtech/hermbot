@@ -12,7 +12,7 @@ const supWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReplyNoMention('nm u')
+        message.reply('nm u')
             .then(msg => {
                 msg.delete({ timeout: 60000 })
             });

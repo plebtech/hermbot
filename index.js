@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const { Client, Intents } = require('discord.js');
-require('discord-reply');
+// require('discord-reply');
 // const client = new Discord.Client();
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const timer = (ms) => new Promise(res => setTimeout(res, ms));
