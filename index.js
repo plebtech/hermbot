@@ -223,10 +223,10 @@ client.on('message', message => {
         case '116275390695079945': // nadeko.
             try {
                 if (message.embeds[0].description.includes("preventing this action.")) {
-                    setTimeout((message) => message.delete(), (1000 * 5))
+                    setTimeout(() => message.delete(), (1000 * 5))
                         .catch();
                 } else {
-                    setTimeout((message) => message.delete(), (1000 * 3))
+                    setTimeout(() => message.delete(), (1000 * 3))
                         .catch();
                 }
             } catch (err) { errCatch(err) };
