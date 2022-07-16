@@ -226,10 +226,14 @@ client.on('message', message => {
                     setTimeout(() => message.delete(), (1000 * 5))
                         .catch();
                 } else {
-                    setTimeout(() => message.delete(), (1000 * 3))
+                    setTimeout(() => message.delete(), (1000 * 30))
                         .catch();
                 }
-            } catch (err) { errCatch(err) };
+            } catch (err) {
+                errCatch(err);
+                setTimeout(() => message.delete(), (1000 * 3))
+                    .catch();
+            };
             break;
         default: // do nothing.
     }
