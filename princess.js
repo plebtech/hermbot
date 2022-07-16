@@ -14,22 +14,24 @@ const princessWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReplyNoMention('princess')
+        message.reply('princess')
             .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
+                setTimeout(() => msg.delete(), (1000 * 30))
+            })
+            .catch();
         await timer(300000);
         timeout = false;
     } else if (
         (timeout === false) &&
-        ( message.content.toLowerCase().includes('princess') )
+        (message.content.toLowerCase().includes('princess'))
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.lineReplyNoMention('Good night')
+        message.reply('Good night')
             .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
+                setTimeout(() => msg.delete(), (1000 * 30))
+            })
+            .catch();
         await timer(300000);
         timeout = false;
     }
