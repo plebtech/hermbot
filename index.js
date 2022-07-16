@@ -151,7 +151,7 @@ client.on('message', message => {
                         .catch();
                     unbumped = true;
                     bumpWait = 0;
-                    secret.send("unbumped variable status: `" + unbumped + "`")..then(msg => {
+                    secret.send("unbumped variable status: `" + unbumped + "`").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120))
                     })
                         .catch();
