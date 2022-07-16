@@ -24,7 +24,7 @@ const eightyFourWatch = async (message) => {
                             message.react("8️⃣").then(() =>
                                 message.react("4️⃣"))));
                 } catch { };
-                setTimeout(() => msg.delete(), (eightyFourDelay)).catch();
+                setTimeout(() => msg.delete(), (eightyFourDelay));
             });
         await timer(eightyFourDelay);
         timeout = false;
