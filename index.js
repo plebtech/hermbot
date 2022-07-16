@@ -155,15 +155,20 @@ client.on('message', message => {
                         .catch();
                 }
             } catch (err) { errCatch(err) };
-            message.delete({ timeout: 5000 }).catch();
+            setTimeout(() => message.delete(), (1000 * 5)).catch();
             message.react("💩");
             break;
 
         case '537353774205894676': // chuu.
         case '356268235697553409': // fmbot.
             try {
-                message.delete({ timeout: 300000 });
-            } catch (err) { errCatch(err) };
+                setTimeout(() => message.delete(), (1000 * 300))
+                    .catch();
+            } catch (err) {
+                secret.send("error with chuu/fmbot case:");
+                errCatch(err);
+                setTimeout(() => message.delete(), (1000 * 300));
+            };
             break;
 
         case dId: // disboard.
@@ -172,40 +177,43 @@ client.on('message', message => {
                 if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
                     message.react("👍");
                     secret.send("disboard bumped and case triggered").then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
+                        setTimeout(() => msg.delete(), (1000 * 120));
                     })
                         .catch();
                     unbumped = false;
                     bumpWait = 120;
                     secret.send("unbumped variable status: `" + unbumped + "`").then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
+                        setTimeout(() => msg.delete(), (1000 * 120));
                     })
                         .catch();
                     secret.send("now we'll wait " + bumpWait + " minutes to remind the plebs.").then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
+                        setTimeout(() => msg.delete(), (1000 * 120));
                     })
                         .catch();
-                    general.send("disboard bumped successfully! I'll remind you to bump again in two hours.").then(msg => { msg.delete({ timeout: 120000 }) });
+                    general.send("disboard bumped successfully! I'll remind you to bump again in two hours.").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 5));
+                    })
+                        .catch();
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
                     secret.send("bumpAlert running, will remind in two hours.").then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
+                        setTimeout(() => msg.delete(), (1000 * 120));
                     })
                         .catch();
                     dCounting = true;
                     secret.send("dCounting variable status: `" + dCounting + "`").then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
+                        setTimeout(() => msg.delete(), (1000 * 120));
                     })
                         .catch();
                     dCountdown();
                     nagged = false;
-                    message.delete({ timeout: 10000 }); // delete message after two hours.
+                    setTimeout(() => message.delete(), (1000 * 5)); // delete message after five seconds.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
-                    message.delete({ timeout: 5000 });
+                    setTimeout(() => message.delete(), (1000 * 5));
                     const numbers = dEmbed.description.match(/\d+/g).map(Number); // parse time til bump from embed description.
                     disboardTimeToWait = numbers[1];
                 } else {
-                    message.delete({ timeout: 5000 });
+                    setTimeout(() => message.delete(), (1000 * 5));
                 };
             } catch (err) { errCatch(err) };
             message.react("💩");
@@ -230,8 +238,9 @@ client.on('message', message => {
                         .catch();
                 }
             } catch (err) {
+                secret.send("error with nadeko case:");
                 errCatch(err);
-                setTimeout(() => message.delete(), (1000 * 3));
+                setTimeout(() => message.delete(), (1000 * 30));
             };
             break;
         default: // do nothing.
