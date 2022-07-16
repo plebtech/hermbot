@@ -42,7 +42,6 @@ client.once('ready', () => { // on ready.
         setTimeout(() => msg.delete(), (1000 * 120))
     })
         .catch()
-    // secret.send('ready!').then(msg => { msg.delete({ timeout: 120000 }).catch() });
 });
 
 // error logging.
@@ -66,7 +65,6 @@ const dCountdown = async () => {
                 setTimeout(() => msg.delete(), (1000 * 120))
             })
                 .catch();
-            // secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => { msg.delete({ timeout: 120000 }) });
             while (bumpWait > 0) {
                 nagged = false;
                 secret.send(`bumpWait time: ${bumpWait}.`).then(msg => {
@@ -173,19 +171,34 @@ client.on('message', message => {
             try {
                 if ((dEmbed.thumbnail == null) || (message.content.includes("👍"))) { // checks case for successful bump (won't have a thumbnail).
                     message.react("👍");
-                    secret.send("disboard bumped and case triggered").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("disboard bumped and case triggered").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                     unbumped = false;
                     bumpWait = 120;
-                    secret.send("unbumped variable status: `" + unbumped + "`").then(msg => { msg.delete({ timeout: 120000 }) });
-                    secret.send("now we'll wait " + bumpWait + " minutes to remind the plebs.").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("unbumped variable status: `" + unbumped + "`").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
+                    secret.send("now we'll wait " + bumpWait + " minutes to remind the plebs.").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                     general.send("disboard bumped successfully! I'll remind you to bump again in two hours.").then(msg => { msg.delete({ timeout: 120000 }) });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
-                    secret.send("bumpAlert running, will remind in two hours.").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("bumpAlert running, will remind in two hours.").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                     dCounting = true;
-                    secret.send("dCounting variable status: `" + dCounting + "`").then(msg => { msg.delete({ timeout: 120000 }) });
+                    secret.send("dCounting variable status: `" + dCounting + "`").then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                        .catch();
                     dCountdown();
                     nagged = false;
-                    message.delete({ timeout: 120000 }); // delete message after two hours.
+                    message.delete({ timeout: 10000 }); // delete message after two hours.
                 } else if (dEmbed.thumbnail.url.includes("error.png")) { // checks case for error (attempting to bump too early, embeds with error.png thumbnail).
                     message.react("👎");
                     message.delete({ timeout: 5000 });
@@ -251,20 +264,29 @@ client.on('message', message => {
         switch (command) {
 
             case 'dwait': // manually set disboard wait time.
-                message.delete({ timeout: 50 }).catch();
+                message.delete().catch();
                 bumpWait = parseInt(args[0]);
-                secret.send("new disboard bump time: " + bumpWait).then(msg => { msg.delete({ timeout: 120000 }).catch() });
+                secret.send("new disboard bump time: " + bumpWait).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                })
+                    .catch();
                 break;
             case 'dnag': // manually set nagged.
-                message.delete({ timeout: 50 }).catch();
+                message.delete().catch();
                 nagged = args[0];
-                secret.send(`nagged variable is now ${nagged}.`).then(msg => { msg.delete({ timeout: 120000 }).catch() });
+                secret.send(`nagged variable is now ${nagged}.`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                })
+                    .catch();
                 break;
             case 'dstart': // manually set nagged.
-                message.delete({ timeout: 50 }).catch();
+                message.delete().catch();
                 bumpWait = parseInt(args[0]);
                 dCountdown();
-                secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => { msg.delete({ timeout: 120000 }).catch() });
+                secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                })
+                    .catch();
                 break;
 
             // commands for controlling 4chan thread bump reminders.
@@ -283,7 +305,7 @@ client.on('message', message => {
                 break;
 
             case 'status': // general bot status / variable values.
-                message.delete({ timeout: 50 }).catch();
+                message.delete().catch();
                 let info = "\`\`\`";
                 info = info + "\nunbumped: " + unbumped;
                 info = info + "\nbumpWait: " + bumpWait;
@@ -295,8 +317,9 @@ client.on('message', message => {
                 info = info + "\n\`\`\`";
                 message.channel.send(info)
                     .then(msg => {
-                        msg.delete({ timeout: 120000 })
-                    });
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    })
+                    .catch();
                 break;
             default: // do nothing.
         }
@@ -330,7 +353,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete({ timeout: 50 }).catch();
+            message.delete().catch();
             message.channel.send(content);
         }
     } else if (message.author.id === '857557163828445184') { // match coke.
