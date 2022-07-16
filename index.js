@@ -38,7 +38,11 @@ client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
     console.log('ready and running with prefix ' + prefix);
-    secret.send('ready!').then(msg => { msg.delete({ timeout: 120000 }).catch() });
+    secret.send('ready!').then(msg => {
+        setTimeout(() > msg.delete(), 120000)
+    })
+        .catch()
+    // secret.send('ready!').then(msg => { msg.delete({ timeout: 120000 }).catch() });
 });
 
 // error logging.
