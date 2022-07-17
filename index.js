@@ -155,7 +155,7 @@ client.on('message', message => {
                         .catch();
                 }
             } catch (err) { errCatch(err) };
-            setTimeout(() => message.delete(), (1000 * 5)).catch();
+            setTimeout(() => message.delete(), (1000 * 5));
             message.react("💩");
             break;
 

@@ -7,7 +7,7 @@ const bumpAlert = async (general) => {
     await timer(7200000);
     general.send('please use `/bump`')
         .then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 60))
+            setTimeout(() => msg.delete(), (1000 * 30))
         })
         .catch();
 }
