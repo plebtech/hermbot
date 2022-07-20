@@ -12,10 +12,10 @@ const supWatch = async (message) => {
     ) {
         timeout = true;
         await timer(randomNumber.generate(25, 750));
-        message.reply('nm u')
-            .then(msg => {
-                msg.delete({ timeout: 60000 })
-            });
+        message.reply('nm u').then(msg => {
+            setTimeout(() => msg.delete(), (1000 * 60))
+        })
+            .catch();
         await timer(supDelay);
         timeout = false;
     }
