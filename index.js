@@ -112,21 +112,23 @@ client.on('message', message => {
     bumpCheck();
 
     // delete server advertisements.
-    if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
-        if (message.content.toLowerCase().includes('discord.gg/pies')) {
-            console.log('invite is allowed.');
-        } else {
-            message.delete().then(message => {
-                secret.send("deleted author @" + message.author + " :");
-                secret.send(message.content);
-            })
-                .catch()
+    try {
+        if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
+            if (message.content.toLowerCase().includes('discord.gg/pies')) {
+                console.log('invite is allowed.');
+            } else {
+                message.delete().then(message => {
+                    secret.send("deleted author @" + message.author + " :");
+                    secret.send(message.content);
+                })
+                    .catch();
+            }
+        } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
+            message.delete().catch();
+        } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
+            message.delete().catch();
         }
-    } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
-        message.delete().catch();
-    } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
-        message.delete().catch();
-    }
+    } catch (err) { errCatch(err) };
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
