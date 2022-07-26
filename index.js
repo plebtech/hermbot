@@ -229,6 +229,19 @@ client.on('message', message => {
             } catch (err) { errCatch(err) };
             break;
 
+        case '720351927581278219': // invite tracker.
+            try {
+                if (message.embeds[0].description.includes("preventing this action.")) {
+                    setTimeout(() => message.delete(), (1000 * 5));
+                } else {
+                    setTimeout(() => message.delete(), (1000 * 30));
+                }
+            } catch (err) {
+                secret.send("error with invite tracker case:");
+                errCatch(err);
+                setTimeout(() => message.delete(), (1000 * 30));
+            };
+            break;
         case '116275390695079945': // nadeko.
             try {
                 if (message.embeds[0].description.includes("preventing this action.")) {
