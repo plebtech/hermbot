@@ -10,7 +10,7 @@ const bumpAlert = async (general) => {
             .then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 30))
             });
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.bumpAlert = bumpAlert;

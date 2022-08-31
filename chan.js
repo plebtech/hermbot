@@ -7,7 +7,7 @@ const chanAlert = async (channel, url) => {
             .then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 300))
             });
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.chanAlert = chanAlert;

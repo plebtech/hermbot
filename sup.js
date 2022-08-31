@@ -19,7 +19,7 @@ const supWatch = async (message) => {
             await timer(supDelay);
             timeout = false;
         }
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.supWatch = supWatch;

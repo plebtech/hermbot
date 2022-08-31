@@ -25,7 +25,7 @@ const hotlineWatch = async (message) => {
             await timer(300000);
             timeout = false;
         }
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.hotlineWatch = hotlineWatch;

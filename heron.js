@@ -15,7 +15,7 @@ const root = (square, message) => {
         response += `best guess: ${guess}\`\`\``;
         message.delete();
         message.channel.send(response);
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.root = root;

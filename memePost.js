@@ -4,7 +4,7 @@ const link = (link, message) => {
         message.channel.send(link).then(msg => {
             setTimeout(() => msg.delete(), (1000 * 60))
         });
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.link = link;

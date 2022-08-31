@@ -24,7 +24,7 @@ const eightyFourWatch = async (message) => {
                             message.react("9️⃣").then(() =>
                                 message.react("8️⃣").then(() =>
                                     message.react("4️⃣"))));
-                    } catch { errCatch(err) };
+                    } catch (err) { errCatch(err) };
                     setTimeout(() => msg.delete(), (eightyFourDelay));
                 });
             await timer(eightyFourDelay);
@@ -43,7 +43,7 @@ const eightyFourWatch = async (message) => {
                     message.react("9️⃣").then(() =>
                         message.react("8️⃣").then(() =>
                             message.react("4️⃣"))));
-            } catch { errCatch(err) };
+            } catch (err) { errCatch(err) };
         }
         if (
             message.content.toLowerCase().includes('coffee')
@@ -55,7 +55,7 @@ const eightyFourWatch = async (message) => {
         ) {
             message.react("⬇️");
         }
-    } catch { errCatch(err) }
+    } catch (err) { errCatch(err) }
 }
 
 exports.eightyFourWatch = eightyFourWatch;
