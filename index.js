@@ -41,7 +41,7 @@ client.once('ready', () => { // on ready.
     secret.send('ready!').then(msg => {
         setTimeout(() => msg.delete(), (1000 * 120))
     })
-        .catch()
+        .catch(errCatch(err));
 });
 
 // error logging.
@@ -55,33 +55,28 @@ const dCountdown = async () => {
         if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
             secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 120))
-            })
-                .catch();
+            });
             return;
         } else {
             dCountdownEngaged = true;
             dCounting = true;
             secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 120))
-            })
-                .catch();
+            });
             while (bumpWait > 0) {
                 nagged = false;
                 secret.send(`bumpWait time: ${bumpWait}.`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
-                })
-                    .catch();
+                });
                 await timer(60000);
                 bumpWait--;
                 secret.send(`bumpWait decremented.`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
-                })
-                    .catch();
+                });
             }
             dCountdownEngaged = false;
             dCounting = false;
         }
-
         return;
     } catch (err) { errCatch(err) };
 }
@@ -94,12 +89,10 @@ const bumpCheck = async () => {
             nagged = true;
             general.send('please use `/bump`').then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 15))
-            })
-                .catch();
+            });
             secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 120))
-            })
-                .catch();
+            });
             await timer(60000);
             nagged = false;
         }
@@ -120,13 +113,12 @@ client.on('message', message => {
                 message.delete().then(message => {
                     secret.send("deleted author @" + message.author + " :");
                     secret.send(message.content);
-                })
-                    .catch();
+                });
             }
         } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
-            message.delete().catch();
+            message.delete();
         } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
-            message.delete().catch();
+            message.delete();
         }
     } catch (err) { errCatch(err) };
 
@@ -147,18 +139,16 @@ client.on('message', message => {
                     // bumpNag(message);
                     secret.send("bump reminder reminded.").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120))
-                    })
-                        .catch();
+                    });
                     unbumped = true;
                     bumpWait = 0;
                     secret.send("unbumped variable status: `" + unbumped + "`").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120))
-                    })
-                        .catch();
+                    });
                 }
             } catch (err) { errCatch(err) };
             setTimeout(() => message.delete(), (1000 * 5));
-            message.react("💩");
+            message.react("💩").catch(errCatch(err));
             break;
 
         case '537353774205894676': // chuu.
@@ -179,32 +169,26 @@ client.on('message', message => {
                     message.react("👍");
                     secret.send("disboard bumped and case triggered").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120));
-                    })
-                        .catch();
+                    });
                     unbumped = false;
                     bumpWait = 120;
                     secret.send("unbumped variable status: `" + unbumped + "`").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120));
-                    })
-                        .catch();
+                    });
                     secret.send("now we'll wait " + bumpWait + " minutes to remind the plebs.").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120));
-                    })
-                        .catch();
+                    });
                     general.send("disboard bumped successfully! I'll remind you to bump again in two hours.").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 5));
-                    })
-                        .catch();
+                    });
                     bump.bumpAlert(general); // start bumpAlert function which alerts every 120 minutes.
                     secret.send("bumpAlert running, will remind in two hours.").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120));
-                    })
-                        .catch();
+                    });
                     dCounting = true;
                     secret.send("dCounting variable status: `" + dCounting + "`").then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120));
-                    })
-                        .catch();
+                    });
                     dCountdown();
                     nagged = false;
                     setTimeout(() => message.delete(), (1000 * 5)); // delete message after five seconds.
@@ -217,7 +201,7 @@ client.on('message', message => {
                     setTimeout(() => message.delete(), (1000 * 5));
                 };
             } catch (err) { errCatch(err) };
-            message.react("💩");
+            message.react("💩").catch(errCatch(err));
             break;
 
         case '771506580109131817': // shortqueen.
@@ -277,29 +261,29 @@ client.on('message', message => {
         switch (command) {
 
             case 'dwait': // manually set disboard wait time.
-                message.delete().catch();
+                message.delete().catch(errCatch(err));
                 bumpWait = parseInt(args[0]);
                 secret.send("new disboard bump time: " + bumpWait).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch();
+                    .catch(errCatch(err));
                 break;
             case 'dnag': // manually set nagged.
-                message.delete().catch();
+                message.delete().catch(errCatch(err));
                 nagged = args[0];
                 secret.send(`nagged variable is now ${nagged}.`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch();
+                    .catch(errCatch(err));
                 break;
             case 'dstart': // manually set nagged.
-                message.delete().catch();
+                message.delete().catch(errCatch(err));
                 bumpWait = parseInt(args[0]);
                 dCountdown();
                 secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch();
+                    .catch(errCatch(err));
                 break;
 
             // commands for controlling 4chan thread bump reminders.
@@ -318,7 +302,7 @@ client.on('message', message => {
                 break;
 
             case 'status': // general bot status / variable values.
-                message.delete().catch();
+                message.delete().catch(errCatch(err));
                 let info = "\`\`\`";
                 info = info + "\nunbumped: " + unbumped;
                 info = info + "\nbumpWait: " + bumpWait;
@@ -332,7 +316,7 @@ client.on('message', message => {
                     .then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120))
                     })
-                    .catch();
+                    .catch(errCatch(err));
                 break;
             default: // do nothing.
         }
@@ -366,7 +350,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete().catch();
+            message.delete().catch(errCatch(err));
             message.channel.send(content);
         }
     } else if (message.author.id === '857557163828445184') { // match coke.
@@ -380,7 +364,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete().catch();
+            message.delete().catch(errCatch(err));
             message.channel.send(content);
         }
     }

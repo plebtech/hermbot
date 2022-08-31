@@ -1,9 +1,10 @@
 const link = (link, message) => {
-    message.delete();
-    message.channel.send(link).then(msg => {
-        setTimeout(() => msg.delete(), (1000 * 60))
-    })
-        .catch();
+    try {
+        message.delete();
+        message.channel.send(link).then(msg => {
+            setTimeout(() => msg.delete(), (1000 * 60))
+        });
+    } catch { errCatch(err) }
 }
 
 exports.link = link;
