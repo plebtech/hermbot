@@ -37,11 +37,11 @@ let bump4 = false;
 client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
-    console.log('ready and running with prefix ' + prefix);
+    console.log('ready and running with prefix ' + prefix + '.');
     secret.send('ready!').then(msg => {
         setTimeout(() => msg.delete(), (1000 * 120))
     })
-        .catch(errCatch(err));
+        .catch(console.log("something went wrong."));
 });
 
 // error logging.
