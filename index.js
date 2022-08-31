@@ -149,7 +149,7 @@ client.on('message', message => {
                 }
             } catch (err) { errCatch(err) };
             setTimeout(() => message.delete(), (1000 * 5));
-            message.react("💩").catch(errCatch(err));
+            message.react("💩").catch(err, errCatch(err));
             break;
 
         case '537353774205894676': // chuu.
@@ -202,7 +202,7 @@ client.on('message', message => {
                     setTimeout(() => message.delete(), (1000 * 5));
                 };
             } catch (err) { errCatch(err) };
-            message.react("💩").catch(errCatch(err));
+            message.react("💩").catch(err, errCatch(err));
             break;
 
         case '771506580109131817': // shortqueen.
@@ -262,29 +262,29 @@ client.on('message', message => {
         switch (command) {
 
             case 'dwait': // manually set disboard wait time.
-                message.delete().catch(errCatch(err));
+                message.delete().catch(err, errCatch(err));
                 bumpWait = parseInt(args[0]);
                 secret.send("new disboard bump time: " + bumpWait).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch(errCatch(err));
+                    .catch(err, errCatch(err));
                 break;
             case 'dnag': // manually set nagged.
-                message.delete().catch(errCatch(err));
+                message.delete().catch(err, errCatch(err));
                 nagged = args[0];
                 secret.send(`nagged variable is now ${nagged}.`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch(errCatch(err));
+                    .catch(err, errCatch(err));
                 break;
             case 'dstart': // manually set nagged.
-                message.delete().catch(errCatch(err));
+                message.delete().catch(err, errCatch(err));
                 bumpWait = parseInt(args[0]);
                 dCountdown();
                 secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 120))
                 })
-                    .catch(errCatch(err));
+                    .catch(err, errCatch(err));
                 break;
 
             // commands for controlling 4chan thread bump reminders.
@@ -303,7 +303,7 @@ client.on('message', message => {
                 break;
 
             case 'status': // general bot status / variable values.
-                message.delete().catch(errCatch(err));
+                message.delete().catch(err, errCatch(err));
                 let info = "\`\`\`";
                 info = info + "\nunbumped: " + unbumped;
                 info = info + "\nbumpWait: " + bumpWait;
@@ -317,7 +317,7 @@ client.on('message', message => {
                     .then(msg => {
                         setTimeout(() => msg.delete(), (1000 * 120))
                     })
-                    .catch(errCatch(err));
+                    .catch(err, errCatch(err));
                 break;
             default: // do nothing.
         }
@@ -351,7 +351,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete().catch(errCatch(err));
+            message.delete().catch(err, errCatch(err));
             message.channel.send(content);
         }
     } else if (message.author.id === '857557163828445184') { // match coke.
@@ -365,7 +365,7 @@ client.on('message', message => {
             for (i = 0; i < args.length; i++) {
                 content = content + args[i] + ' ';
             }
-            message.delete().catch(errCatch(err));
+            message.delete().catch(err, errCatch(err));
             message.channel.send(content);
         }
     }

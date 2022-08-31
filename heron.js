@@ -12,7 +12,7 @@ const root = (square, message) => {
         guess = Math.round(((+guess + (+square / +guess)) / 2) * 1e4) / 1e4;
     }
     response += `best guess: ${guess}\`\`\``;
-    message.delete().catch(errCatch(err));
+    message.delete().catch(err, errCatch(err));
     message.channel.send(response);
 }
 
