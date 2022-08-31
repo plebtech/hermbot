@@ -40,13 +40,14 @@ const errCatch = (err) => {
 }
 
 client.once('ready', () => { // on ready.
-    general = client.channels.cache.get(gId);
-    secret = client.channels.cache.get(secretId);
-    console.log('ready and running with prefix ' + prefix + '.');
-    secret.send('ready!').then(msg => {
-        setTimeout(() => msg.delete(), (1000 * 120))
-    })
-        .catch(errCatch(err));
+    try {
+        general = client.channels.cache.get(gId);
+        secret = client.channels.cache.get(secretId);
+        console.log('ready and running with prefix ' + prefix + '.');
+        secret.send('ready!').then(msg => {
+            setTimeout(() => msg.delete(), (1000 * 120))
+        });
+    } catch { errCatch(err) }
 });
 
 // function to decrement bumpWait variable every minute.
