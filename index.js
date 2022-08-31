@@ -47,7 +47,7 @@ client.once('ready', () => { // on ready.
         secret.send('ready!').then(msg => {
             setTimeout(() => msg.delete(), (1000 * 120))
         });
-    } catch { errCatch(err) }
+    } catch { console.log("something went wrong on client.once()."}
 });
 
 // function to decrement bumpWait variable every minute.
