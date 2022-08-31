@@ -34,6 +34,11 @@ let nagged = false;
 let url4;
 let bump4 = false;
 
+// error logging.
+const errCatch = (err) => {
+    secret.send("```" + err + "```");
+}
+
 client.once('ready', () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
@@ -41,13 +46,8 @@ client.once('ready', () => { // on ready.
     secret.send('ready!').then(msg => {
         setTimeout(() => msg.delete(), (1000 * 120))
     })
-        .catch(console.log("something went wrong."));
+        .catch(errCatch(err));
 });
-
-// error logging.
-const errCatch = (err) => {
-    secret.send("```" + err + "```");
-}
 
 // function to decrement bumpWait variable every minute.
 const dCountdown = async () => {
