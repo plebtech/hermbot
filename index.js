@@ -47,7 +47,7 @@ client.once('ready', () => { // on ready.
         secret.send('ready!').then(msg => {
             setTimeout(() => msg.delete(), (1000 * 120))
         });
-    } catch { console.log("something went wrong on client.once().")}
+    } catch { console.log("something went wrong on client.once().") }
 });
 
 // function to decrement bumpWait variable every minute.
@@ -147,9 +147,9 @@ client.on('message', message => {
                         setTimeout(() => msg.delete(), (1000 * 120))
                     });
                 }
+                setTimeout(() => message.delete(), (1000 * 5));
+                message.react("💩");
             } catch (err) { errCatch(err) };
-            setTimeout(() => message.delete(), (1000 * 5));
-            message.react("💩").catch(err, errCatch(err));
             break;
 
         case '537353774205894676': // chuu.
@@ -201,8 +201,8 @@ client.on('message', message => {
                 } else {
                     setTimeout(() => message.delete(), (1000 * 5));
                 };
+                message.react("💩");
             } catch (err) { errCatch(err) };
-            message.react("💩").catch(err, errCatch(err));
             break;
 
         case '771506580109131817': // shortqueen.
@@ -248,7 +248,7 @@ client.on('message', message => {
                 chan.chanAlert(general, url4);
                 await timer(7200000);
             }
-        } catch { errCatch(err) }
+        } catch (err) { errCatch(err) }
     }
 
     if ((message.author.id === hId) || (message.author.id === '815058660438179862')) { // match only admin sender.
@@ -262,29 +262,32 @@ client.on('message', message => {
         switch (command) {
 
             case 'dwait': // manually set disboard wait time.
-                message.delete().catch(err, errCatch(err));
-                bumpWait = parseInt(args[0]);
-                secret.send("new disboard bump time: " + bumpWait).then(msg => {
-                    setTimeout(() => msg.delete(), (1000 * 120))
-                })
-                    .catch(err, errCatch(err));
+                try {
+                    message.delete()
+                    bumpWait = parseInt(args[0]);
+                    secret.send("new disboard bump time: " + bumpWait).then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    });
+                } catch (err) { errCatch(err) }
                 break;
             case 'dnag': // manually set nagged.
-                message.delete().catch(err, errCatch(err));
-                nagged = args[0];
-                secret.send(`nagged variable is now ${nagged}.`).then(msg => {
-                    setTimeout(() => msg.delete(), (1000 * 120))
-                })
-                    .catch(err, errCatch(err));
+                try {
+                    message.delete();
+                    nagged = args[0];
+                    secret.send(`nagged variable is now ${nagged}.`).then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    });
+                } catch (err) { errCatch(err) }
                 break;
             case 'dstart': // manually set nagged.
-                message.delete().catch(err, errCatch(err));
-                bumpWait = parseInt(args[0]);
-                dCountdown();
-                secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => {
-                    setTimeout(() => msg.delete(), (1000 * 120))
-                })
-                    .catch(err, errCatch(err));
+                try {
+                    message.delete();
+                    bumpWait = parseInt(args[0]);
+                    dCountdown();
+                    secret.send(`starting dCountdown with bump wait time ${bumpWait}`).then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 120))
+                    });
+                } catch (err) { errCatch(err) }
                 break;
 
             // commands for controlling 4chan thread bump reminders.
@@ -303,21 +306,22 @@ client.on('message', message => {
                 break;
 
             case 'status': // general bot status / variable values.
-                message.delete().catch(err, errCatch(err));
-                let info = "\`\`\`";
-                info = info + "\nunbumped: " + unbumped;
-                info = info + "\nbumpWait: " + bumpWait;
-                info = info + "\ndCounting: " + dCounting;
-                info = info + "\ndCountdownEngaged: " + dCountdownEngaged;
-                info = info + "\nnagged: " + nagged;
-                info = info + "\ncurrent 4chan thread: " + url4;
-                info = info + "\n4chan bump timeout: " + bump4;
-                info = info + "\n\`\`\`";
-                message.channel.send(info)
-                    .then(msg => {
-                        setTimeout(() => msg.delete(), (1000 * 120))
-                    })
-                    .catch(err, errCatch(err));
+                try {
+                    message.delete();
+                    let info = "\`\`\`";
+                    info = info + "\nunbumped: " + unbumped;
+                    info = info + "\nbumpWait: " + bumpWait;
+                    info = info + "\ndCounting: " + dCounting;
+                    info = info + "\ndCountdownEngaged: " + dCountdownEngaged;
+                    info = info + "\nnagged: " + nagged;
+                    info = info + "\ncurrent 4chan thread: " + url4;
+                    info = info + "\n4chan bump timeout: " + bump4;
+                    info = info + "\n\`\`\`";
+                    message.channel.send(info)
+                        .then(msg => {
+                            setTimeout(() => msg.delete(), (1000 * 120))
+                        });
+                } catch (err) { errCatch(err) }
                 break;
             default: // do nothing.
         }
@@ -347,27 +351,31 @@ client.on('message', message => {
         } else if (command === 'pennant') {
             pennant.post(args, message);
         } else if (command === 'say') {
-            let content = '';
-            for (i = 0; i < args.length; i++) {
-                content = content + args[i] + ' ';
-            }
-            message.delete().catch(err, errCatch(err));
-            message.channel.send(content);
+            try {
+                let content = '';
+                for (i = 0; i < args.length; i++) {
+                    content = content + args[i] + ' ';
+                }
+                message.delete();
+                message.channel.send(content);
+            } catch (err) { errCatch(err) }
         }
     } else if (message.author.id === '857557163828445184') { // match coke.
-        if (!message.content.startsWith(prefix) || message.author.bot) return; // if message is not prefixed for this bot or is sent by bot, ignore.
-        const args = message.content.slice(prefix.length).trim().split(' ');
-        if (args[0].length === 0) message.channel.send('\`please input a command.\`');
-        const command = args.shift().toLowerCase();
+        try {
+            if (!message.content.startsWith(prefix) || message.author.bot) return; // if message is not prefixed for this bot or is sent by bot, ignore.
+            const args = message.content.slice(prefix.length).trim().split(' ');
+            if (args[0].length === 0) message.channel.send('\`please input a command.\`');
+            const command = args.shift().toLowerCase();
 
-        if (command === 'say') {
-            let content = '';
-            for (i = 0; i < args.length; i++) {
-                content = content + args[i] + ' ';
+            if (command === 'say') {
+                let content = '';
+                for (i = 0; i < args.length; i++) {
+                    content = content + args[i] + ' ';
+                }
+                message.delete();
+                message.channel.send(content);
             }
-            message.delete().catch(err, errCatch(err));
-            message.channel.send(content);
-        }
+        } catch (err) { errCatch(err) }
     }
 });
 
