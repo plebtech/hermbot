@@ -36,7 +36,9 @@ let bump4 = false;
 
 // error logging.
 const errCatch = (err) => {
-    secret.send("```" + err + "```");
+    try {
+        secret.send("```" + err + "```");
+    } catch { console.log("error with errCatch().") }
 }
 
 client.once('ready', () => { // on ready.
