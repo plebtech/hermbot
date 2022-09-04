@@ -9,7 +9,7 @@ let timeout = false;
 const { secretId } = require('./config.json');
 const errCatch = (err) => {
     try {
-        secret.send("```" + err + "```");
+        secret.send("```" + __filename + "\n" + err + "```");
     } catch { console.log("error with errCatch().") }
 }
 
