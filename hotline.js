@@ -5,12 +5,12 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 let timeout = false;
 
 // error logging.
-const { secretId } = require('./config.json');
-const errCatch = (err) => {
-    try {
-        secret.send("```" + err + "```");
-    } catch { console.log("error with errCatch().") }
-}
+// const { secretId } = require('./config.json');
+// const errCatch = (err) => {
+//     try {
+//         secret.send("```" + err + "```");
+//     } catch { console.log("error with errCatch().") }
+// }
 
 const hotlineWatch = async (message) => {
     try {

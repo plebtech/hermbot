@@ -3,12 +3,12 @@ const fix = '\`\`\`fix\n';
 const brainfuck = '\`\`\`brainfuck\n';
 
 // error logging.
-const { secretId } = require('./config.json');
-const errCatch = (err) => {
-    try {
-        secret.send("```" + __filename + "\n" + err + "```");
-    } catch { console.log("error with errCatch().") }
-}
+// const { secretId } = require('./config.json');
+// const errCatch = (err) => {
+//     try {
+//         secret.send("```" + __filename + "\n" + err + "```");
+//     } catch { console.log("error with errCatch().") }
+// }
 
 const root = (square, message) => {
     try {
