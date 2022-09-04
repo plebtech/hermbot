@@ -2,7 +2,8 @@ const randomNumber = require('./randomNumber.js');
 
 // basic timer w/ promise using setTimeout function.
 const timer = ms => new Promise(res => setTimeout(res, ms));
-let timeout, timeout2 = false;
+let timeout = false;
+let timeout2 = false;
 
 // error logging.
 const { secretId } = require('./config.json');
