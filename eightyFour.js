@@ -59,7 +59,7 @@ const eightyFourWatch = async (message) => {
                 message.react("⬇️");
             } catch (err) { errCatch(err) };
         }
-    } catch (err) { errCatch(err) };
+    } catch (err) { index.errCatch(err) };
 }
 
 exports.eightyFourWatch = eightyFourWatch;
