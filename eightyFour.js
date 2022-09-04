@@ -48,12 +48,16 @@ const eightyFourWatch = async (message) => {
         if (
             message.content.toLowerCase().includes('coffee')
         ) {
-            message.react("☕");
+            try {
+                message.react("☕");
+            } catch (err) { errCatch(err) };
         }
         if (
             message.content.toLowerCase().includes('reddit')
         ) {
-            message.react("⬇️");
+            try {
+                message.react("⬇️");
+            } catch (err) { errCatch(err) };
         }
     } catch (err) { errCatch(err) }
 }
