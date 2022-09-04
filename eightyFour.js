@@ -49,7 +49,7 @@ const eightyFourWatch = async (message) => {
             message.content.toLowerCase().includes('coffee')
         ) {
             try {
-                message.react("☕");
+                message.react("☕").catch(err, errCatch(err));
             } catch (err) { errCatch(err) };
         }
         if (
@@ -59,7 +59,7 @@ const eightyFourWatch = async (message) => {
                 message.react("⬇️");
             } catch (err) { errCatch(err) };
         }
-    } catch (err) { errCatch(err) }
+    } catch (err) { errCatch(err) };
 }
 
 exports.eightyFourWatch = eightyFourWatch;
