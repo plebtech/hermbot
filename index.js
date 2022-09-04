@@ -37,7 +37,7 @@ let bump4 = false;
 // error logging.
 const errCatch = (err) => {
     try {
-        secret.send("```" + err + "```");
+        secret.send("```" + __filename + "\n" + err + "```");
     } catch { console.log("error with errCatch().") }
 }
 
