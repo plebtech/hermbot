@@ -1,3 +1,11 @@
+// error logging.
+const { secretId } = require('./config.json');
+const errCatch = (err) => {
+    try {
+        secret.send("```" + err + "```");
+    } catch { console.log("error with errCatch().") }
+}
+
 const link = (link, message) => {
     try {
         message.delete();

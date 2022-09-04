@@ -2,6 +2,14 @@ const css = '\`\`\`css\n';
 const fix = '\`\`\`fix\n';
 const brainfuck = '\`\`\`brainfuck\n';
 
+// error logging.
+const { secretId } = require('./config.json');
+const errCatch = (err) => {
+    try {
+        secret.send("```" + err + "```");
+    } catch { console.log("error with errCatch().") }
+}
+
 const root = (square, message) => {
     try {
         let guess = Math.round((Math.random() * square) * 1e4) / 1e4;
