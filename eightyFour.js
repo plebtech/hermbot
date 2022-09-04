@@ -27,12 +27,12 @@ const eightyFourWatch = async (message) => {
             await timer(randomNumber.generate(25, 750));
             message.reply('1984 is a great fiction novel to read but it seems like it is becoming the reality we are currently living under more and more each day.')
                 .then(msg => {
-                    try {
-                        message.react("1️⃣").then(() =>
-                            message.react("9️⃣").then(() =>
-                                message.react("8️⃣").then(() =>
-                                    message.react("4️⃣"))));
-                    } catch (err) { errCatch(err) };
+
+                    message.react("1️⃣").then(() =>
+                        message.react("9️⃣").then(() =>
+                            message.react("8️⃣").then(() =>
+                                message.react("4️⃣"))));
+
                     setTimeout(() => msg.delete(), (eightyFourDelay));
                 });
             await timer(eightyFourDelay);
@@ -46,26 +46,23 @@ const eightyFourWatch = async (message) => {
                 message.content.toLowerCase().includes('orwell')
             )
         ) {
-            try {
-                message.react("1️⃣").then(() =>
-                    message.react("9️⃣").then(() =>
-                        message.react("8️⃣").then(() =>
-                            message.react("4️⃣"))));
-            } catch (err) { errCatch(err) };
+
+            message.react("1️⃣").then(() =>
+                message.react("9️⃣").then(() =>
+                    message.react("8️⃣").then(() =>
+                        message.react("4️⃣"))));
         }
         if (
             message.content.toLowerCase().includes('coffee')
         ) {
-            try {
-                message.react("☕").catch(err, errCatch(err));
-            } catch (err) { errCatch(err) };
+
+            message.react("☕");
         }
         if (
             message.content.toLowerCase().includes('reddit')
         ) {
-            try {
-                message.react("⬇️");
-            } catch (err) { errCatch(err) };
+
+            message.react("⬇️");
         }
     } catch (err) { index.errCatch(err) };
 }
