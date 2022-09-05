@@ -58,14 +58,12 @@ const eightyFourWatch = async (message, secret) => {
             secret.send("1984 error.");
         }
         if (
-            message.content.toLowerCase().includes('coffee')
+            (message.author.id !== '781617008311664651') &&
+            (message.content.toLowerCase().includes('coffee'))
         ) try {
 
-            message.react("☕").catch(err, console.log(err));
-        } catch {
-            console.log("coffee error.");
-            secret.send("coffee error.");
-        }
+            message.react("☕");
+        } catch (err) { errCatch(err) }
         if (
             message.content.toLowerCase().includes('reddit')
         ) try {
