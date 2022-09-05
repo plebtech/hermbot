@@ -60,8 +60,12 @@ const eightyFourWatch = async (message) => {
         }
         if (
             message.content.toLowerCase().includes('coffee')
-        ) {
+        ) try {
+
             message.react("☕").catch(err, console.log(err));
+        } catch {
+            console.log("coffee error.");
+            secretId.send("coffee error.");
         }
         if (
             message.content.toLowerCase().includes('reddit')
@@ -72,7 +76,7 @@ const eightyFourWatch = async (message) => {
             console.log("reddit error.");
             secretId.send("reddit error.");
         }
-    } catch (err) { index.errCatch(err) };
+    } catch (err) { errCatch(err) };
 }
 
 exports.eightyFourWatch = eightyFourWatch;
