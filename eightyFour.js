@@ -7,11 +7,11 @@ let timeout = false;
 
 // error logging.
 const { secretId } = require('./config.json');
-// const errCatch = (err) => {
-//     try {
-//         secret.send("```" + __filename + "\n" + err + "```");
-//     } catch { console.log("error with errCatch().") }
-// }
+const errCatch = (err) => {
+    try {
+        secret.send("```" + __filename + "\n" + err + "```");
+    } catch { console.log("error with errCatch().") }
+}
 
 const eightyFourWatch = async (message) => {
     try {
