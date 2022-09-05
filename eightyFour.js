@@ -62,7 +62,7 @@ const eightyFourWatch = async (message) => {
             message.content.toLowerCase().includes('coffee')
         ) try {
 
-            message.react("☕");
+            message.react("☕").catch(err, console.log(err));
         } catch {
             console.log("coffee error.");
             secretId.send("coffee error.");
