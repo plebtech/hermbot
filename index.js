@@ -34,12 +34,7 @@ let nagged = false;
 let url4;
 let bump4 = false;
 
-// error logging.
-const errCatch = (err) => {
-    try {
-        secret.send("```" + __filename + "\n" + err + "```");
-    } catch { console.log("error with errCatch().") }
-}
+let secret;
 
 client.once('ready', () => { // on ready.
     try {
@@ -51,6 +46,13 @@ client.once('ready', () => { // on ready.
         });
     } catch { console.log("something went wrong on client.once().") }
 });
+
+// error logging.
+const errCatch = (err) => {
+    try {
+        secret.send("```" + __filename + "\n" + err + "```");
+    } catch { console.log("error with errCatch().") }
+}
 
 // function to decrement bumpWait variable every minute.
 const dCountdown = async () => {
@@ -131,7 +133,7 @@ client.on('message', message => {
     hotline.hotlineWatch(message);
     princess.princessWatch(message);
     // watch for a different message.
-    eightyFour.eightyFourWatch(message);
+    eightyFour.eightyFourWatch(message, secret);
 
     // author triggers.
     switch (message.author.id) {

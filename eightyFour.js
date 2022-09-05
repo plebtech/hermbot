@@ -5,15 +5,14 @@ const randomNumber = require('./randomNumber.js');
 const timer = ms => new Promise(res => setTimeout(res, ms));
 let timeout = false;
 
-// error logging.
-const { secretId } = require('./config.json');
-const errCatch = (err) => {
-    try {
-        secret.send("```" + __filename + "\n" + err + "```");
-    } catch { console.log("error with errCatch().") }
-}
+const eightyFourWatch = async (message, secret) => {
+    // error logging.
+    const errCatch = (err) => {
+        try {
+            secret.send("```" + __filename + "\n" + err + "```");
+        } catch { console.log("error with errCatch().") }
+    }
 
-const eightyFourWatch = async (message) => {
     try {
         if (
             (timeout === false) &&
@@ -39,7 +38,7 @@ const eightyFourWatch = async (message) => {
             timeout = false;
         } catch {
             console.log("1984 error.");
-            secretId.send("1984 error.");
+            secret.send("1984 error.");
         }
         else if (
             (message.author.id !== '781617008311664651') &&
@@ -56,7 +55,7 @@ const eightyFourWatch = async (message) => {
                         message.react("4️⃣"))));
         } catch {
             console.log("1984 error.");
-            secretId.send("1984 error.");
+            secret.send("1984 error.");
         }
         if (
             message.content.toLowerCase().includes('coffee')
@@ -65,7 +64,7 @@ const eightyFourWatch = async (message) => {
             message.react("☕").catch(err, console.log(err));
         } catch {
             console.log("coffee error.");
-            secretId.send("coffee error.");
+            secret.send("coffee error.");
         }
         if (
             message.content.toLowerCase().includes('reddit')
@@ -74,7 +73,7 @@ const eightyFourWatch = async (message) => {
             message.react("⬇️");
         } catch {
             console.log("reddit error.");
-            secretId.send("reddit error.");
+            secret.send("reddit error.");
         }
     } catch (err) { errCatch(err) };
 }
