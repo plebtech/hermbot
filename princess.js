@@ -59,9 +59,8 @@ const princessWatch = async (message) => {
         }
         if (
             (timeout3 === false) &&
-            (message.content.toLowerCase().includes('daddy') ||
-                (message.content.toLowerCase().includes('daddy'))
-            )
+            (message.content.toLowerCase().includes('daddy')) ||
+            (message.content.toLowerCase().includes('daddy'))
         ) {
             timeout3 = true;
             await timer(randomNumber.generate(25, 750));
