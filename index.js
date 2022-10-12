@@ -355,10 +355,8 @@ client.on('message', message => {
         } else if (command === 'pennant') {
             pennant.post(args, message);
         } else if (command === 'di') {
-            try {
-                message.delete();
-                message.channel.send('Hello! It looks like you\'re experiencing an episode of what is commonly referred to as "daddy issues". We\'re very sorry your father did not show you enough/the right sort of attention growing up; we know that therapy is expensive, and if you\'d like to discuss your problems in a mature manner, we\'re all ears. However, we here at chokers & pie would be remiss if we didn\'t remind you that hermit is not your biological father, hermit has done nothing to you, and using hermit as a stand-in for your fatherly animosity is doing neither you nor him any favors. Have a nice day!');
-            } catch (err) { errCatch(err) }
+            message.delete();
+            message.channel.send('Hello! It looks like you\'re experiencing an episode of what is commonly referred to as "daddy issues". We\'re very sorry your father did not show you enough/the right sort of attention growing up; we know that therapy is expensive, and if you\'d like to discuss your problems in a mature manner, we\'re all ears. However, we here at chokers & pie would be remiss if we didn\'t remind you that hermit is not your biological father, hermit has done nothing to you, and using hermit as a stand-in for your fatherly animosity is doing neither you nor him any favors. Have a nice day!');
         } else if (command === 'say') {
             try {
                 let content = '';
