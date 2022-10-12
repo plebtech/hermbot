@@ -58,7 +58,7 @@ const princessWatch = async (message) => {
             timeout2 = false;
         }
         if (
-            (timeout3 === false) &&
+            (timeout3 === false || !message.author.bot) &&
             (message.content.toLowerCase().includes('daddy')) ||
             (message.content.toLowerCase().includes('uwu'))
         ) {
