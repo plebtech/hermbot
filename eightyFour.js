@@ -7,11 +7,11 @@ let timeout = false;
 
 const eightyFourWatch = async (message, secret) => {
     // error logging.
-    const errCatch = (err) => {
-        try {
-            secret.send("```" + __filename + "\n" + err + "```");
-        } catch { console.log("error with errCatch().") }
-    }
+    // const errCatch = (err) => {
+    //     try {
+    //         secret.send("```" + __filename + "\n" + err + "```");
+    //     } catch { console.log("error with errCatch().") }
+    // }
 
     try {
         if (
@@ -61,9 +61,11 @@ const eightyFourWatch = async (message, secret) => {
             (message.author.id !== '781617008311664651') &&
             (message.content.toLowerCase().includes('coffee'))
         ) try {
-
             message.react("☕");
-        } catch (err) { errCatch(err) }
+        } catch {
+            console.log("coffee error.");
+            secret.send("coffee error.");
+        }
         if (
             message.content.toLowerCase().includes('reddit')
         ) try {
