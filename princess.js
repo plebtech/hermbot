@@ -58,9 +58,9 @@ const princessWatch = async (message) => {
             timeout2 = false;
         }
         if (
-            (timeout3 === false && !message.author.bot) &&
-            (message.content.toLowerCase().includes('daddy')) ||
-            (message.content.toLowerCase().includes('uwu'))
+            (timeout3 === false) &&
+            !(message.author.bot) &&
+            (message.content.toLowerCase().includes('daddy'))
         ) {
             timeout3 = true;
             await timer(randomNumber.generate(25, 750));
@@ -68,7 +68,7 @@ const princessWatch = async (message) => {
                 .then(msg => {
                     setTimeout(() => msg.delete(), (1000 * 45))
                 });
-            await timer(450000);
+            await timer(1000 * 600);
             timeout3 = false;
         }
     } catch { errCatch(err) }
