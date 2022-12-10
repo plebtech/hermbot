@@ -370,7 +370,8 @@ client.on('message', message => {
                 message.channel.send(content);
             } catch (err) { errCatch(err) }
         }
-    // } else if (message.author.id === '857557163828445184') { // match coke.
+    }
+    // else if (message.author.id === '857557163828445184') { // match coke.
     //     try {
     //         if (!message.content.startsWith(prefix) || message.author.bot) return; // if message is not prefixed for this bot or is sent by bot, ignore.
     //         const args = message.content.slice(prefix.length).trim().split(' ');
