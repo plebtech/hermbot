@@ -1,9 +1,5 @@
 const Discord = require('discord.js');
-// const { Client, Intents } = require('discord.js');
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
-// require('discord-reply');
-// const client = new Discord.Client();
-// const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const client = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 const timer = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -39,14 +35,12 @@ let bump4 = false;
 let secret;
 
 client.once('ready', () => { // on ready.
-    try {
-        general = client.channels.cache.get(gId);
-        secret = client.channels.cache.get(secretId);
-        console.log('ready and running with prefix ' + prefix + '.');
-        secret.send('ready!').then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 120))
-        });
-    } catch { console.log("something went wrong on client.once().") }
+    general = client.channels.cache.get(gId);
+    secret = client.channels.cache.get(secretId);
+    console.log('ready and running with prefix ' + prefix + '.');
+    secret.send('ready!').then(msg => {
+        setTimeout(() => msg.delete(), (1000 * 120))
+    });
 });
 
 // error logging.
