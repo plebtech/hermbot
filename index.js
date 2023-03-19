@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
+// const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
 // require('discord-reply');
 // const client = new Discord.Client();
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+// const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 const timer = (ms) => new Promise(res => setTimeout(res, ms));
 
 // read values / urls from config file.
