@@ -2,13 +2,13 @@ const Discord = require('discord.js');
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
     intents: [
-      GatewayIntentBits.DirectMessages,
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
     ],
     partials: [Partials.Channel],
-  });
+});
 const timer = (ms) => new Promise(res => setTimeout(res, ms));
 
 // read values / urls from config file.
@@ -43,64 +43,72 @@ let bump4 = false;
 let secret;
 
 client.once("ready", () => { // on ready.
-    general = client.channels.cache.get(gId);
-    secret = client.channels.cache.get(secretId);
-    console.log('ready and running with prefix ' + prefix + '.');
-    secret.send('ready!').then(msg => {
-        setTimeout(() => msg.delete(), (1000 * 120))
-    });
+    try {
+        general = client.channels.cache.get(gId);
+        secret = client.channels.cache.get(secretId);
+        console.log('ready and running with prefix ' + prefix + '.');
+        secret.send('ready!').then(msg => {
+            setTimeout(() => msg.delete(), (1000 * 120))
+        });
+    } catch { console.log("something went wrong on client.once().") }
 });
 
 // error logging.
 const errCatch = (err) => {
-    secret.send("```" + __filename + "\n" + err + "```");
+    try {
+        secret.send("```" + __filename + "\n" + err + "```");
+    } catch { console.log("error with errCatch().") }
 }
 
 // function to decrement bumpWait variable every minute.
 const dCountdown = async () => {
-    if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
-        secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 120))
-        });
-        return;
-    } else {
-        dCountdownEngaged = true;
-        dCounting = true;
-        secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 120))
-        });
-        while (bumpWait > 0) {
-            nagged = false;
-            secret.send(`bumpWait time: ${bumpWait}.`).then(msg => {
+    try {
+        if (unbumped || dCountdownEngaged || (bumpWait <= 0)) {
+            secret.send(`terminating dCountdown function because unbumped is ${unbumped} or dCountdownEngaged is ${dCountdownEngaged} or bumpWait is ${bumpWait}.`).then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 120))
             });
-            await timer(60000);
-            bumpWait--;
-            secret.send(`bumpWait decremented.`).then(msg => {
+            return;
+        } else {
+            dCountdownEngaged = true;
+            dCounting = true;
+            secret.send(`dCountdown running and dCountdownEngaged = ${dCountdownEngaged}`).then(msg => {
                 setTimeout(() => msg.delete(), (1000 * 120))
             });
+            while (bumpWait > 0) {
+                nagged = false;
+                secret.send(`bumpWait time: ${bumpWait}.`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                });
+                await timer(60000);
+                bumpWait--;
+                secret.send(`bumpWait decremented.`).then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 120))
+                });
+            }
+            dCountdownEngaged = false;
+            dCounting = false;
         }
-        dCountdownEngaged = false;
-        dCounting = false;
-    }
-    return;
+        return;
+    } catch (err) { errCatch(err) };
 }
 
 const bumpCheck = async () => {
-    if (nagged || (bumpWait > 0)) {
+    try {
+        if (nagged || (bumpWait > 0)) {
+            return;
+        } else {
+            nagged = true;
+            general.send('please use `/bump`').then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 15))
+            });
+            secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => {
+                setTimeout(() => msg.delete(), (1000 * 120))
+            });
+            await timer(60000);
+            nagged = false;
+        }
         return;
-    } else {
-        nagged = true;
-        general.send('please use `/bump`').then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 15))
-        });
-        secret.send(`#general nagged because bumpWait is currently ${bumpWait}`).then(msg => {
-            setTimeout(() => msg.delete(), (1000 * 120))
-        });
-        await timer(60000);
-        nagged = false;
-    }
-    return;
+    } catch (err) { errCatch(err) };
 }
 
 client.on("messageCreate", message => {
@@ -108,20 +116,23 @@ client.on("messageCreate", message => {
     bumpCheck();
 
     // delete server advertisements.
-    if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
-        if (message.content.toLowerCase().includes('discord.gg/pies')) {
-            console.log('invite is allowed.');
-        } else {
-            message.delete().then(message => {
-                secret.send("deleted author @" + message.author + " :");
-                secret.send(message.content);
-            });
+    try {
+        if ((message.author.bot === false) && (message.content.toLowerCase().includes('discord.gg/') || (message.content.toLowerCase().includes('discord.com/invite/')))) {
+            if (message.content.toLowerCase().includes('discord.gg/pies')) {
+                console.log('invite is allowed.');
+            } else {
+                message.delete().then(message => {
+                    secret.send("deleted author @" + message.author + " :");
+                    secret.send(message.content);
+                });
+            }
+        } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
+            message.delete();
+        } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
+            message.delete();
         }
-    } else if (message.content.startsWith('!d ')) { // delete old disboard commands.
-        message.delete();
-    } else if (message.content.toLowerCase().includes('wiki/nae_nae')) { // delete a specific annoying linked gif.
-        message.delete();
-    }
+    } catch (err) { errCatch(err) };
+
 
     // watch for a message that says 'sup' and respond once, gated by configurable delay.
     sup.supWatch(message);
