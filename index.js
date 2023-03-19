@@ -34,7 +34,7 @@ let bump4 = false;
 
 let secret;
 
-client.once(Events.ClientReady, () => { // on ready.
+client.once("ready", () => { // on ready.
     general = client.channels.cache.get(gId);
     secret = client.channels.cache.get(secretId);
     console.log('ready and running with prefix ' + prefix + '.');
