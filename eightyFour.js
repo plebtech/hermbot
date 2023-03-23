@@ -36,10 +36,7 @@ const eightyFourWatch = async (message, secret) => {
                 });
             await timer(eightyFourDelay);
             timeout = false;
-        } catch {
-            console.log("1984 error.");
-            secret.send("1984 error.");
-        }
+        } catch (err) { errCatch(err); return; }
         else if (
             (message.author.id !== '781617008311664651') &&
             (
@@ -53,29 +50,20 @@ const eightyFourWatch = async (message, secret) => {
                 message.react("9️⃣").then(() =>
                     message.react("8️⃣").then(() =>
                         message.react("4️⃣"))));
-        } catch {
-            console.log("1984 error.");
-            secret.send("1984 error.");
-        }
+                    } catch (err) { errCatch(err); return; }
         if (
             (message.author.id !== '781617008311664651') &&
             (message.content.toLowerCase().includes('coffee'))
         ) try {
             message.react("☕");
-        } catch {
-            console.log("coffee error.");
-            secret.send("coffee error.");
-        }
+        } catch (err) { errCatch(err); return; }
         if (
             message.content.toLowerCase().includes('reddit')
         ) try {
 
             message.react("⬇️");
-        } catch {
-            console.log("reddit error.");
-            secret.send("reddit error.");
-        }
-    } catch (err) { errCatch(err) };
+        } catch (err) { errCatch(err); return; }
+    } catch (err) { errCatch(err); return; };
 }
 
 exports.eightyFourWatch = eightyFourWatch;
