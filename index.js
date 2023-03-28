@@ -218,14 +218,14 @@ client.on("messageCreate", message => {
             } catch (err) { errCatch(err) };
             break;
 
-        case '771506580109131817': // shortqueen.
-            try {
-                message.react("🇩").then(() =>
-                    message.react("🇺").then(() =>
-                        message.react("🇲").then(() =>
-                            message.react("🇧"))));
-            } catch (err) { errCatch(err) };
-            break;
+        // case '771506580109131817': // shortqueen.
+        //     try {
+        //         message.react("🇩").then(() =>
+        //             message.react("🇺").then(() =>
+        //                 message.react("🇲").then(() =>
+        //                     message.react("🇧"))));
+        //     } catch (err) { errCatch(err) };
+        //     break;
 
         case '116275390695079945': // nadeko.
             try {
