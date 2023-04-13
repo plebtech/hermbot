@@ -168,11 +168,11 @@ client.on("messageCreate", message => {
         case '537353774205894676': // chuu.
         case '356268235697553409': // fmbot.
             try {
-                setTimeout(() => message.delete(), (1000 * 300))
+                setTimeout(() => message.delete(), (1000 * 120))
             } catch (err) {
                 secret.send("error with chuu/fmbot case:");
                 errCatch(err);
-                setTimeout(() => message.delete(), (1000 * 300));
+                setTimeout(() => message.delete(), (1000 * 120));
             };
             break;
 
