@@ -140,7 +140,7 @@ client.on("messageCreate", message => {
     sup.supWatch(message);
     // watch for a different message.
     hotline.hotlineWatch(message);
-    princess.princessWatch(message);
+    // princess.princessWatch(message);
     // watch for a different message.
     eightyFour.eightyFourWatch(message, secret);
 
