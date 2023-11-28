@@ -4,6 +4,7 @@ const randomNumber = require('./randomNumber.js');
 // basic timer w/ promise using setTimeout function.
 const timer = ms => new Promise(res => setTimeout(res, ms));
 let timeout = false;
+let timeout2 = false;
 
 const eightyFourWatch = async (message, secret) => {
     // error logging.
@@ -50,7 +51,7 @@ const eightyFourWatch = async (message, secret) => {
                 message.react("9️⃣").then(() =>
                     message.react("8️⃣").then(() =>
                         message.react("4️⃣"))));
-                    } catch (err) { errCatch(err); return; }
+        } catch (err) { errCatch(err); return; }
         if (
             (message.author.id !== '781617008311664651') &&
             (message.content.toLowerCase().includes('coffee'))
@@ -62,6 +63,19 @@ const eightyFourWatch = async (message, secret) => {
         ) try {
 
             message.react("⬇️");
+        } catch (err) { errCatch(err); return; }
+        if (
+            (timeout2 === false) &&
+            (message.content.toLowerCase().includes('desu'))
+        ) {
+            timeout2 = true;
+            await timer(randomNumber.generate(25, 750));
+            message.reply('DESU DESU DESU')
+                .then(msg => {
+                    setTimeout(() => msg.delete(), (1000 * 30))
+                });
+            await timer(300000);
+            timeout2 = false;
         } catch (err) { errCatch(err); return; }
     } catch (err) { errCatch(err); return; };
 }
