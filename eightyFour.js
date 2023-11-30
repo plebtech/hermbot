@@ -76,7 +76,7 @@ const eightyFourWatch = async (message, secret) => {
                 });
             await timer(300000);
             timeout2 = false;
-        } catch (err) { errCatch(err); return; }
+        }
     } catch (err) { errCatch(err); return; };
 }
 

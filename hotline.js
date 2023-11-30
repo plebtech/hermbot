@@ -26,16 +26,20 @@ const hotlineWatch = async (message) => {
         ) {
             timeout = true;
             await timer(randomNumber.generate(25, 750));
-            // message.channel.send('the national suicide prevention lifeline is: \`1-800-273-8255\`')
-            //     .then(msg => {
-            //         setTimeout(() => msg.delete(), (1000 * 30))
-            //     });
-            message.channel.send('do a flip, f word.')
-                .then(msg => {
-                    setTimeout(() => msg.delete(), (1000 * 30))
-                });
-            await timer(300000);
-            timeout = false;
+            let roll = randomNumber.generate(0, 100);
+            if (roll < 50) {
+                message.channel.send('the national suicide prevention lifeline is \`988`.')
+                    .then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 30))
+                    });
+            } else {
+                message.channel.send('do a flip, f word.')
+                    .then(msg => {
+                        setTimeout(() => msg.delete(), (1000 * 30))
+                    });
+                await timer(300000);
+                timeout = false;
+            }
         }
     } catch (err) { errCatch(err) }
 }
